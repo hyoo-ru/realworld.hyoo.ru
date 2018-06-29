@@ -1,0 +1,17 @@
+[conduit_menu] {
+	flex: 1 1 200px;
+	width: 200px;
+}
+
+[conduit_sign_in] ,
+[conduit_feed] {
+	flex: 1 1 400px;
+	width: 400px;
+}
+
+[conduit_article] ,
+[conduit_article_edit] {
+	flex: 1 1 800px;
+	width: 800px;
+}
+

@@ -1,0 +1,23 @@
+$conduit $mol_book
+	domain $conduit_domain
+	pages /
+		<= Menu $conduit_menu_page
+			minimal_width 200
+			event_top?val <=> event_front_up?val -
+			domain <= domain -
+		<= Feed $conduit_feed_page
+			minimal_width 400
+			event_top?val <=> event_front_up?val -
+			domain <= domain -
+		<= Article $conduit_article_page
+			minimal_width 600
+			event_top?val <=> event_front_up?val -
+			domain <= domain -
+		<= Article_edit $conduit_article_edit
+			minimal_width 600
+			event_top?val <=> event_front_up?val -
+			domain <= domain -
+		<= Sign_in $conduit_sign_in
+			minimal_width 200
+			event_top?val <=> event_front_up?val -
+			domain <= domain -

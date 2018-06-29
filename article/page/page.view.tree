@@ -1,0 +1,25 @@
+$conduit_article_page $mol_page
+	domain $conduit_domain
+	title @ \Article
+	tools /
+		<= Edit_link $mol_link
+			arg * edit \
+			sub / <= Edit_icon $mol_icon_edit
+		<= Close_link $mol_link
+			arg * article null
+			sub / <= Close_icon $mol_icon_cross
+	body /
+		<= Content $mol_text
+			text <= content \
+		<= Tags $mol_row
+			sub / <= tags /
+		<= Comment_add $conduit_comment_add
+			domain <= domain -
+			article <= article $conduit_article
+		<= Comments $mol_list
+			rows <= comment_cards /
+	Comment_card!index $conduit_comment_card
+		comment <= comment!index $conduit_comment
+	Tag_link!index $mol_link
+		arg * tag <= tag_name!index \
+		sub / <= tag_name!index \

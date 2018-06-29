@@ -1,0 +1,29 @@
+$conduit_sign_in $mol_page
+	domain $conduit_domain
+	title @ \Sign In
+	tools /
+		<= Close $mol_link
+			arg *
+				sign null
+				edit null
+			sub / <= Close_icon $mol_icon_cross
+	body /
+		<= Form $mol_form
+			form_fields /
+				<= Mail_field $mol_form_field
+					name <= Mail_name @ \E-Mail
+					control <= Mail $mol_string
+						hint \user@example.org
+						value?val <=> mail?val \
+				<= Pass_field $mol_form_field
+					name <= Pass_name @ \Password
+					control <= Pass $mol_string
+						type \password
+						hint \********
+						value?val <=> pass?val \
+			buttons /
+				<= Auth $mol_button_major
+					title <= Auth_label @ \Sign In
+					click?val <=> auth?val null
+				<= Auth_status $mol_status
+					status <= auth -

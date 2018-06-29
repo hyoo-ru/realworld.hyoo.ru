@@ -1,0 +1,8 @@
+[conduit_feed_page_article_links] {
+	display: flex;
+	flex-direction: column;
+}
+
+[conduit_feed_page_article_link] {
+	padding: 0;
+}
