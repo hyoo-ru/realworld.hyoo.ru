@@ -3,7 +3,7 @@
 > ### $mol codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 
-### [Demo](https://conduit.github.com/)&nbsp;&nbsp;&nbsp;&nbsp;[Issue](https://github.com/gothinkster/realworld/issues/198)
+### [Demo](https://nin-jin.github.com/conduit/)&nbsp;&nbsp;&nbsp;&nbsp;[Issue](https://github.com/gothinkster/realworld/issues/198)
 
 
 This codebase was created to demonstrate a fully fledged fullstack application built with [**$mol**](https://github.com/eigenmethod/mol) including CRUD operations, authentication, routing, pagination, and more.
