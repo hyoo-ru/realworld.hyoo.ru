@@ -13,7 +13,6 @@ $conduit_article_page $mol_page
 		<= Tags $mol_row
 			sub / <= tags /
 		<= Comment_add $conduit_comment_add
-			domain <= domain -
 			article <= article $conduit_article
 		<= Comments $mol_list
 			rows <= comment_cards /
