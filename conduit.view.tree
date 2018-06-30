@@ -15,3 +15,5 @@ $conduit $mol_book
 		<= Sign_in $conduit_sign_in
 			minimal_width 200
 			event_top?val <=> event_front_up?val -
+	Placeholder $mol_book_placeholder
+		sub /
