@@ -1,5 +1,4 @@
 $conduit_feed_page $mol_page
-	domain $conduit_domain
 	title @ \Articles
 	minimal_width 400
 	tools /

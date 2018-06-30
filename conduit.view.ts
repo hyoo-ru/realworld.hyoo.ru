@@ -7,7 +7,7 @@ namespace $.$$ {
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
 			
-			return this.domain().article( slug )
+			return this.$.$conduit_domain.article( slug )
 		}
 
 		@ $mol_mem
@@ -21,7 +21,7 @@ namespace $.$$ {
 		}
 
 		signed() {
-			return Boolean( this.domain().token() )
+			return Boolean( this.$.$conduit_domain.token() )
 		}
 
 		pages() {

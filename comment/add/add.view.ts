@@ -6,7 +6,7 @@ namespace $.$$ {
 		post( next? : any ) {
 			if( !next ) return
 
-			this.domain().comment_add( this.article().slug , { body : this.message() } , $mol_atom_force_update ).valueOf()
+			this.$.$conduit_domain.comment_add( this.article().slug , { body : this.message() } , $mol_atom_force_update ).valueOf()
 			
 			this.message( '' )
 			

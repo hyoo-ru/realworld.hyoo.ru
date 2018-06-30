@@ -4,7 +4,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		article() {
-			return this.domain().article( this.$.$mol_state_arg.value( 'article' ) )
+			return this.$.$conduit_domain.article( this.$.$mol_state_arg.value( 'article' ) )
 		}
 
 		content() {
@@ -17,7 +17,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		comments() {
-			return this.domain().comments( this.article().slug )
+			return this.$.$conduit_domain.comments( this.article().slug )
 		}
 
 		@ $mol_mem

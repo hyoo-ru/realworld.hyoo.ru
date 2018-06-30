@@ -8,7 +8,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		articles() {
-			return this.domain().articles( this.tag() )
+			return this.$.$conduit_domain.articles( this.tag() )
 		}
 
 		@ $mol_mem

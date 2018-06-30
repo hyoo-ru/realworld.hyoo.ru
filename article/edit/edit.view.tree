@@ -1,5 +1,4 @@
 $conduit_article_edit $mol_page
-	domain $conduit_domain
 	title @ \Article editor
 	tools /
 		<= Close $mol_link

@@ -6,22 +6,22 @@ namespace $ {
 
 	export class $conduit_domain extends $mol_object {
 		
-		api_base() {
+		static api_base() {
 			return 'https://conduit.productionready.io/api/'
 		}
 
-		page_size() {
+		static page_size() {
 			return 20
 		}
 
 		@ $mol_mem_key
-		articles_page( { page , tag } : { page : number , tag : string } ) {
+		static articles_page( { page , tag } : { page : number , tag : string } ) {
 			const uri = `${ this.api_base() }articles?limit=${ this.page_size() }&offset=${ page * this.page_size() }&tag=${ tag }`
 			return this.$.$mol_http.resource( uri ).json< $conduit_feed >()
 		}
 
 		@ $mol_mem_key
-		articles( tag = '' ) {
+		static articles( tag = '' ) {
 			return $mol_range2(
 				index => {
 					const page = Math.floor( index / this.page_size() )
@@ -34,22 +34,22 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		tags() {
+		static tags() {
 			const uri = `${ this.api_base() }tags`
 			return this.$.$mol_http.resource( uri ).json< $conduit_domain_tags >().tags
 		}
 
 		@ $mol_mem_key
-		article( slug : string , article? : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
+		static article( slug : string , article? : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
 			const uri = `${ this.api_base() }articles/${ slug }`
 			return this.$.$mol_http.resource( uri ).json<{ article : $conduit_article }>().article
 		}
 
 		@ $mol_mem
-		person_current() {
+		static person_current() {
 			const token = this.token()
 			if( !token ) return null
-			
+
 			const uri = `${ this.api_base() }user`
 			const res = this.$.$mol_http.resource( uri )
 
@@ -61,13 +61,13 @@ namespace $ {
 		}
 
 		@ $mol_mem_key
-		comments( slug : string ) {
+		static comments( slug : string ) {
 			const uri = `${ this.api_base() }articles/${ slug }/comments`
 			return this.$.$mol_http.resource( uri ).json<{ comments : $conduit_comment[] }>().comments
 		}
 
 		@ $mol_mem_key
-		comment_add( slug : string , comment : Partial< $conduit_comment > , force? : $mol_atom_force_update ) {
+		static comment_add( slug : string , comment : Partial< $conduit_comment > , force? : $mol_atom_force_update ) {
 			if( !comment ) return
 
 			const uri = `${ this.api_base() }articles/${ slug }/comments`
@@ -86,7 +86,7 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		article_save( article : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
+		static article_save( article : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
 			if( !article ) return
 
 			const uri = `${ this.api_base() }articles/${ article.slug || '' }`
@@ -105,7 +105,7 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		sign_in( creds : { email : string , password : string } , force? : $mol_atom_force_update ) {
+		static sign_in( creds : { email : string , password : string } , force? : $mol_atom_force_update ) {
 			if( !creds ) return
 
 			const uri = `${ this.api_base() }users/login`
@@ -123,7 +123,7 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		token( next? : string ) {
+		static token( next? : string ) {
 			return this.$.$mol_state_local.value( 'token' , next )
 		}
 

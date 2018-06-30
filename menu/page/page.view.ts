@@ -4,7 +4,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tags() {
-			return [ '' , ... this.domain().tags() ]
+			return [ '' , ... this.$.$conduit_domain.tags() ]
 		}
 
 		@ $mol_mem

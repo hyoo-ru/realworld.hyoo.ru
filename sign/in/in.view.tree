@@ -1,5 +1,4 @@
 $conduit_sign_in $mol_page
-	domain $conduit_domain
 	title @ \Sign In
 	tools /
 		<= Close $mol_link

@@ -5,7 +5,7 @@ namespace $.$$ {
 		@ $mol_mem
 		article() {
 			const slug = this.$.$mol_state_arg.value( 'article' )
-			return slug ? this.domain().article( slug ) : null
+			return slug ? this.$.$conduit_domain.article( slug ) : null
 		}
 
 		@ $mol_mem
@@ -38,7 +38,7 @@ namespace $.$$ {
 
 			const slug = this.article() && this.article().slug
 
-			const article = this.domain().article_save( {
+			const article = this.$.$conduit_domain.article_save( {
 				slug ,
 				title : this.article_title() ,
 				description : this.article_descr() ,
