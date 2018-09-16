@@ -1,0 +1,8 @@
+{
+	"$conduit_article_edit_title": "Article editor",
+	"$conduit_article_edit_article_title_name": "Title",
+	"$conduit_article_edit_article_descr_name": "Description",
+	"$conduit_article_edit_article_content_name": "Content",
+	"$conduit_article_edit_article_tags_name": "Tags",
+	"$conduit_article_edit_Save_label": "Submit"
+}

@@ -1,0 +1,10 @@
+$conduit_article_card $mol_row
+	minimal_height 88
+	minimal_width 88
+	article $conduit_article
+	sub /
+		<= Author $mol_view sub /
+			<= Avatar $mol_image uri <= avatar \
+			<= Author_name $mol_view sub / <= author_name \
+		<= Title $mol_view sub / <= title \
+		<= Descr $mol_view sub / <= descr \

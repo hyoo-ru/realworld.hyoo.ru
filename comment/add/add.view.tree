@@ -1,0 +1,12 @@
+$conduit_comment_add $mol_bar
+	article $conduit_article
+	sub /
+		<= Message $mol_textarea
+			hint \Your comment
+			value?val <=> message?val \
+		<= Status $mol_status
+			status <= post -
+		<= Submit $mol_button_major
+			title \Post
+			click?val <=> post?val null
+			enabled <= postable false

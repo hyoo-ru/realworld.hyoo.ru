@@ -1,0 +1,14 @@
+$conduit_menu_page $mol_page
+	title @ \Tags
+	body /
+		<= Tag_links $mol_list
+			rows <= tag_links /
+	Tag_link!index $mol_link
+		minimal_height 40
+		minimal_width 40
+		arg *
+			tag <= tag_id!index \
+			article null
+			edit null
+		title <= tag_name!index \
+	tag_all_name @ \All articles
