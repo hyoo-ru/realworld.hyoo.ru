@@ -1,6 +1,7 @@
 [conduit_feed_page_article_links] {
 	display: flex;
 	flex-direction: column;
+	padding: .5rem;
 }
 
 [conduit_feed_page_article_link] {

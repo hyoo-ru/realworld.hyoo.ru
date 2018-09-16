@@ -12,12 +12,14 @@ $conduit_article_page $mol_page
 			text <= content \
 		<= Tags $mol_row
 			sub / <= tags /
-		<= Comment_add $conduit_comment_add
-			article <= article $conduit_article
 		<= Comments $mol_list
 			rows <= comment_cards /
+		<= Comment_add $conduit_comment_add
+			article <= article $conduit_article
 	Comment_card!index $conduit_comment_card
 		comment <= comment!index $conduit_comment
 	Tag_link!index $mol_link
-		arg * tag <= tag_name!index \
+		arg *
+			tag <= tag_name!index \
+			article null
 		sub / <= tag_name!index \

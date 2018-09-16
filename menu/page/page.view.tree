@@ -1,5 +1,5 @@
 $conduit_menu_page $mol_page
-	title @ \Articles
+	title @ \Tags
 	body /
 		<= Tag_links $mol_list
 			rows <= tag_links /
@@ -8,5 +8,7 @@ $conduit_menu_page $mol_page
 		minimal_width 40
 		arg *
 			tag <= tag_id!index \
+			article null
+			edit null
 		title <= tag_name!index \
 	tag_all_name @ \All articles

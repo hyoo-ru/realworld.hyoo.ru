@@ -1,5 +1,16 @@
-:root {
-	--mol_skin_base: #5CB85C;
+[conduit] {
+	--mol_theme_control: hsla( 120 , 60% , 60% , 1 );
+	--mol_theme_current: hsl( 120 , 100% , 20% );
+}
+
+[conduit] [mol_theme="$mol_theme_base"] {
+	--mol_theme_back: hsla( 120 , 50% , 50% , 1 );
+	--mol_theme_current: hsl( 120 , 100% , 20% );
+}
+
+[conduit] [mol_theme="$mol_theme_accent"] {
+	--mol_theme_back: hsla( 300 , 50% , 50% , 1 );
+	--mol_theme_hover: hsla( 300 , 50% , 40% , 1 );
 }
 
 [conduit_menu] {
@@ -17,8 +28,4 @@
 [conduit_article_edit] {
 	flex: 1 1 800px;
 	width: 800px;
-}
-
-[conduit_placeholder][conduit_placeholder] {
-	background: rgba( 0 , 0 , 0 , .25 );
 }

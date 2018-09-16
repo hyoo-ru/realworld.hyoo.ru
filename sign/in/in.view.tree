@@ -18,7 +18,7 @@ $conduit_sign_in $mol_page
 					name <= Pass_name @ \Password
 					control <= Pass $mol_string
 						type \password
-						hint \********
+						hint \########
 						value?val <=> pass?val \
 			buttons /
 				<= Auth $mol_button_major

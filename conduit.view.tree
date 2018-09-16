@@ -1,4 +1,6 @@
 $conduit $mol_book
+	attr *
+		mol_theme \$mol_theme_dark
 	pages /
 		<= Menu $conduit_menu_page
 			minimal_width 200
