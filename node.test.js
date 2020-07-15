@@ -4450,9 +4450,9 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_realworld_menu_page extends $.$mol_page {
+    class $hyoo_realworld_tags_page extends $.$mol_page {
         title() {
-            return this.$.$mol_locale.text("$hyoo_realworld_menu_page_title");
+            return this.$.$mol_locale.text("$hyoo_realworld_tags_page_title");
         }
         body() {
             return [this.Tag_links()];
@@ -4486,16 +4486,16 @@ var $;
             return "";
         }
         tag_all_name() {
-            return this.$.$mol_locale.text("$hyoo_realworld_menu_page_tag_all_name");
+            return this.$.$mol_locale.text("$hyoo_realworld_tags_page_tag_all_name");
         }
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_menu_page.prototype, "Tag_links", null);
+    ], $hyoo_realworld_tags_page.prototype, "Tag_links", null);
     __decorate([
         $.$mol_mem_key
-    ], $hyoo_realworld_menu_page.prototype, "Tag_link", null);
-    $.$hyoo_realworld_menu_page = $hyoo_realworld_menu_page;
+    ], $hyoo_realworld_tags_page.prototype, "Tag_link", null);
+    $.$hyoo_realworld_tags_page = $hyoo_realworld_tags_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
 ;
@@ -4932,7 +4932,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/menu/page/page.view.css", "[hyoo_realworld_menu_page_tag_links] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: .5rem;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/tags/page/page.view.css", "[hyoo_realworld_tags_page_tag_links] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: .75rem;\n}\n");
 })($ || ($ = {}));
 //page.view.css.js.map
 ;
@@ -4941,7 +4941,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_realworld_menu_page extends $.$hyoo_realworld_menu_page {
+        class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
             tags() {
                 return ['', ...this.$.$hyoo_realworld_domain.tags()];
             }
@@ -4957,17 +4957,17 @@ var $;
         }
         __decorate([
             $.$mol_mem
-        ], $hyoo_realworld_menu_page.prototype, "tags", null);
+        ], $hyoo_realworld_tags_page.prototype, "tags", null);
         __decorate([
             $.$mol_mem
-        ], $hyoo_realworld_menu_page.prototype, "tag_links", null);
+        ], $hyoo_realworld_tags_page.prototype, "tag_links", null);
         __decorate([
             $.$mol_mem_key
-        ], $hyoo_realworld_menu_page.prototype, "tag_id", null);
+        ], $hyoo_realworld_tags_page.prototype, "tag_id", null);
         __decorate([
             $.$mol_mem_key
-        ], $hyoo_realworld_menu_page.prototype, "tag_name", null);
-        $$.$hyoo_realworld_menu_page = $hyoo_realworld_menu_page;
+        ], $hyoo_realworld_tags_page.prototype, "tag_name", null);
+        $$.$hyoo_realworld_tags_page = $hyoo_realworld_tags_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //page.view.js.map
@@ -8025,7 +8025,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/article/page/page.view.css", "[hyoo_realworld_article_page_comment_add] {\n\tmargin: 1rem;\n}\n\n[hyoo_realworld_article_page_comments] {\n\tpadding: .5rem;\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex: none;\n}\n\n[hyoo_realworld_article_page_comments] > * {\n\tmargin: .5rem;\n}\n\n[hyoo_realworld_article_page_tag_link] {\n\tmargin: 0;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/article/page/page.view.css", "[hyoo_realworld_article_page_comment_add] {\n\tmargin: .75rem;\n}\n\n[hyoo_realworld_article_page_comments] {\n\tpadding: .75rem;\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex: none;\n}\n\n[hyoo_realworld_article_page_comments] > * {\n\tmargin: .75rem;\n}\n\n[hyoo_realworld_article_page_tag_link] {\n\tmargin: 0;\n}\n");
 })($ || ($ = {}));
 //page.view.css.js.map
 ;
@@ -8437,7 +8437,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/article/edit/edit.view.css", "[hyoo_realworld_article_edit_save] {\n\tflex: 0 1 auto;\n}\n\n[hyoo_realworld_article_edit_save_status] {\n\talign-self: stretch;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/article/edit/edit.view.css", "[hyoo_realworld_article_edit_form] {\n\tpadding: .75rem;\n}\n\n[hyoo_realworld_article_edit_save] {\n\tflex: 0 1 auto;\n}\n\n[hyoo_realworld_article_edit_save_status] {\n\talign-self: stretch;\n}\n");
 })($ || ($ = {}));
 //edit.view.css.js.map
 ;
@@ -8687,10 +8687,10 @@ var $;
 var $;
 (function ($) {
     class $hyoo_realworld extends $.$mol_book2 {
-        Menu() {
+        Tags() {
             return ((obj) => {
                 return obj;
-            })(new this.$.$hyoo_realworld_menu_page());
+            })(new this.$.$hyoo_realworld_tags_page());
         }
         Feed(id) {
             return ((obj) => {
@@ -8702,7 +8702,7 @@ var $;
                 return obj;
             })(new this.$.$hyoo_realworld_article_page());
         }
-        Article_edit() {
+        Article_edit(id) {
             return ((obj) => {
                 return obj;
             })(new this.$.$hyoo_realworld_article_edit());
@@ -8715,7 +8715,7 @@ var $;
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld.prototype, "Menu", null);
+    ], $hyoo_realworld.prototype, "Tags", null);
     __decorate([
         $.$mol_mem_key
     ], $hyoo_realworld.prototype, "Feed", null);
@@ -8723,7 +8723,7 @@ var $;
         $.$mol_mem_key
     ], $hyoo_realworld.prototype, "Article", null);
     __decorate([
-        $.$mol_mem
+        $.$mol_mem_key
     ], $hyoo_realworld.prototype, "Article_edit", null);
     __decorate([
         $.$mol_mem
@@ -8738,7 +8738,7 @@ var $node = $node || {} ; $node[ "/hyoo/realworld/logo.png" ] = "data:image/png;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/realworld.view.css", "[hyoo_realworld_menu] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_realworld_sign_in] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_feed] {\n\tflex: 0 0 30rem;\n}\n\n[hyoo_realworld_article] ,\n[hyoo_realworld_article_edit] {\n\tflex: 0 0 50rem;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/realworld.view.css", "[hyoo_realworld] {\n\t--mol_theme_control: #367c36;\n}\n\n[hyoo_realworld] [mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: #5cb85c;\n\ttext-shadow: 0 1px 3px rgba(0,0,0,.3);\n}\n\n[hyoo_realworld_tags] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_realworld_sign_in] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_feed] {\n\tflex: 0 0 30rem;\n}\n\n[hyoo_realworld_article] ,\n[hyoo_realworld_article_edit] {\n\tflex: 0 0 50rem;\n}\n");
 })($ || ($ = {}));
 //realworld.view.css.js.map
 ;
@@ -8767,12 +8767,12 @@ var $;
                 return Boolean(this.$.$hyoo_realworld_domain.token());
             }
             pages() {
-                var _a;
+                var _a, _b;
                 return [
-                    this.Menu(),
+                    this.Tags(),
                     this.Feed(this.tag()),
                     ...this.article() ? [this.Article((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug)] : [],
-                    ...(this.edit() && this.signed()) ? [this.Article_edit()] : [],
+                    ...(this.edit() && this.signed()) ? [this.Article_edit((_b = this.article()) === null || _b === void 0 ? void 0 : _b.slug)] : [],
                     ...((this.edit() && !this.signed()) || (this.sign() === 'in')) ? [this.Sign_in()] : [],
                 ];
             }

@@ -87,7 +87,7 @@ $mol_link $mol_view
 		^
 		click?event <=> click?event <=> event_click?event null
 
-$hyoo_realworld_menu_page $mol_page
+$hyoo_realworld_tags_page $mol_page
 	title @ \Tags
 	body /
 		<= Tag_links $mol_list
@@ -548,8 +548,8 @@ $hyoo_realworld_sign_in $mol_page
 					click?val <=> auth?val null
 
 $hyoo_realworld $mol_book2
-	Menu $hyoo_realworld_menu_page
+	Tags $hyoo_realworld_tags_page
 	Feed!id $hyoo_realworld_feed_page
 	Article!id $hyoo_realworld_article_page
-	Article_edit $hyoo_realworld_article_edit
+	Article_edit!id $hyoo_realworld_article_edit
 	Sign_in $hyoo_realworld_sign_in

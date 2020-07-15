@@ -1384,7 +1384,7 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $hyoo_realworld_menu_page extends $mol_page {
+    class $hyoo_realworld_tags_page extends $mol_page {
         title(): string;
         body(): readonly any[];
         Tag_links(): $$.$mol_list;
@@ -1482,7 +1482,7 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_realworld_menu_page extends $.$hyoo_realworld_menu_page {
+    class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
         tags(): string[];
         tag_links(): $mol_link[];
         tag_id(index: number): string;
@@ -2676,10 +2676,10 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $hyoo_realworld extends $mol_book2 {
-        Menu(): $$.$hyoo_realworld_menu_page;
+        Tags(): $$.$hyoo_realworld_tags_page;
         Feed(id: any): $$.$hyoo_realworld_feed_page;
         Article(id: any): $$.$hyoo_realworld_article_page;
-        Article_edit(): $$.$hyoo_realworld_article_edit;
+        Article_edit(id: any): $$.$hyoo_realworld_article_edit;
         Sign_in(): $$.$hyoo_realworld_sign_in;
     }
 }
@@ -2694,6 +2694,6 @@ declare namespace $.$$ {
         sign(): string | null;
         tag(): string;
         signed(): boolean;
-        pages(): ($hyoo_realworld_menu_page | $hyoo_realworld_feed_page | $hyoo_realworld_article_page | $hyoo_realworld_article_edit | $hyoo_realworld_sign_in)[];
+        pages(): ($hyoo_realworld_tags_page | $hyoo_realworld_feed_page | $hyoo_realworld_article_page | $hyoo_realworld_article_edit | $hyoo_realworld_sign_in)[];
     }
 }

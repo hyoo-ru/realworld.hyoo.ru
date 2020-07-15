@@ -7,10 +7,10 @@
 	"$hyoo_realworld_article_edit_title": "Article editor",
 	"$hyoo_realworld_article_page_title": "Article",
 	"$hyoo_realworld_feed_page_title": "Articles",
-	"$hyoo_realworld_menu_page_tag_all_name": "All articles",
-	"$hyoo_realworld_menu_page_title": "Tags",
 	"$hyoo_realworld_sign_in_Auth_label": "Sign In",
 	"$hyoo_realworld_sign_in_Mail_name": "E-Mail",
 	"$hyoo_realworld_sign_in_Pass_name": "Password",
-	"$hyoo_realworld_sign_in_title": "Sign In"
+	"$hyoo_realworld_sign_in_title": "Sign In",
+	"$hyoo_realworld_tags_page_tag_all_name": "All articles",
+	"$hyoo_realworld_tags_page_title": "Tags"
 }
