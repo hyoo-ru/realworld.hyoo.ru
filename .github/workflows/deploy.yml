@@ -13,9 +13,6 @@ jobs:
     
     steps:
     
-    - name: Checkout sources
-      uses: actions/checkout@v1
-    
     - name: Build app
       uses: hyoo-ru/mam_build@master2
       with:
