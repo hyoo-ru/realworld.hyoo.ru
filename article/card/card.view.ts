@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $conduit_article_card extends $.$conduit_article_card {
+	export class $hyoo_realworld_article_card extends $.$hyoo_realworld_article_card {
 
 		title() {
 			return this.article().title

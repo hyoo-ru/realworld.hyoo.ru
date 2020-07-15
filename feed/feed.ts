@@ -1,8 +1,8 @@
 namespace $ {
 
-	export class $conduit_feed {
-		articles : $conduit_article[]
-		articlesCount : number
+	export class $hyoo_realworld_feed {
+		articles! : $hyoo_realworld_article[]
+		articlesCount! : number
 	}
 
 }

@@ -1,4 +1,4 @@
-$conduit_sign_in $mol_page
+$hyoo_realworld_sign_in $mol_page
 	title @ \Sign In
 	tools /
 		<= Close $mol_link
@@ -24,5 +24,3 @@ $conduit_sign_in $mol_page
 				<= Auth $mol_button_major
 					title <= Auth_label @ \Sign In
 					click?val <=> auth?val null
-				<= Auth_status $mol_status
-					status <= auth -

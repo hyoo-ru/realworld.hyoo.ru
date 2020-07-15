@@ -1,10 +1,10 @@
 namespace $.$$ {
 
-	export class $conduit_article_page extends $.$conduit_article_page {
+	export class $hyoo_realworld_article_page extends $.$hyoo_realworld_article_page {
 
 		@ $mol_mem
 		article() {
-			return this.$.$conduit_domain.article( this.$.$mol_state_arg.value( 'article' ) )
+			return this.$.$hyoo_realworld_domain.article( this.$.$mol_state_arg.value( 'article' )! )
 		}
 
 		content() {
@@ -17,7 +17,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		comments() {
-			return this.$.$conduit_domain.comments( this.article().slug )
+			return this.$.$hyoo_realworld_domain.comments( this.article().slug )
 		}
 
 		@ $mol_mem

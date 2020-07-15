@@ -1,0 +1,16 @@
+[hyoo_realworld_menu] {
+	flex: 0 0 10rem;
+}
+
+[hyoo_realworld_sign_in] {
+	flex: 0 0 20rem;
+}
+
+[hyoo_realworld_feed] {
+	flex: 0 0 30rem;
+}
+
+[hyoo_realworld_article] ,
+[hyoo_realworld_article_edit] {
+	flex: 0 0 50rem;
+}

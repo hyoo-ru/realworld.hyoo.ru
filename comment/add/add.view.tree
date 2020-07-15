@@ -1,11 +1,9 @@
-$conduit_comment_add $mol_bar
-	article $conduit_article
+$hyoo_realworld_comment_add $mol_bar
+	article $hyoo_realworld_article
 	sub /
 		<= Message $mol_textarea
 			hint \Your comment
 			value?val <=> message?val \
-		<= Status $mol_status
-			status <= post -
 		<= Submit $mol_button_major
 			title \Post
 			click?val <=> post?val null

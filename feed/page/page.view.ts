@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $conduit_feed_page extends $.$conduit_feed_page {
+	export class $hyoo_realworld_feed_page extends $.$hyoo_realworld_feed_page {
 
 		tag() {
 			return this.$.$mol_state_arg.value( 'tag' ) || ''
@@ -8,7 +8,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		articles() {
-			return this.$.$conduit_domain.articles( this.tag() )
+			return this.$.$hyoo_realworld_domain.articles( this.tag() )
 		}
 
 		@ $mol_mem
@@ -27,7 +27,7 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		body_scroll_top( val? : number , force? : $mol_atom_force ) {
+		body_scroll_top( val? : number ) {
 			this.tag()
 			return ( val !== void 0 ) ? val : 0
 		}

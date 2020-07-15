@@ -1,4 +1,4 @@
-$conduit_feed_page $mol_page
+$hyoo_realworld_feed_page $mol_page
 	title @ \Articles
 	minimal_width 400
 	tools /
@@ -14,5 +14,5 @@ $conduit_feed_page $mol_page
 		arg *
 			article <= article_slug!index \
 		sub /
-			<= Article_card!index $conduit_article_card
-				article <= article!index $conduit_article
+			<= Article_card!index $hyoo_realworld_article_card
+				article <= article!index $hyoo_realworld_article

@@ -1,7 +1,6 @@
-$conduit_article_card $mol_row
-	minimal_height 88
-	minimal_width 88
-	article $conduit_article
+$hyoo_realworld_article_card $mol_row
+	minimal_height 72
+	article $hyoo_realworld_article
 	sub /
 		<= Author $mol_view sub /
 			<= Avatar $mol_image uri <= avatar \

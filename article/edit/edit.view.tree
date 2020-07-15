@@ -1,4 +1,4 @@
-$conduit_article_edit $mol_page
+$hyoo_realworld_article_edit $mol_page
 	title @ \Article editor
 	tools /
 		<= Close $mol_link
@@ -31,5 +31,3 @@ $conduit_article_edit $mol_page
 					title <= Save_label @ \Submit
 					click?val <=> save?val null
 					enabled <= saveable false
-				<= Save_status $mol_status
-					status <= save -

@@ -1,11 +1,11 @@
 namespace $ {
 
-	export class $conduit_comment {
-		author : $conduit_person
-		id : string
-		body : string
-		createdAt : string
-		updatedAt : string
+	export class $hyoo_realworld_comment {
+		author! : $hyoo_realworld_person
+		id! : string
+		body! : string
+		createdAt! : string
+		updatedAt! : string
 	}
 	
 }

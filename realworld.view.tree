@@ -1,0 +1,6 @@
+$hyoo_realworld $mol_book2
+	Menu $hyoo_realworld_menu_page
+	Feed!id $hyoo_realworld_feed_page
+	Article!id $hyoo_realworld_article_page
+	Article_edit $hyoo_realworld_article_edit
+	Sign_in $hyoo_realworld_sign_in

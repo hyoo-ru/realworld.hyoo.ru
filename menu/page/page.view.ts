@@ -1,10 +1,10 @@
 namespace $.$$ {
 
-	export class $conduit_menu_page extends $.$conduit_menu_page {
+	export class $hyoo_realworld_menu_page extends $.$hyoo_realworld_menu_page {
 
 		@ $mol_mem
 		tags() {
-			return [ '' , ... this.$.$conduit_domain.tags() ]
+			return [ '' , ... this.$.$hyoo_realworld_domain.tags() ]
 		}
 
 		@ $mol_mem

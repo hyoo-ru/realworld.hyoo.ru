@@ -1,10 +1,10 @@
 namespace $ {
 
-	export class $conduit_domain_tags {
-		tags : string[]
+	export class $hyoo_realworld_domain_tags {
+		tags! : string[]
 	}
 
-	export class $conduit_domain extends $mol_object {
+	export class $hyoo_realworld_domain extends $mol_object {
 		
 		static api_base() {
 			return 'https://conduit.productionready.io/api/'
@@ -17,32 +17,36 @@ namespace $ {
 		@ $mol_mem_key
 		static articles_page( { page , tag } : { page : number , tag : string } ) {
 			const uri = `${ this.api_base() }articles?limit=${ this.page_size() }&offset=${ page * this.page_size() }&tag=${ tag }`
-			return this.$.$mol_http.resource( uri ).json< $conduit_feed >()
+			return this.$.$mol_fetch.json( uri ) as $hyoo_realworld_feed
 		}
 
 		@ $mol_mem_key
 		static articles( tag = '' ) {
-			return $mol_range2(
+			return [ ... $mol_range2(
 				index => {
 					const page = Math.floor( index / this.page_size() )
-					return new Proxy( new $conduit_article , {
-						get: ( target , field )=> this.articles_page({ page , tag }).articles[ index % this.page_size() ][ field ]
+					return new Proxy( new $hyoo_realworld_article , {
+						get: ( target , field )=> this.articles_page({ tag , page }).articles[ index % this.page_size() ][ field ]
 					} )
 				} , 
 				()=> this.articles_page({ tag , page : 0 }).articlesCount ,
-			)
+			) ]
 		}
 		
 		@ $mol_mem
 		static tags() {
 			const uri = `${ this.api_base() }tags`
-			return this.$.$mol_http.resource( uri ).json< $conduit_domain_tags >().tags
+			return ( this.$.$mol_fetch.json( uri ) as $hyoo_realworld_domain_tags ).tags
 		}
 
 		@ $mol_mem_key
-		static article( slug : string , article? : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
+		static article( slug : string , article? : $hyoo_realworld_article ) {
+			if( article ) return article
+
 			const uri = `${ this.api_base() }articles/${ slug }`
-			return this.$.$mol_http.resource( uri ).json<{ article : $conduit_article }>().article
+			const res = this.$.$mol_fetch.json( uri ) as { article : $hyoo_realworld_article }
+			
+			return res.article
 		}
 
 		@ $mol_mem
@@ -51,80 +55,85 @@ namespace $ {
 			if( !token ) return null
 
 			const uri = `${ this.api_base() }user`
-			const res = this.$.$mol_http.resource( uri )
-
-			res.headers = ()=> ({
+			const headers = {
 				'Authorization': `Token ${ token }`,
-			})
-			
-			return res.json<{ user : $conduit_person }>().user
+			}
+
+			const res = this.$.$mol_fetch.json( uri , { headers } ) as { user : $hyoo_realworld_person }
+
+			return res.user
 		}
 
 		@ $mol_mem_key
 		static comments( slug : string ) {
 			const uri = `${ this.api_base() }articles/${ slug }/comments`
-			return this.$.$mol_http.resource( uri ).json<{ comments : $conduit_comment[] }>().comments
+			const res = this.$.$mol_fetch.json( uri ) as { comments : $hyoo_realworld_comment[] }
+			this.comments_fresh( slug )
+			return res.comments
 		}
 
 		@ $mol_mem_key
-		static comment_add( slug : string , comment : Partial< $conduit_comment > , force? : $mol_atom_force_update ) {
-			if( !comment ) return
+		static comments_fresh( slug : string , next? : string ) {
+			return next || ''
+		}
+
+		@ $mol_fiber.method
+		static comment_add( slug : string , comment : Partial< $hyoo_realworld_comment > ) {
 
 			const uri = `${ this.api_base() }articles/${ slug }/comments`
-			const res = this.$.$mol_http.resource( uri + '?' )
+			const res = this.$.$mol_fetch.json( uri , {
+				method : 'post',
+				headers : {
+					'Authorization': `Token ${ this.token() }`,
+					'Content-Type': 'application/json',
+				},
+				body : JSON.stringify({ comment }),
+			} ) as { comment : Partial< $hyoo_realworld_comment > }
 
-			res.method_put = ()=> 'post'
-			res.headers = ()=> ({
-				'Authorization': `Token ${ this.token() }`,
-				'Content-Type': 'application/json',
-			})
-			
-			comment = res.json<{ comment : Partial< $conduit_comment > }>( { comment } , force ).comment
-			this.$.$mol_http.resource( uri ).json( undefined , $mol_atom_force_update )
+			this.comments_fresh( slug , res.comment.id )
 
-			return comment
+			return res.comment
 		}
 
-		@ $mol_mem
-		static article_save( article : Partial< $conduit_article > , force? : $mol_atom_force_update ) {
-			if( !article ) return
+		@ $mol_fiber.method
+		static article_save( article : Partial< $hyoo_realworld_article > ) {
 
 			const uri = `${ this.api_base() }articles/${ article.slug || '' }`
-			const res = this.$.$mol_http.resource( uri + '?' )
+			const res = this.$.$mol_fetch.json( uri , {
+				method : article.slug ? 'put' : 'post',
+				headers : {
+					'Authorization': `Token ${ this.token() }`,
+					'Content-Type': 'application/json',
+				},
+				body : JSON.stringify({ article }),
+			} ) as { article : $hyoo_realworld_article }
 
-			res.method_put = ()=> article.slug ? 'put' : 'post'
-			res.headers = ()=> ({
-				'Authorization': `Token ${ this.token() }`,
-				'Content-Type': 'application/json',
-			})
-			
-			article = res.json<{ article : Partial< $conduit_article > }>( { article } , force ).article
-			this.article( article.slug , article , $mol_atom_force_cache )
+			this.article( res.article.slug! , res.article )
 
-			return article
+			return res.article
 		}
 
-		@ $mol_mem
-		static sign_in( creds : { email : string , password : string } , force? : $mol_atom_force_update ) {
-			if( !creds ) return
+		@ $mol_fiber.method
+		static sign_in( creds : { email : string , password : string } ) {
 
 			const uri = `${ this.api_base() }users/login`
-			const res = this.$.$mol_http.resource( uri )
+			const res = this.$.$mol_fetch.json( uri , {
+				method : 'post',
+				headers : {
+					'Content-Type': 'application/json',
+				},
+				body : JSON.stringify({ user : creds }),
+			} ) as { user : $hyoo_realworld_person }
 
-			res.method_put = ()=> 'post'
-			res.headers = ()=> ({
-				'Content-Type': 'application/json',
-			})
-			
-			const person = res.json( { user : creds } as any , force ).user as $conduit_person
+			const person = res.user
 			this.token( person['token'] )
 
-			return person as any
+			return person
 		}
 
 		@ $mol_mem
 		static token( next? : string ) {
-			return this.$.$mol_state_local.value( 'token' , next )
+			return this.$.$mol_state_local.value( 'token' , next ) ?? ''
 		}
 
 	}

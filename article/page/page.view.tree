@@ -1,4 +1,4 @@
-$conduit_article_page $mol_page
+$hyoo_realworld_article_page $mol_page
 	title @ \Article
 	tools /
 		<= Edit_link $mol_link
@@ -11,13 +11,13 @@ $conduit_article_page $mol_page
 		<= Content $mol_text
 			text <= content \
 		<= Tags $mol_row
-			sub / <= tags /
+			sub <= tags /
 		<= Comments $mol_list
 			rows <= comment_cards /
-		<= Comment_add $conduit_comment_add
-			article <= article $conduit_article
-	Comment_card!index $conduit_comment_card
-		comment <= comment!index $conduit_comment
+		<= Comment_add $hyoo_realworld_comment_add
+			article <= article $hyoo_realworld_article
+	Comment_card!index $hyoo_realworld_comment_card
+		comment <= comment!index $hyoo_realworld_comment
 	Tag_link!index $mol_link
 		arg *
 			tag <= tag_name!index \
