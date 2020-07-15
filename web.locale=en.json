@@ -1,0 +1,16 @@
+{
+	"$hyoo_realworld_article_edit_Save_label": "Submit",
+	"$hyoo_realworld_article_edit_article_content_name": "Content",
+	"$hyoo_realworld_article_edit_article_descr_name": "Description",
+	"$hyoo_realworld_article_edit_article_tags_name": "Tags",
+	"$hyoo_realworld_article_edit_article_title_name": "Title",
+	"$hyoo_realworld_article_edit_title": "Article editor",
+	"$hyoo_realworld_article_page_title": "Article",
+	"$hyoo_realworld_feed_page_title": "Articles",
+	"$hyoo_realworld_menu_page_tag_all_name": "All articles",
+	"$hyoo_realworld_menu_page_title": "Tags",
+	"$hyoo_realworld_sign_in_Auth_label": "Sign In",
+	"$hyoo_realworld_sign_in_Mail_name": "E-Mail",
+	"$hyoo_realworld_sign_in_Pass_name": "Password",
+	"$hyoo_realworld_sign_in_title": "Sign In"
+}
