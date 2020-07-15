@@ -1,16 +1,16 @@
 [hyoo_realworld_article_page_comment_add] {
-	margin: 1rem;
+	margin: .75rem;
 }
 
 [hyoo_realworld_article_page_comments] {
-	padding: .5rem;
+	padding: .75rem;
 	display: flex;
 	flex-direction: column;
 	flex: none;
 }
 
 [hyoo_realworld_article_page_comments] > * {
-	margin: .5rem;
+	margin: .75rem;
 }
 
 [hyoo_realworld_article_page_tag_link] {

@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $hyoo_realworld_menu_page extends $.$hyoo_realworld_menu_page {
+	export class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
 
 		@ $mol_mem
 		tags() {

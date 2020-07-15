@@ -1,4 +1,4 @@
-$hyoo_realworld_menu_page $mol_page
+$hyoo_realworld_tags_page $mol_page
 	title @ \Tags
 	body /
 		<= Tag_links $mol_list
