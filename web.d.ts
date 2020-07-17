@@ -1474,6 +1474,12 @@ declare namespace $ {
             email: string;
             password: string;
         }): $hyoo_realworld_person;
+        static sign_up(creds: {
+            username: string;
+            email: string;
+            password: string;
+        }): $hyoo_realworld_person;
+        static sign_out(): void;
         static token(next?: string): string;
     }
 }
@@ -1569,6 +1575,28 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_button_typed extends $mol_button {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_button_minor extends $mol_button_typed {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_icon_logout extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
     class $mol_row extends $mol_view {
     }
 }
@@ -1626,6 +1654,9 @@ declare namespace $ {
         tools(): readonly any[];
         Add_link(): $$.$mol_link;
         Add_icon(): $mol_icon_plus;
+        Logout(): $mol_button_minor;
+        logout(val?: any, force?: $mol_mem_force): any;
+        Logout_icon(): $mol_icon_logout;
         body(): readonly any[];
         Article_links(): $$.$mol_list;
         article_links(): readonly any[];
@@ -1647,6 +1678,8 @@ declare namespace $.$$ {
         article_slug(index: number): string;
         article(index: number): $hyoo_realworld_article;
         body_scroll_top(val?: number): number;
+        logout(): void;
+        tools(): ($mol_link | $mol_button_minor)[];
     }
 }
 
@@ -1667,22 +1700,6 @@ declare namespace $ {
         style(): {
             minHeight: string;
         };
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_button_typed extends $mol_button {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_button_minor extends $mol_button_typed {
     }
 }
 
@@ -2650,6 +2667,8 @@ declare namespace $ {
         Close(): $$.$mol_link;
         Close_icon(): $mol_icon_cross;
         body(): readonly any[];
+        Need_account(): $$.$mol_link;
+        need_account_label(): string;
         Form(): $$.$mol_form;
         Mail_field(): $mol_form_field;
         Mail_name(): string;
@@ -2659,7 +2678,7 @@ declare namespace $ {
         Pass_name(): string;
         Pass(): $$.$mol_string;
         pass(val?: any, force?: $mol_mem_force): any;
-        Auth(): $mol_button_major;
+        Submit(): $mol_button_major;
         Auth_label(): string;
         auth(val?: any, force?: $mol_mem_force): any;
     }
@@ -2675,12 +2694,63 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_realworld_sign_up extends $mol_page {
+        title(): string;
+        tools(): readonly any[];
+        Close(): $$.$mol_link;
+        Close_icon(): $mol_icon_cross;
+        body(): readonly any[];
+        Have_account(): $$.$mol_link;
+        have_account_label(): string;
+        Form(): $$.$mol_form;
+        Username_field(): $mol_form_field;
+        Username_name(): string;
+        Username(): $$.$mol_string;
+        username(val?: any, force?: $mol_mem_force): any;
+        Mail_field(): $mol_form_field;
+        Mail_name(): string;
+        Mail(): $$.$mol_string;
+        mail(val?: any, force?: $mol_mem_force): any;
+        Pass_field(): $mol_form_field;
+        Pass_name(): string;
+        Pass(): $$.$mol_string;
+        pass(val?: any, force?: $mol_mem_force): any;
+        Submit(): $mol_button_major;
+        Reg_label(): string;
+        reg(val?: any, force?: $mol_mem_force): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_sign_up extends $.$hyoo_realworld_sign_up {
+        reg(): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_sign extends $mol_view {
+        Sign_in(): $$.$hyoo_realworld_sign_in;
+        Sign_up(): $$.$hyoo_realworld_sign_up;
+        sub(): readonly any[];
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_sign extends $.$hyoo_realworld_sign {
+        sub(): $hyoo_realworld_sign_up[] | $hyoo_realworld_sign_in[];
+    }
+}
+
+declare namespace $ {
     class $hyoo_realworld extends $mol_book2 {
         Tags(): $$.$hyoo_realworld_tags_page;
         Feed(id: any): $$.$hyoo_realworld_feed_page;
         Article(id: any): $$.$hyoo_realworld_article_page;
         Article_edit(id: any): $$.$hyoo_realworld_article_edit;
-        Sign_in(): $$.$hyoo_realworld_sign_in;
+        Sign(): $$.$hyoo_realworld_sign;
     }
 }
 
@@ -2694,6 +2764,6 @@ declare namespace $.$$ {
         sign(): string | null;
         tag(): string;
         signed(): boolean;
-        pages(): ($hyoo_realworld_tags_page | $hyoo_realworld_feed_page | $hyoo_realworld_article_page | $hyoo_realworld_article_edit | $hyoo_realworld_sign_in)[];
+        pages(): ($hyoo_realworld_tags_page | $hyoo_realworld_feed_page | $hyoo_realworld_article_page | $hyoo_realworld_article_edit | $hyoo_realworld_sign)[];
     }
 }

@@ -4887,6 +4887,22 @@ var $;
             this.token(person['token']);
             return person;
         }
+        static sign_up(creds) {
+            const uri = `${this.api_base()}users`;
+            const res = this.$.$mol_fetch.json(uri, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user: creds }),
+            });
+            const person = res.user;
+            this.token(person['token']);
+            return person;
+        }
+        static sign_out() {
+            this.token('');
+        }
         static token(next) {
             var _a;
             return (_a = this.$.$mol_state_local.value('token', next)) !== null && _a !== void 0 ? _a : '';
@@ -4922,6 +4938,9 @@ var $;
     __decorate([
         $.$mol_fiber.method
     ], $hyoo_realworld_domain, "sign_in", null);
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_domain, "sign_up", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_domain, "token", null);
@@ -5183,6 +5202,50 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_button_typed extends $.$mol_button {
+    }
+    $.$mol_button_typed = $mol_button_typed;
+})($ || ($ = {}));
+//typed.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: .5rem .75rem;\n\tborder-radius: var(--mol_skin_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
+})($ || ($ = {}));
+//typed.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_button_minor extends $.$mol_button_typed {
+    }
+    $.$mol_button_minor = $mol_button_minor;
+})($ || ($ = {}));
+//minor.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor] {\n\tcolor: var(--mol_theme_control);\n}\n");
+})($ || ($ = {}));
+//minor.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_logout extends $.$mol_icon {
+        path() {
+            return "M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z";
+        }
+    }
+    $.$mol_icon_logout = $mol_icon_logout;
+})($ || ($ = {}));
+//logout.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_row extends $.$mol_view {
     }
     $.$mol_row = $mol_row;
@@ -5343,7 +5406,7 @@ var $;
             return 400;
         }
         tools() {
-            return [this.Add_link()];
+            return [this.Add_link(), this.Logout()];
         }
         Add_link() {
             return ((obj) => {
@@ -5359,6 +5422,22 @@ var $;
             return ((obj) => {
                 return obj;
             })(new this.$.$mol_icon_plus());
+        }
+        Logout() {
+            return ((obj) => {
+                obj.title = () => "";
+                obj.event_click = (val) => this.logout(val);
+                obj.sub = () => [this.Logout_icon()];
+                return obj;
+            })(new this.$.$mol_button_minor());
+        }
+        logout(val, force) {
+            return (val !== void 0) ? val : null;
+        }
+        Logout_icon() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$mol_icon_logout());
         }
         body() {
             return [this.Article_links()];
@@ -5402,6 +5481,15 @@ var $;
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Add_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_feed_page.prototype, "Logout", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_feed_page.prototype, "logout", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_feed_page.prototype, "Logout_icon", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Article_links", null);
@@ -5449,6 +5537,13 @@ var $;
             body_scroll_top(val) {
                 this.tag();
                 return (val !== void 0) ? val : 0;
+            }
+            logout() {
+                this.$.$hyoo_realworld_domain.sign_out();
+                this.$.$mol_state_arg.value('person', null);
+            }
+            tools() {
+                return Boolean(this.$.$hyoo_realworld_domain.token()) ? [this.Add_link(), this.Logout()] : [this.Add_link()];
             }
         }
         __decorate([
@@ -5513,38 +5608,6 @@ var $;
     $.$mol_style_attach("mol/float/float.view.css", "[mol_float] {\n\tposition: sticky;\n\ttop: 0;\n\tleft: 0;\n\tz-index: 1;\n\topacity: 1;\n\ttransition: opacity .25s ease-in;\n\tdisplay: block;\n\tbackground: var(--mol_theme_back);\n\tbox-shadow: 0 0 .5rem hsla(0,0%,0%,.25);\n}\n\n");
 })($ || ($ = {}));
 //float.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_button_typed extends $.$mol_button {
-    }
-    $.$mol_button_typed = $mol_button_typed;
-})($ || ($ = {}));
-//typed.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: .5rem .75rem;\n\tborder-radius: var(--mol_skin_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
-})($ || ($ = {}));
-//typed.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_button_minor extends $.$mol_button_typed {
-    }
-    $.$mol_button_minor = $mol_button_minor;
-})($ || ($ = {}));
-//minor.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor] {\n\tcolor: var(--mol_theme_control);\n}\n");
-})($ || ($ = {}));
-//minor.view.css.js.map
 ;
 "use strict";
 var $;
@@ -8555,12 +8618,24 @@ var $;
             })(new this.$.$mol_icon_cross());
         }
         body() {
-            return [this.Form()];
+            return [this.Need_account(), this.Form()];
+        }
+        Need_account() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "sign": "up",
+                });
+                obj.sub = () => [this.need_account_label()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        need_account_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_in_need_account_label");
         }
         Form() {
             return ((obj) => {
                 obj.form_fields = () => [this.Mail_field(), this.Pass_field()];
-                obj.buttons = () => [this.Auth()];
+                obj.buttons = () => [this.Submit()];
                 return obj;
             })(new this.$.$mol_form());
         }
@@ -8605,7 +8680,7 @@ var $;
         pass(val, force) {
             return (val !== void 0) ? val : "";
         }
-        Auth() {
+        Submit() {
             return ((obj) => {
                 obj.title = () => this.Auth_label();
                 obj.click = (val) => this.auth(val);
@@ -8625,6 +8700,9 @@ var $;
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "Close_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_in.prototype, "Need_account", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "Form", null);
@@ -8648,7 +8726,7 @@ var $;
     ], $hyoo_realworld_sign_in.prototype, "pass", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Auth", null);
+    ], $hyoo_realworld_sign_in.prototype, "Submit", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "auth", null);
@@ -8659,7 +8737,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/sign/in/in.view.css", "[hyoo_realworld_sign_in_auth] {\n\tflex: 0 1 auto;\n}\n\n[hyoo_realworld_sign_in_auth_status] {\n\talign-self: stretch;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/sign/in/in.view.css", "[hyoo_realworld_sign_in_submit] {\n\tflex: 0 1 auto;\n}\n");
 })($ || ($ = {}));
 //in.view.css.js.map
 ;
@@ -8686,6 +8764,251 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $hyoo_realworld_sign_up extends $.$mol_page {
+        title() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_title");
+        }
+        tools() {
+            return [this.Close()];
+        }
+        Close() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "sign": null,
+                    "edit": null,
+                });
+                obj.sub = () => [this.Close_icon()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        Close_icon() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$mol_icon_cross());
+        }
+        body() {
+            return [this.Have_account(), this.Form()];
+        }
+        Have_account() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "sign": "in",
+                });
+                obj.sub = () => [this.have_account_label()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        have_account_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_have_account_label");
+        }
+        Form() {
+            return ((obj) => {
+                obj.form_fields = () => [this.Username_field(), this.Mail_field(), this.Pass_field()];
+                obj.buttons = () => [this.Submit()];
+                return obj;
+            })(new this.$.$mol_form());
+        }
+        Username_field() {
+            return ((obj) => {
+                obj.name = () => this.Username_name();
+                obj.control = () => this.Username();
+                return obj;
+            })(new this.$.$mol_form_field());
+        }
+        Username_name() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_Username_name");
+        }
+        Username() {
+            return ((obj) => {
+                obj.hint = () => "user666";
+                obj.value = (val) => this.username(val);
+                return obj;
+            })(new this.$.$mol_string());
+        }
+        username(val, force) {
+            return (val !== void 0) ? val : "";
+        }
+        Mail_field() {
+            return ((obj) => {
+                obj.name = () => this.Mail_name();
+                obj.control = () => this.Mail();
+                return obj;
+            })(new this.$.$mol_form_field());
+        }
+        Mail_name() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_Mail_name");
+        }
+        Mail() {
+            return ((obj) => {
+                obj.hint = () => "user@example.org";
+                obj.value = (val) => this.mail(val);
+                return obj;
+            })(new this.$.$mol_string());
+        }
+        mail(val, force) {
+            return (val !== void 0) ? val : "";
+        }
+        Pass_field() {
+            return ((obj) => {
+                obj.name = () => this.Pass_name();
+                obj.control = () => this.Pass();
+                return obj;
+            })(new this.$.$mol_form_field());
+        }
+        Pass_name() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_Pass_name");
+        }
+        Pass() {
+            return ((obj) => {
+                obj.type = () => "password";
+                obj.hint = () => "########";
+                obj.value = (val) => this.pass(val);
+                return obj;
+            })(new this.$.$mol_string());
+        }
+        pass(val, force) {
+            return (val !== void 0) ? val : "";
+        }
+        Submit() {
+            return ((obj) => {
+                obj.title = () => this.Reg_label();
+                obj.click = (val) => this.reg(val);
+                return obj;
+            })(new this.$.$mol_button_major());
+        }
+        Reg_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_sign_up_Reg_label");
+        }
+        reg(val, force) {
+            return (val !== void 0) ? val : null;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Close", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Close_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Have_account", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Form", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Username_field", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Username", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "username", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Mail_field", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Mail", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "mail", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Pass_field", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Pass", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "pass", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Submit", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "reg", null);
+    $.$hyoo_realworld_sign_up = $hyoo_realworld_sign_up;
+})($ || ($ = {}));
+//up.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("hyoo/realworld/sign/up/up.view.css", "[hyoo_realworld_sign_up_submit] {\n\tflex: 0 1 auto;\n}\n");
+})($ || ($ = {}));
+//up.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_realworld_sign_up extends $.$hyoo_realworld_sign_up {
+            reg() {
+                const person = this.$.$hyoo_realworld_domain.sign_up({
+                    username: this.username(),
+                    email: this.mail(),
+                    password: this.pass(),
+                });
+                this.$.$mol_state_arg.value('person', person.username);
+                this.$.$mol_state_arg.value('sign', null);
+            }
+        }
+        $$.$hyoo_realworld_sign_up = $hyoo_realworld_sign_up;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//up.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_realworld_sign extends $.$mol_view {
+        Sign_in() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$hyoo_realworld_sign_in());
+        }
+        Sign_up() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$hyoo_realworld_sign_up());
+        }
+        sub() {
+            return [];
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign.prototype, "Sign_in", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign.prototype, "Sign_up", null);
+    $.$hyoo_realworld_sign = $hyoo_realworld_sign;
+})($ || ($ = {}));
+//sign.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_realworld_sign extends $.$hyoo_realworld_sign {
+            sub() {
+                if (this.$.$mol_state_arg.value('sign') === 'up') {
+                    return [this.Sign_up()];
+                }
+                return [this.Sign_in()];
+            }
+        }
+        $$.$hyoo_realworld_sign = $hyoo_realworld_sign;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//sign.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $hyoo_realworld extends $.$mol_book2 {
         Tags() {
             return ((obj) => {
@@ -8707,10 +9030,10 @@ var $;
                 return obj;
             })(new this.$.$hyoo_realworld_article_edit());
         }
-        Sign_in() {
+        Sign() {
             return ((obj) => {
                 return obj;
-            })(new this.$.$hyoo_realworld_sign_in());
+            })(new this.$.$hyoo_realworld_sign());
         }
     }
     __decorate([
@@ -8727,7 +9050,7 @@ var $;
     ], $hyoo_realworld.prototype, "Article_edit", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld.prototype, "Sign_in", null);
+    ], $hyoo_realworld.prototype, "Sign", null);
     $.$hyoo_realworld = $hyoo_realworld;
 })($ || ($ = {}));
 //realworld.view.tree.js.map
@@ -8773,7 +9096,7 @@ var $;
                     this.Feed(this.tag()),
                     ...this.article() ? [this.Article((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug)] : [],
                     ...(this.edit() && this.signed()) ? [this.Article_edit((_b = this.article()) === null || _b === void 0 ? void 0 : _b.slug)] : [],
-                    ...((this.edit() && !this.signed()) || (this.sign() === 'in')) ? [this.Sign_in()] : [],
+                    ...(this.edit() && !this.signed()) ? [this.Sign()] : [],
                 ];
             }
         }
