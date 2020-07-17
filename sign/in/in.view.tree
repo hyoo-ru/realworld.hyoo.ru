@@ -7,6 +7,10 @@ $hyoo_realworld_sign_in $mol_page
 				edit null
 			sub / <= Close_icon $mol_icon_cross
 	body /
+		<= Need_account $mol_link
+			arg *
+				sign \up
+			sub / <= need_account_label @ \Need an account?
 		<= Form $mol_form
 			form_fields /
 				<= Mail_field $mol_form_field
@@ -21,6 +25,6 @@ $hyoo_realworld_sign_in $mol_page
 						hint \########
 						value?val <=> pass?val \
 			buttons /
-				<= Auth $mol_button_major
+				<= Submit $mol_button_major
 					title <= Auth_label @ \Sign In
 					click?val <=> auth?val null

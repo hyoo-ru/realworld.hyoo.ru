@@ -1,24 +1,16 @@
 $hyoo_realworld_feed_page $mol_page
 	title @ \Articles
 	minimal_width 400
-	Add_link $mol_link
-		arg *
-			article \
-			edit \
-		sub / <= Add_icon $mol_icon_plus
-	Sign_in $mol_link
-		arg *
-			sign \in
-		sub /
-			<= sign_in_label @ \Sign in
-	Sign_up $mol_link
-		arg *
-			sign \up
-		sub /
-			<= sign_up_label @ \Sign up 
-	Sign_out $mol_button_minor
-		title \Sign out
-		event_click?val <=> sign_out?val null
+	tools /
+		<= Add_link $mol_link
+			arg *
+				article \
+				edit \
+			sub / <= Add_icon $mol_icon_plus
+		<= Logout $mol_button_minor
+			title \
+			event_click?val <=> logout?val null
+			sub / <= Logout_icon $mol_icon_logout
 	body /
 		<= Article_links $mol_list
 			rows <= article_links /

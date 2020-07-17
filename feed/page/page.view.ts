@@ -32,16 +32,13 @@ namespace $.$$ {
 			return ( val !== void 0 ) ? val : 0
 		}
 
-		tools() {
-			if ( this.$.$hyoo_realworld_domain.token() ) {
-				return [ this.Add_link(), this.Sign_out() ] as readonly any[]
-			}
-
-			return [ this.Sign_in() , this.Sign_up() ] as readonly any[]
+		logout() {
+			this.$.$hyoo_realworld_domain.sign_out()
+			this.$.$mol_state_arg.value( 'person' , null ) 
 		}
 
-		sign_out() {
-			this.$.$hyoo_realworld_domain.sign_out()
+		tools() {
+			return Boolean( this.$.$hyoo_realworld_domain.token() ) ? [ this.Add_link() , this.Logout() ] : [ this.Add_link() ]
 		}
 	
 	}
