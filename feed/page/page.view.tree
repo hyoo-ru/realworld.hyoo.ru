@@ -7,6 +7,10 @@ $hyoo_realworld_feed_page $mol_page
 				article \
 				edit \
 			sub / <= Add_icon $mol_icon_plus
+		<= Logout $mol_button_minor
+			title \
+			event_click?val <=> logout?val null
+			sub / <= Logout_icon $mol_icon_logout
 	body /
 		<= Article_links $mol_list
 			rows <= article_links /
