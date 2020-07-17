@@ -31,6 +31,18 @@ namespace $.$$ {
 			this.tag()
 			return ( val !== void 0 ) ? val : 0
 		}
+
+		tools() {
+			if ( this.$.$hyoo_realworld_domain.token() ) {
+				return [ this.Add_link(), this.Sign_out() ] as readonly any[]
+			}
+
+			return [ this.Sign_in() , this.Sign_up() ] as readonly any[]
+		}
+
+		sign_out() {
+			this.$.$hyoo_realworld_domain.sign_out()
+		}
 	
 	}
 

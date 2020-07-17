@@ -35,7 +35,8 @@ namespace $.$$ {
 				this.Feed( this.tag() ) ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
-				... ( ( this.edit() && !this.signed() ) || ( this.sign() === 'in' ) ) ? [ this.Sign_in() ] : [] ,
+				... ( this.sign() === 'in' && !this.signed() )? [ this.Sign_in() ] : [] ,
+				... ( this.sign() === 'up' && !this.signed() ) ? [ this.Sign_up() ] : [] ,
 			]
 		}
 

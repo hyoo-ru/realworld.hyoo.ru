@@ -131,6 +131,29 @@ namespace $ {
 			return person
 		}
 
+		@ $mol_fiber.method
+		static sign_up( creds : { username : string, email : string , password : string } ) {
+
+			const uri = `${ this.api_base() }users`
+			const res = this.$.$mol_fetch.json( uri , {
+				method : 'post',
+				headers : {
+					'Content-Type': 'application/json',
+				},
+				body : JSON.stringify({ user : creds }),
+			} ) as { user : $hyoo_realworld_person }
+
+			const person = res.user
+			this.token( person['token'] )
+
+			return person
+		}
+
+		static sign_out( ) {
+			this.token( '' )
+		}
+
+
 		@ $mol_mem
 		static token( next? : string ) {
 			return this.$.$mol_state_local.value( 'token' , next ) ?? ''

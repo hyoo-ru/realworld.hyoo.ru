@@ -1,0 +1,31 @@
+$hyoo_realworld_sign_up $mol_page
+	title @ \Sign Up
+	tools /
+		<= Close $mol_link
+			arg *
+				sign null
+				edit null
+			sub / <= Close_icon $mol_icon_cross
+	body /
+		<= Form $mol_form
+			form_fields /
+				<= Username_field $mol_form_field
+					name <= Username_name @ \Username
+					control <= Username $mol_string
+						hint \user666
+						value?val <=> username?val \
+				<= Mail_field $mol_form_field
+					name <= Mail_name @ \E-Mail
+					control <= Mail $mol_string
+						hint \user@example.org
+						value?val <=> mail?val \
+				<= Pass_field $mol_form_field
+					name <= Pass_name @ \Password
+					control <= Pass $mol_string
+						type \password
+						hint \########
+						value?val <=> pass?val \
+			buttons /
+				<= Auth $mol_button_major
+					title <= Reg_label @ \Sign Up
+					click?val <=> reg?val null
