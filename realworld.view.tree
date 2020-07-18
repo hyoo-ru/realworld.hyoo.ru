@@ -1,4 +1,5 @@
 $hyoo_realworld $mol_book2
+	Menu $hyoo_realworld_home_page
 	Tags $hyoo_realworld_tags_page
 	Feed!id $hyoo_realworld_feed_page
 	Article!id $hyoo_realworld_article_page

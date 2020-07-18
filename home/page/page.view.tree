@@ -1,0 +1,50 @@
+$hyoo_realworld_home_page $mol_page
+	Page_link $mol_link
+		arg *
+	title @ \Home
+	body /
+		<= Articles $mol_link
+			arg *
+				articles \
+				tag null
+				tags null
+				favorites null
+				profile null
+				settings null
+			sub / <= articles_link @ \Articles
+		<= Tags $mol_link
+			arg *
+				articles null
+				tag null
+				tags \
+				favorites null
+				profile null
+				settings null
+			sub / <= tags_link @ \Tags
+		<= Favorites $mol_link
+			arg *
+				articles null
+				tag null
+				tags null
+				favorites \
+				profile null
+				settings null
+			sub / <= favorites_link @ \Favorites
+		<= Profile $mol_link
+			arg *
+				articles null
+				tag null
+				tags null
+				favorites null
+				profile \
+				settings null
+			sub / <= profile_link @ \Profile
+		<= Settings $mol_link
+			arg *
+				articles null
+				tag null
+				tags null
+				favorites null
+				profile null
+				settings \
+			sub / <= settings_link @ \Settings

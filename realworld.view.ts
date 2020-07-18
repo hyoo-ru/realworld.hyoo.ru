@@ -1,8 +1,6 @@
 namespace $.$$ {
-
 	export class $hyoo_realworld extends $.$hyoo_realworld {
 
-		@ $mol_mem
 		article() {
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
@@ -22,17 +20,24 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tag() {
-			return this.$.$mol_state_arg.value( 'tag' ) || ''
+			return this.$.$mol_state_arg.value( 'tag' )
 		}
 
 		signed() {
 			return Boolean( this.$.$hyoo_realworld_domain.token() )
 		}
 
+		page( name : string ) {
+			return this.$.$mol_state_arg.value( name ) !== null
+		}
+
 		pages() {
 			return [
-				this.Tags() ,
-				this.Feed( this.tag() ) ,
+				this.Menu() ,
+				... this.page( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
+				... this.page( 'tags' ) ? [ this.Tags() ] : [ ] ,
+				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
+				... this.page( 'sign' ) ? [ this.Sign() ] : [ ] ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && !this.signed() ) ? [ this.Sign() ] : [] ,
