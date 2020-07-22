@@ -5,46 +5,21 @@ $hyoo_realworld_home_page $mol_page
 	body /
 		<= Articles $mol_link
 			arg *
-				articles \
-				tag null
-				tags null
-				favorites null
-				profile null
-				settings null
+				section \articles
 			sub / <= articles_link @ \Articles
 		<= Tags $mol_link
 			arg *
-				articles null
-				tag null
-				tags \
-				favorites null
-				profile null
-				settings null
+				section \tags
 			sub / <= tags_link @ \Tags
 		<= Favorites $mol_link
 			arg *
-				articles null
-				tag null
-				tags null
-				favorites \
-				profile null
-				settings null
+				section \favorites
 			sub / <= favorites_link @ \Favorites
 		<= Profile $mol_link
 			arg *
-				articles null
-				tag null
-				tags null
-				favorites null
-				profile \
-				settings null
+				section \profile
 			sub / <= profile_link @ \Profile
 		<= Settings $mol_link
 			arg *
-				articles null
-				tag null
-				tags null
-				favorites null
-				profile null
-				settings \
+				section \settings
 			sub / <= settings_link @ \Settings

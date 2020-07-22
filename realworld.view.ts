@@ -27,17 +27,18 @@ namespace $.$$ {
 			return Boolean( this.$.$hyoo_realworld_domain.token() )
 		}
 
-		page( name : string ) {
-			return this.$.$mol_state_arg.value( name ) !== null
+		section( name : string ) {
+			return this.$.$mol_state_arg.value( 'section' ) === name 
 		}
 
 		pages() {
 			return [
 				this.Menu() ,
-				... this.page( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
-				... this.page( 'tags' ) ? [ this.Tags() ] : [ ] ,
+				... this.section( 'profile' ) ? [ this.Profile() ] : [ ] ,
+				... this.section( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
+				... this.section( 'tags' ) ? [ this.Tags() ] : [ ] ,
 				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
-				... this.page( 'sign' ) ? [ this.Sign() ] : [ ] ,
+				... this.section( 'sign' ) ? [ this.Sign() ] : [ ] ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && !this.signed() ) ? [ this.Sign() ] : [] ,
