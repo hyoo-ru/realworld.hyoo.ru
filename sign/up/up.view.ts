@@ -11,7 +11,7 @@ namespace $.$$ {
 			} )
 
 			this.$.$mol_state_arg.value( 'person' , person.username ) 
-			this.$.$mol_state_arg.value( 'sign' , null ) 
+			this.$.$mol_state_arg.value( 'section' , 'articles' )
 			
 		}
 

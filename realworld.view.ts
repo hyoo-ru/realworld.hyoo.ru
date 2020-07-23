@@ -38,10 +38,11 @@ namespace $.$$ {
 				... this.section( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
 				... this.section( 'tags' ) ? [ this.Tags() ] : [ ] ,
 				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
-				... this.section( 'sign' ) ? [ this.Sign() ] : [ ] ,
+				... this.section( 'signin' ) ? [ this.Sign_in() ] : [ ] ,
+				... this.section( 'signup' ) ? [ this.Sign_up() ] : [ ] ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
-				... ( this.edit() && !this.signed() ) ? [ this.Sign() ] : [] ,
+				... ( this.edit() && !this.signed() ) ? [ this.Sign_in() ] : [] ,
 			]
 		}
 

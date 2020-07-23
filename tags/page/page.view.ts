@@ -4,7 +4,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tags() {
-			return [ '' , ... this.$.$hyoo_realworld_domain.tags() ]
+			return this.$.$hyoo_realworld_domain.tags()
 		}
 
 		@ $mol_mem
@@ -19,7 +19,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		tag_name( index : number ) {
-			return this.tag_id( index ) || this.tag_all_name()
+			return this.tag_id( index )
 		}
 
 

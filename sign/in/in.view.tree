@@ -3,13 +3,12 @@ $hyoo_realworld_sign_in $mol_page
 	tools /
 		<= Close $mol_link
 			arg *
-				sign null
-				edit null
+				section null
 			sub / <= Close_icon $mol_icon_cross
 	body /
 		<= Need_account $mol_link
 			arg *
-				sign \up
+				section \signup
 			sub / <= need_account_label @ \Need an account?
 		<= Form $mol_form
 			form_fields /
