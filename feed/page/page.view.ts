@@ -31,15 +31,6 @@ namespace $.$$ {
 			this.tag()
 			return ( val !== void 0 ) ? val : 0
 		}
-
-		logout() {
-			this.$.$hyoo_realworld_domain.sign_out()
-			this.$.$mol_state_arg.value( 'person' , null ) 
-		}
-
-		tools() {
-			return Boolean( this.$.$hyoo_realworld_domain.token() ) ? [ this.Add_link() , this.Logout() ] : [ this.Add_link() ]
-		}
 	
 	}
 

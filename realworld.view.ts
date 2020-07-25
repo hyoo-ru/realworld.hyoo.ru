@@ -1,8 +1,6 @@
 namespace $.$$ {
-
 	export class $hyoo_realworld extends $.$hyoo_realworld {
 
-		@ $mol_mem
 		article() {
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
@@ -22,20 +20,29 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tag() {
-			return this.$.$mol_state_arg.value( 'tag' ) || ''
+			return this.$.$mol_state_arg.value( 'tag' )
 		}
 
 		signed() {
 			return Boolean( this.$.$hyoo_realworld_domain.token() )
 		}
 
+		section( name : string ) {
+			return this.$.$mol_state_arg.value( 'section' ) === name 
+		}
+
 		pages() {
 			return [
-				this.Tags() ,
-				this.Feed( this.tag() ) ,
+				this.Menu() ,
+				... this.section( 'profile' ) ? [ this.Profile() ] : [ ] ,
+				... this.section( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
+				... this.section( 'tags' ) ? [ this.Tags() ] : [ ] ,
+				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
+				... this.section( 'signin' ) ? [ this.Sign_in() ] : [ ] ,
+				... this.section( 'signup' ) ? [ this.Sign_up() ] : [ ] ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
-				... ( this.edit() && !this.signed() ) ? [ this.Sign() ] : [] ,
+				... ( this.edit() && !this.signed() ) ? [ this.Sign_in() ] : [] ,
 			]
 		}
 

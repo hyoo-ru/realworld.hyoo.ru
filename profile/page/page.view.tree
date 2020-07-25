@@ -1,0 +1,28 @@
+$hyoo_realworld_profile_page $mol_page
+	title @ \Profile
+	tools /
+		<= Sign_out $mol_button_minor
+			title \
+			event_click?val <=> sign_out?val null
+			sub / <= Logout_icon $mol_icon_logout
+		<= Close $mol_link
+			arg *
+				section null
+			sub / <= Close_icon $mol_icon_cross
+	email \user@mail.com
+	username \jake
+	bio \I work a statefarm
+	image \https://static.productionready.io/images/smiley-cyrus.jpg
+	body /
+		<= Image $mol_image
+			uri <= image
+			title <= image_title @ \User image
+		<= Email $mol_labeler
+			title <= email_label @ \Email
+			content / <= email
+		<= Username $mol_labeler
+			title <= username_label @ \Username
+			content / <= username
+		<= Bio $mol_labeler
+			title <= bio_label @ \Bio
+			content / <= bio
