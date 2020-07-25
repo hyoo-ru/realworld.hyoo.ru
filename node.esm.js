@@ -4844,6 +4844,13 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$mol_style_attach("hyoo/realworld/home/page/page.view.css", "[hyoo_realworld_home_page] {\n  flex: 0 0 10rem;\n}\n");
+})($ || ($ = {}));
+//page.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
     var $$;
     (function ($$) {
         class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {

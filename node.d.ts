@@ -1453,6 +1453,9 @@ declare namespace $ {
     }
 }
 
+declare namespace $ {
+}
+
 declare namespace $.$$ {
     class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
         body(): readonly any[];
