@@ -378,7 +378,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/theme/theme.css", "[mol_theme] {\n\tbackground-color: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tfill: var(--mol_theme_text);\n}\n\n[mol_theme=\"$mol_theme_light\"] , :root {\n\t--mol_theme_back: hsl( 210 , 50% , 99% );\n\t--mol_theme_hover: rgba( 0 , 0 , 0 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 80% );\n\t--mol_theme_text: rgba( 0 , 0 , 0 , .9 );\n\t--mol_theme_control: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_shade: rgba( 0 , 0 , 0 , .5 );\n\t--mol_theme_line: rgba( 220 , 220 , 220 , 1 );\n\t--mol_theme_focus: hsl( 290 , 100% , 40% );\n\t--mol_theme_field: white;\n\t--mol_theme_image: none;\n}\n\n[mol_theme=\"$mol_theme_dark\"] {\n\t--mol_theme_back: hsl( 210 , 50% , 10% );\n\t--mol_theme_hover: #333;\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: rgba( 255 , 255 , 255 , .8 );\n\t--mol_theme_control: hsla( 210 , 60% , 70% , 1 );\n\t--mol_theme_shade: rgba( 255 , 255 , 255 , .5 );\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_focus: hsl( 70 , 100% , 60% );\n\t--mol_theme_field: black;\n\t--mol_theme_image: invert(1) hue-rotate(180deg);\n}\n\n[mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_hover: hsla( 210 , 60% , 20% , 1 );\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: white;\n\t--mol_theme_control: white;\n}\n\n[mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: hsl( 15 , 60% , 50% );\n\t--mol_theme_hover: hsl( 15 , 60% , 40% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_control: white;\n\t--mol_theme_focus: black;\n}\n\n[mol_theme=\"$mol_theme_accent\"] [mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: black;\n\t--mol_theme_text: white;\n}\n");
+    $.$mol_style_attach("mol/theme/theme.css", "[mol_theme] {\n\tbackground-color: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text);\n\tfill: var(--mol_theme_text);\n}\n\n[mol_theme=\"$mol_theme_light\"] , :root {\n\t--mol_theme_back: hsl( 210 , 50% , 99% );\n\t--mol_theme_hover: rgba( 0 , 0 , 0 , .05 );\n\t--mol_theme_current: hsl( 210 , 100% , 80% );\n\t--mol_theme_text: rgba( 0 , 0 , 0 , .9 );\n\t--mol_theme_control: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_shade: rgba( 0 , 0 , 0 , .5 );\n\t--mol_theme_line: rgba( 220 , 220 , 220 , 1 );\n\t--mol_theme_focus: hsl( 290 , 100% , 40% );\n\t--mol_theme_field: white;\n\t--mol_theme_image: none;\n}\n\n[mol_theme=\"$mol_theme_dark\"] {\n\t--mol_theme_back: hsl( 210 , 50% , 10% );\n\t--mol_theme_hover: #333;\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: rgba( 255 , 255 , 255 , .8 );\n\t--mol_theme_control: hsla( 210 , 60% , 70% , 1 );\n\t--mol_theme_shade: rgba( 255 , 255 , 255 , .5 );\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_focus: hsl( 60 , 100% , 60% );\n\t--mol_theme_field: black;\n\t--mol_theme_image: invert(1) hue-rotate(180deg);\n}\n\n[mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: hsla( 210 , 60% , 35% , 1 );\n\t--mol_theme_hover: hsla( 210 , 60% , 20% , 1 );\n\t--mol_theme_current: hsl( 210 , 100% , 20% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: white;\n\t--mol_theme_control: white;\n}\n\n[mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: hsl( 15 , 60% , 50% );\n\t--mol_theme_hover: hsl( 15 , 60% , 40% );\n\t--mol_theme_text: white;\n\t--mol_theme_line: rgba( 50 , 50 , 50 , 1 );\n\t--mol_theme_control: white;\n\t--mol_theme_focus: black;\n}\n\n[mol_theme=\"$mol_theme_accent\"] [mol_theme=\"$mol_theme_accent\"] {\n\t--mol_theme_back: black;\n\t--mol_theme_text: white;\n}\n");
 })($ || ($ = {}));
 //theme.css.js.map
 ;
@@ -3570,6 +3570,227 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_link extends $.$mol_view {
+        dom_name() {
+            return "a";
+        }
+        attr() {
+            return (Object.assign(Object.assign({}, super.attr()), { "href": this.uri(), "title": this.hint(), "target": this.target(), "download": this.file_name(), "mol_link_current": this.current(), "mol_theme": this.theme() }));
+        }
+        uri() {
+            return "";
+        }
+        hint() {
+            return "";
+        }
+        target() {
+            return "_self";
+        }
+        file_name() {
+            return "";
+        }
+        current() {
+            return false;
+        }
+        theme() {
+            return null;
+        }
+        sub() {
+            return [this.title()];
+        }
+        arg() {
+            return ({});
+        }
+        event() {
+            return (Object.assign(Object.assign({}, super.event()), { "click": (event) => this.click(event) }));
+        }
+        click(event, force) {
+            return this.event_click(event);
+        }
+        event_click(event, force) {
+            return (event !== void 0) ? event : null;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_link.prototype, "click", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_link.prototype, "event_click", null);
+    $.$mol_link = $mol_link;
+})($ || ($ = {}));
+//link.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_state_arg extends $.$mol_object {
+        constructor(prefix = '') {
+            super();
+            this.prefix = prefix;
+        }
+        static href(next) {
+            return next || process.argv.slice(2).join(' ');
+        }
+        static dict(next) {
+            if (next !== void 0)
+                this.href(this.make_link(next));
+            var href = this.href();
+            var chunks = href.split(' ');
+            var params = {};
+            chunks.forEach(chunk => {
+                if (!chunk)
+                    return;
+                var vals = chunk.split('=').map(decodeURIComponent);
+                params[vals.shift()] = vals.join('=');
+            });
+            return params;
+        }
+        static value(key, next) {
+            if (next === void 0)
+                return this.dict()[key] || null;
+            this.href(this.link({ [key]: next }));
+            return next;
+        }
+        static link(next) {
+            var params = {};
+            var prev = this.dict();
+            for (var key in prev) {
+                params[key] = prev[key];
+            }
+            for (var key in next) {
+                params[key] = next[key];
+            }
+            return this.make_link(params);
+        }
+        static make_link(next) {
+            var chunks = [];
+            for (var key in next) {
+                if (null == next[key])
+                    continue;
+                chunks.push([key].concat(next[key]).map(encodeURIComponent).join('='));
+            }
+            return chunks.join(' ');
+        }
+        value(key, next) {
+            return this.constructor.value(this.prefix + key, next);
+        }
+        sub(postfix) {
+            return new this.constructor(this.prefix + postfix + '.');
+        }
+        link(next) {
+            var prefix = this.prefix;
+            var dict = {};
+            for (var key in next) {
+                dict[prefix + key] = next[key];
+            }
+            return this.constructor.link(dict);
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_state_arg, "href", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_state_arg, "dict", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $mol_state_arg, "value", null);
+    $.$mol_state_arg = $mol_state_arg;
+})($ || ($ = {}));
+//arg.node.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    const { rem } = $.$mol_style_unit;
+    const { rgba } = $.$mol_style_func;
+    $.$mol_style_define($.$mol_link, {
+        textDecoration: 'none',
+        color: $.$mol_theme.control,
+        stroke: 'currentcolor',
+        cursor: 'pointer',
+        padding: [rem(.5), rem(.75)],
+        boxSizing: 'border-box',
+        position: 'relative',
+        ':hover': {
+            background: {
+                color: $.$mol_theme.hover,
+            },
+        },
+        ':focus': {
+            outline: 'none',
+            background: {
+                color: $.$mol_theme.hover,
+            }
+        },
+        '@': {
+            mol_link_current: {
+                'true': {
+                    background: {
+                        color: $.$mol_theme.back,
+                    },
+                    color: $.$mol_theme.text,
+                }
+            }
+        },
+    });
+})($ || ($ = {}));
+//link.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_link extends $.$mol_link {
+            uri() {
+                return new this.$.$mol_state_arg(this.state_key()).link(this.arg());
+            }
+            current() {
+                const base = this.$.$mol_state_arg.href();
+                const target = new URL(this.uri(), base).toString();
+                if (base === target)
+                    return true;
+                const args = this.arg();
+                const keys = Object.keys(args).filter(key => args[key] != null);
+                if (keys.length === 0)
+                    return false;
+                for (const key of keys) {
+                    if (this.$.$mol_state_arg.value(key) !== args[key])
+                        return false;
+                }
+                return true;
+            }
+            event_click(event) {
+                if (!event || event.defaultPrevented)
+                    return;
+                this.focused(false);
+            }
+            file_name() {
+                return null;
+            }
+            minimal_height() {
+                return Math.max(super.minimal_height() || 40);
+            }
+            theme() {
+                return this.current() ? '$mol_theme_base' : null;
+            }
+        }
+        __decorate([
+            $.$mol_mem
+        ], $mol_link.prototype, "uri", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_link.prototype, "current", null);
+        $$.$mol_link = $mol_link;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//link.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_state_local extends $.$mol_object {
         static native() {
             if (this['native()'])
@@ -4031,510 +4252,136 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_list extends $.$mol_view {
-        render_visible_only() {
-            return true;
-        }
-        render_over() {
-            return 0.5;
-        }
-        sub() {
-            return this.rows();
-        }
-        rows() {
-            return [];
-        }
-        Empty() {
+    class $hyoo_realworld_home_page extends $.$mol_page {
+        Page_link() {
             return ((obj) => {
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        Gap_before() {
-            return ((obj) => {
-                obj.style = () => ({
-                    "paddingTop": this.gap_before(),
-                });
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        gap_before() {
-            return 0;
-        }
-        Gap_after() {
-            return ((obj) => {
-                obj.style = () => ({
-                    "paddingTop": this.gap_after(),
-                });
-                return obj;
-            })(new this.$.$mol_view());
-        }
-        gap_after() {
-            return 0;
-        }
-        view_window() {
-            return [0, 0];
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_list.prototype, "Empty", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_list.prototype, "Gap_before", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_list.prototype, "Gap_after", null);
-    $.$mol_list = $mol_list;
-})($ || ($ = {}));
-//list.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_dom_listener extends $.$mol_object {
-        constructor(_node, _event, _handler, _config = { passive: true }) {
-            super();
-            this._node = _node;
-            this._event = _event;
-            this._handler = _handler;
-            this._config = _config;
-            this._node.addEventListener(this._event, this._handler, this._config);
-        }
-        destructor() {
-            this._node.removeEventListener(this._event, this._handler, this._config);
-            super.destructor();
-        }
-    }
-    $.$mol_dom_listener = $mol_dom_listener;
-})($ || ($ = {}));
-//listener.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_print extends $.$mol_object {
-        static before() {
-            return new $.$mol_dom_listener(this.$.$mol_dom_context, 'beforeprint', () => {
-                this.active(true);
-            });
-        }
-        static after() {
-            return new $.$mol_dom_listener(this.$.$mol_dom_context, 'afterprint', () => {
-                this.active(false);
-            });
-        }
-        static active(next) {
-            this.before();
-            this.after();
-            return next || false;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_print, "before", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_print, "after", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_print, "active", null);
-    $.$mol_print = $mol_print;
-})($ || ($ = {}));
-//print.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/list/list.view.css", "[mol_list] {\n\twill-change: contents;\n\tdisplay: block;\n\t/* display: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\talign-content: stretch; */\n\ttransition: none;\n\tmin-height: .5rem;\n}\n\n[mol_list_gap_before] ,\n[mol_list_gap_after] {\n\tdisplay: block !important;\n\tflex: none;\n\ttransition: none;\n\toverflow-anchor: none;\n}\n\n[mol_list] > * {\n\tdisplay: block;\n}\n");
-})($ || ($ = {}));
-//list.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_list extends $.$mol_list {
-            sub() {
-                const rows = this.rows();
-                return (rows.length === 0) ? [this.Empty()] : rows;
-            }
-            render_visible_only() {
-                if (!$.$mol_dom_context.CSS)
-                    return false;
-                return $.$mol_dom_context.CSS.supports('overflow-anchor:auto');
-            }
-            view_window() {
-                var _a, _b, _c, _d, _e, _f;
-                const kids = this.sub();
-                if (kids.length < 3)
-                    return [0, kids.length];
-                if (this.$.$mol_print.active())
-                    return [0, kids.length];
-                let [min, max] = (_a = $.$mol_mem_cached(() => this.view_window())) !== null && _a !== void 0 ? _a : [0, 0];
-                let max2 = max = Math.min(max, kids.length);
-                let min2 = min = Math.max(0, Math.min(min, max - 1));
-                const anchoring = this.render_visible_only();
-                const window_height = this.$.$mol_window.size().height;
-                const over = Math.ceil(window_height * this.render_over());
-                const limit_top = -over;
-                const limit_bottom = window_height + over;
-                const rect = this.view_rect();
-                const gap_before = (_b = $.$mol_mem_cached(() => this.gap_before())) !== null && _b !== void 0 ? _b : 0;
-                const gap_after = (_c = $.$mol_mem_cached(() => this.gap_after())) !== null && _c !== void 0 ? _c : 0;
-                let top = ((_d = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _d !== void 0 ? _d : 0) + gap_before;
-                let bottom = ((_e = rect === null || rect === void 0 ? void 0 : rect.bottom) !== null && _e !== void 0 ? _e : 0) - gap_after;
-                if (top <= limit_top && bottom >= limit_bottom) {
-                    return [min2, max2];
-                }
-                if (anchoring && ((bottom < limit_top) || (top > limit_bottom))) {
-                    min = 0;
-                    top = ((_f = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _f !== void 0 ? _f : 0);
-                    while (min < (kids.length - 1)) {
-                        const height = kids[min].minimal_height();
-                        if (top + height >= limit_top)
-                            break;
-                        top += height;
-                        ++min;
-                    }
-                    min2 = min;
-                    max2 = max = min;
-                    bottom = top;
-                }
-                let top2 = top;
-                let bottom2 = bottom;
-                if (anchoring && (top <= limit_top)) {
-                    min2 = max;
-                    top2 = bottom;
-                }
-                if (bottom >= limit_bottom) {
-                    max2 = min;
-                    bottom2 = top;
-                }
-                while (bottom2 < limit_bottom && max2 < kids.length) {
-                    bottom2 += kids[max2].minimal_height();
-                    ++max2;
-                }
-                while (anchoring && ((top2 >= limit_top) && (min2 > 0))) {
-                    --min2;
-                    top2 -= kids[min2].minimal_height();
-                }
-                return [min2, max2];
-            }
-            gap_before() {
-                const skipped = this.sub().slice(0, this.view_window()[0]);
-                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
-            }
-            gap_after() {
-                const skipped = this.sub().slice(this.view_window()[1]);
-                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
-            }
-            sub_visible() {
-                var sub = this.sub();
-                const next = sub.slice(...this.view_window());
-                if (this.gap_before())
-                    next.unshift(this.Gap_before());
-                if (this.gap_after())
-                    next.push(this.Gap_after());
-                return next;
-            }
-            minimal_height() {
-                return this.sub().reduce((sum, view) => sum + view.minimal_height(), 0);
-            }
-        }
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "sub", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "view_window", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "gap_before", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "gap_after", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "sub_visible", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_list.prototype, "minimal_height", null);
-        $$.$mol_list = $mol_list;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//list.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_link extends $.$mol_view {
-        dom_name() {
-            return "a";
-        }
-        attr() {
-            return (Object.assign(Object.assign({}, super.attr()), { "href": this.uri(), "title": this.hint(), "target": this.target(), "download": this.file_name(), "mol_link_current": this.current(), "mol_theme": this.theme() }));
-        }
-        uri() {
-            return "";
-        }
-        hint() {
-            return "";
-        }
-        target() {
-            return "_self";
-        }
-        file_name() {
-            return "";
-        }
-        current() {
-            return false;
-        }
-        theme() {
-            return null;
-        }
-        sub() {
-            return [this.title()];
-        }
-        arg() {
-            return ({});
-        }
-        event() {
-            return (Object.assign(Object.assign({}, super.event()), { "click": (event) => this.click(event) }));
-        }
-        click(event, force) {
-            return this.event_click(event);
-        }
-        event_click(event, force) {
-            return (event !== void 0) ? event : null;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_link.prototype, "click", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_link.prototype, "event_click", null);
-    $.$mol_link = $mol_link;
-})($ || ($ = {}));
-//link.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_state_arg extends $.$mol_object {
-        constructor(prefix = '') {
-            super();
-            this.prefix = prefix;
-        }
-        static href(next) {
-            return next || process.argv.slice(2).join(' ');
-        }
-        static dict(next) {
-            if (next !== void 0)
-                this.href(this.make_link(next));
-            var href = this.href();
-            var chunks = href.split(' ');
-            var params = {};
-            chunks.forEach(chunk => {
-                if (!chunk)
-                    return;
-                var vals = chunk.split('=').map(decodeURIComponent);
-                params[vals.shift()] = vals.join('=');
-            });
-            return params;
-        }
-        static value(key, next) {
-            if (next === void 0)
-                return this.dict()[key] || null;
-            this.href(this.link({ [key]: next }));
-            return next;
-        }
-        static link(next) {
-            var params = {};
-            var prev = this.dict();
-            for (var key in prev) {
-                params[key] = prev[key];
-            }
-            for (var key in next) {
-                params[key] = next[key];
-            }
-            return this.make_link(params);
-        }
-        static make_link(next) {
-            var chunks = [];
-            for (var key in next) {
-                if (null == next[key])
-                    continue;
-                chunks.push([key].concat(next[key]).map(encodeURIComponent).join('='));
-            }
-            return chunks.join(' ');
-        }
-        value(key, next) {
-            return this.constructor.value(this.prefix + key, next);
-        }
-        sub(postfix) {
-            return new this.constructor(this.prefix + postfix + '.');
-        }
-        link(next) {
-            var prefix = this.prefix;
-            var dict = {};
-            for (var key in next) {
-                dict[prefix + key] = next[key];
-            }
-            return this.constructor.link(dict);
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_state_arg, "href", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_state_arg, "dict", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $mol_state_arg, "value", null);
-    $.$mol_state_arg = $mol_state_arg;
-})($ || ($ = {}));
-//arg.node.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    const { rem } = $.$mol_style_unit;
-    const { rgba } = $.$mol_style_func;
-    $.$mol_style_define($.$mol_link, {
-        textDecoration: 'none',
-        color: $.$mol_theme.control,
-        stroke: 'currentcolor',
-        cursor: 'pointer',
-        padding: [rem(.5), rem(.75)],
-        boxSizing: 'border-box',
-        position: 'relative',
-        ':hover': {
-            background: {
-                color: $.$mol_theme.hover,
-            },
-        },
-        ':focus': {
-            outline: 'none',
-            background: {
-                color: $.$mol_theme.hover,
-            }
-        },
-        '@': {
-            mol_link_current: {
-                'true': {
-                    background: {
-                        color: $.$mol_theme.back,
-                    },
-                    color: $.$mol_theme.text,
-                }
-            }
-        },
-    });
-})($ || ($ = {}));
-//link.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_link extends $.$mol_link {
-            uri() {
-                return new this.$.$mol_state_arg(this.state_key()).link(this.arg());
-            }
-            current() {
-                const base = this.$.$mol_state_arg.href();
-                const target = new URL(this.uri(), base).toString();
-                if (base === target)
-                    return true;
-                const args = this.arg();
-                const keys = Object.keys(args).filter(key => args[key] != null);
-                if (keys.length === 0)
-                    return false;
-                for (const key of keys) {
-                    if (this.$.$mol_state_arg.value(key) !== args[key])
-                        return false;
-                }
-                return true;
-            }
-            event_click(event) {
-                if (!event || event.defaultPrevented)
-                    return;
-                this.focused(false);
-            }
-            file_name() {
-                return null;
-            }
-            minimal_height() {
-                return Math.max(super.minimal_height() || 40);
-            }
-            theme() {
-                return this.current() ? '$mol_theme_base' : null;
-            }
-        }
-        __decorate([
-            $.$mol_mem
-        ], $mol_link.prototype, "uri", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_link.prototype, "current", null);
-        $$.$mol_link = $mol_link;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//link.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_tags_page extends $.$mol_page {
-        title() {
-            return this.$.$mol_locale.text("$hyoo_realworld_tags_page_title");
-        }
-        body() {
-            return [this.Tag_links()];
-        }
-        Tag_links() {
-            return ((obj) => {
-                obj.rows = () => this.tag_links();
-                return obj;
-            })(new this.$.$mol_list());
-        }
-        tag_links() {
-            return [];
-        }
-        Tag_link(index) {
-            return ((obj) => {
-                obj.minimal_height = () => 40;
-                obj.minimal_width = () => 40;
-                obj.arg = () => ({
-                    "tag": this.tag_id(index),
-                    "article": null,
-                    "edit": null,
-                });
-                obj.title = () => this.tag_name(index);
+                obj.arg = () => ({});
                 return obj;
             })(new this.$.$mol_link());
         }
-        tag_id(index) {
-            return "";
+        title() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_title");
         }
-        tag_name(index) {
-            return "";
+        Articles() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "articles",
+                    "tag": null,
+                });
+                obj.sub = () => [this.articles_link()];
+                return obj;
+            })(new this.$.$mol_link());
         }
-        tag_all_name() {
-            return this.$.$mol_locale.text("$hyoo_realworld_tags_page_tag_all_name");
+        articles_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_articles_link");
+        }
+        Tags() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "tags",
+                });
+                obj.sub = () => [this.tags_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        tags_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_tags_link");
+        }
+        Favorites() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "favorites",
+                    "tag": null,
+                });
+                obj.sub = () => [this.favorites_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        favorites_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_favorites_link");
+        }
+        Profile() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "profile",
+                    "tag": null,
+                });
+                obj.sub = () => [this.profile_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        profile_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_profile_link");
+        }
+        Settings() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "settings",
+                    "tag": null,
+                });
+                obj.sub = () => [this.settings_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        settings_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_settings_link");
+        }
+        Sign_in() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "signin",
+                });
+                obj.sub = () => [this.sign_in_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        sign_in_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_sign_in_link");
+        }
+        Sign_up() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": "signup",
+                });
+                obj.sub = () => [this.sign_up_link()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        sign_up_link() {
+            return this.$.$mol_locale.text("$hyoo_realworld_home_page_sign_up_link");
+        }
+        signed_links() {
+            return [this.Articles(), this.Tags(), this.Favorites(), this.Profile(), this.Settings()];
+        }
+        unsigned_links() {
+            return [this.Articles(), this.Tags(), this.Sign_in(), this.Sign_up()];
         }
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_tags_page.prototype, "Tag_links", null);
+    ], $hyoo_realworld_home_page.prototype, "Page_link", null);
     __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_tags_page.prototype, "Tag_link", null);
-    $.$hyoo_realworld_tags_page = $hyoo_realworld_tags_page;
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Articles", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Tags", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Favorites", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Profile", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Settings", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Sign_in", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_home_page.prototype, "Sign_up", null);
+    $.$hyoo_realworld_home_page = $hyoo_realworld_home_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
 ;
@@ -4990,6 +4837,307 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
+            body() {
+                return Boolean(this.$.$hyoo_realworld_domain.token()) ? this.signed_links() : this.unsigned_links();
+            }
+        }
+        $$.$hyoo_realworld_home_page = $hyoo_realworld_home_page;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//page.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_list extends $.$mol_view {
+        render_visible_only() {
+            return true;
+        }
+        render_over() {
+            return 0.5;
+        }
+        sub() {
+            return this.rows();
+        }
+        rows() {
+            return [];
+        }
+        Empty() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$mol_view());
+        }
+        Gap_before() {
+            return ((obj) => {
+                obj.style = () => ({
+                    "paddingTop": this.gap_before(),
+                });
+                return obj;
+            })(new this.$.$mol_view());
+        }
+        gap_before() {
+            return 0;
+        }
+        Gap_after() {
+            return ((obj) => {
+                obj.style = () => ({
+                    "paddingTop": this.gap_after(),
+                });
+                return obj;
+            })(new this.$.$mol_view());
+        }
+        gap_after() {
+            return 0;
+        }
+        view_window() {
+            return [0, 0];
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_list.prototype, "Empty", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_list.prototype, "Gap_before", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_list.prototype, "Gap_after", null);
+    $.$mol_list = $mol_list;
+})($ || ($ = {}));
+//list.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_dom_listener extends $.$mol_object {
+        constructor(_node, _event, _handler, _config = { passive: true }) {
+            super();
+            this._node = _node;
+            this._event = _event;
+            this._handler = _handler;
+            this._config = _config;
+            this._node.addEventListener(this._event, this._handler, this._config);
+        }
+        destructor() {
+            this._node.removeEventListener(this._event, this._handler, this._config);
+            super.destructor();
+        }
+    }
+    $.$mol_dom_listener = $mol_dom_listener;
+})($ || ($ = {}));
+//listener.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_print extends $.$mol_object {
+        static before() {
+            return new $.$mol_dom_listener(this.$.$mol_dom_context, 'beforeprint', () => {
+                this.active(true);
+            });
+        }
+        static after() {
+            return new $.$mol_dom_listener(this.$.$mol_dom_context, 'afterprint', () => {
+                this.active(false);
+            });
+        }
+        static active(next) {
+            this.before();
+            this.after();
+            return next || false;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_print, "before", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_print, "after", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_print, "active", null);
+    $.$mol_print = $mol_print;
+})($ || ($ = {}));
+//print.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/list/list.view.css", "[mol_list] {\n\twill-change: contents;\n\tdisplay: block;\n\t/* display: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\talign-content: stretch; */\n\ttransition: none;\n\tmin-height: .5rem;\n}\n\n[mol_list_gap_before] ,\n[mol_list_gap_after] {\n\tdisplay: block !important;\n\tflex: none;\n\ttransition: none;\n\toverflow-anchor: none;\n}\n\n[mol_list] > * {\n\tdisplay: block;\n}\n");
+})($ || ($ = {}));
+//list.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_list extends $.$mol_list {
+            sub() {
+                const rows = this.rows();
+                return (rows.length === 0) ? [this.Empty()] : rows;
+            }
+            render_visible_only() {
+                if (!$.$mol_dom_context.CSS)
+                    return false;
+                return $.$mol_dom_context.CSS.supports('overflow-anchor:auto');
+            }
+            view_window() {
+                var _a, _b, _c, _d, _e, _f;
+                const kids = this.sub();
+                if (kids.length < 3)
+                    return [0, kids.length];
+                if (this.$.$mol_print.active())
+                    return [0, kids.length];
+                let [min, max] = (_a = $.$mol_mem_cached(() => this.view_window())) !== null && _a !== void 0 ? _a : [0, 0];
+                let max2 = max = Math.min(max, kids.length);
+                let min2 = min = Math.max(0, Math.min(min, max - 1));
+                const anchoring = this.render_visible_only();
+                const window_height = this.$.$mol_window.size().height;
+                const over = Math.ceil(window_height * this.render_over());
+                const limit_top = -over;
+                const limit_bottom = window_height + over;
+                const rect = this.view_rect();
+                const gap_before = (_b = $.$mol_mem_cached(() => this.gap_before())) !== null && _b !== void 0 ? _b : 0;
+                const gap_after = (_c = $.$mol_mem_cached(() => this.gap_after())) !== null && _c !== void 0 ? _c : 0;
+                let top = ((_d = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _d !== void 0 ? _d : 0) + gap_before;
+                let bottom = ((_e = rect === null || rect === void 0 ? void 0 : rect.bottom) !== null && _e !== void 0 ? _e : 0) - gap_after;
+                if (top <= limit_top && bottom >= limit_bottom) {
+                    return [min2, max2];
+                }
+                if (anchoring && ((bottom < limit_top) || (top > limit_bottom))) {
+                    min = 0;
+                    top = ((_f = rect === null || rect === void 0 ? void 0 : rect.top) !== null && _f !== void 0 ? _f : 0);
+                    while (min < (kids.length - 1)) {
+                        const height = kids[min].minimal_height();
+                        if (top + height >= limit_top)
+                            break;
+                        top += height;
+                        ++min;
+                    }
+                    min2 = min;
+                    max2 = max = min;
+                    bottom = top;
+                }
+                let top2 = top;
+                let bottom2 = bottom;
+                if (anchoring && (top <= limit_top)) {
+                    min2 = max;
+                    top2 = bottom;
+                }
+                if (bottom >= limit_bottom) {
+                    max2 = min;
+                    bottom2 = top;
+                }
+                while (bottom2 < limit_bottom && max2 < kids.length) {
+                    bottom2 += kids[max2].minimal_height();
+                    ++max2;
+                }
+                while (anchoring && ((top2 >= limit_top) && (min2 > 0))) {
+                    --min2;
+                    top2 -= kids[min2].minimal_height();
+                }
+                return [min2, max2];
+            }
+            gap_before() {
+                const skipped = this.sub().slice(0, this.view_window()[0]);
+                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
+            }
+            gap_after() {
+                const skipped = this.sub().slice(this.view_window()[1]);
+                return Math.max(0, skipped.reduce((sum, view) => sum + view.minimal_height(), 0));
+            }
+            sub_visible() {
+                var sub = this.sub();
+                const next = sub.slice(...this.view_window());
+                if (this.gap_before())
+                    next.unshift(this.Gap_before());
+                if (this.gap_after())
+                    next.push(this.Gap_after());
+                return next;
+            }
+            minimal_height() {
+                return this.sub().reduce((sum, view) => sum + view.minimal_height(), 0);
+            }
+        }
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "sub", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "view_window", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "gap_before", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "gap_after", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "sub_visible", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_list.prototype, "minimal_height", null);
+        $$.$mol_list = $mol_list;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//list.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_realworld_tags_page extends $.$mol_page {
+        title() {
+            return this.$.$mol_locale.text("$hyoo_realworld_tags_page_title");
+        }
+        body() {
+            return [this.Tag_links()];
+        }
+        Tag_links() {
+            return ((obj) => {
+                obj.rows = () => this.tag_links();
+                return obj;
+            })(new this.$.$mol_list());
+        }
+        tag_links() {
+            return [];
+        }
+        Tag_link(index) {
+            return ((obj) => {
+                obj.minimal_height = () => 40;
+                obj.minimal_width = () => 40;
+                obj.arg = () => ({
+                    "tag": this.tag_id(index),
+                    "article": null,
+                    "edit": null,
+                });
+                obj.title = () => this.tag_name(index);
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        tag_id(index) {
+            return "";
+        }
+        tag_name(index) {
+            return "";
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_tags_page.prototype, "Tag_links", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_tags_page.prototype, "Tag_link", null);
+    $.$hyoo_realworld_tags_page = $hyoo_realworld_tags_page;
+})($ || ($ = {}));
+//page.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
     $.$mol_style_attach("hyoo/realworld/tags/page/page.view.css", "[hyoo_realworld_tags_page_tag_links] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tpadding: .75rem;\n}\n");
 })($ || ($ = {}));
 //page.view.css.js.map
@@ -5001,7 +5149,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
             tags() {
-                return ['', ...this.$.$hyoo_realworld_domain.tags()];
+                return this.$.$hyoo_realworld_domain.tags();
             }
             tag_links() {
                 return this.tags().map((tag, index) => this.Tag_link(index));
@@ -5010,7 +5158,7 @@ var $;
                 return this.tags()[index];
             }
             tag_name(index) {
-                return this.tag_id(index) || this.tag_all_name();
+                return this.tag_id(index);
             }
         }
         __decorate([
@@ -5241,50 +5389,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_button_typed extends $.$mol_button {
-    }
-    $.$mol_button_typed = $mol_button_typed;
-})($ || ($ = {}));
-//typed.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: .5rem .75rem;\n\tborder-radius: var(--mol_skin_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
-})($ || ($ = {}));
-//typed.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_button_minor extends $.$mol_button_typed {
-    }
-    $.$mol_button_minor = $mol_button_minor;
-})($ || ($ = {}));
-//minor.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor] {\n\tcolor: var(--mol_theme_control);\n}\n");
-})($ || ($ = {}));
-//minor.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon_logout extends $.$mol_icon {
-        path() {
-            return "M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z";
-        }
-    }
-    $.$mol_icon_logout = $mol_icon_logout;
-})($ || ($ = {}));
-//logout.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_row extends $.$mol_view {
     }
     $.$mol_row = $mol_row;
@@ -5445,7 +5549,7 @@ var $;
             return 400;
         }
         tools() {
-            return [this.Add_link(), this.Logout()];
+            return [this.Add_link()];
         }
         Add_link() {
             return ((obj) => {
@@ -5461,22 +5565,6 @@ var $;
             return ((obj) => {
                 return obj;
             })(new this.$.$mol_icon_plus());
-        }
-        Logout() {
-            return ((obj) => {
-                obj.title = () => "";
-                obj.event_click = (val) => this.logout(val);
-                obj.sub = () => [this.Logout_icon()];
-                return obj;
-            })(new this.$.$mol_button_minor());
-        }
-        logout(val, force) {
-            return (val !== void 0) ? val : null;
-        }
-        Logout_icon() {
-            return ((obj) => {
-                return obj;
-            })(new this.$.$mol_icon_logout());
         }
         body() {
             return [this.Article_links()];
@@ -5520,15 +5608,6 @@ var $;
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Add_icon", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_feed_page.prototype, "Logout", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_feed_page.prototype, "logout", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_feed_page.prototype, "Logout_icon", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Article_links", null);
@@ -5576,13 +5655,6 @@ var $;
             body_scroll_top(val) {
                 this.tag();
                 return (val !== void 0) ? val : 0;
-            }
-            logout() {
-                this.$.$hyoo_realworld_domain.sign_out();
-                this.$.$mol_state_arg.value('person', null);
-            }
-            tools() {
-                return Boolean(this.$.$hyoo_realworld_domain.token()) ? [this.Add_link(), this.Logout()] : [this.Add_link()];
             }
         }
         __decorate([
@@ -5647,6 +5719,38 @@ var $;
     $.$mol_style_attach("mol/float/float.view.css", "[mol_float] {\n\tposition: sticky;\n\ttop: 0;\n\tleft: 0;\n\tz-index: 1;\n\topacity: 1;\n\ttransition: opacity .25s ease-in;\n\tdisplay: block;\n\tbackground: var(--mol_theme_back);\n\tbox-shadow: 0 0 .5rem hsla(0,0%,0%,.25);\n}\n\n");
 })($ || ($ = {}));
 //float.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_button_typed extends $.$mol_button {
+    }
+    $.$mol_button_typed = $mol_button_typed;
+})($ || ($ = {}));
+//typed.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\tdisplay: inline-block;\n\talign-content: center;\n\talign-items: center;\n\tvertical-align: middle;\n\ttext-align: center;\n\tpadding: .5rem .75rem;\n\tborder-radius: var(--mol_skin_round);\n}\n\n[mol_button_typed][disabled] {\n\tcolor: var(--mol_theme_text);\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tcursor: pointer;\n\tbackground-color: var(--mol_theme_hover);\n}\n");
+})($ || ($ = {}));
+//typed.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_button_minor extends $.$mol_button_typed {
+    }
+    $.$mol_button_minor = $mol_button_minor;
+})($ || ($ = {}));
+//minor.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor] {\n\tcolor: var(--mol_theme_control);\n}\n");
+})($ || ($ = {}));
+//minor.view.css.js.map
 ;
 "use strict";
 var $;
@@ -8644,8 +8748,7 @@ var $;
         Close() {
             return ((obj) => {
                 obj.arg = () => ({
-                    "sign": null,
-                    "edit": null,
+                    "section": null,
                 });
                 obj.sub = () => [this.Close_icon()];
                 return obj;
@@ -8662,7 +8765,7 @@ var $;
         Need_account() {
             return ((obj) => {
                 obj.arg = () => ({
-                    "sign": "up",
+                    "section": "signup",
                 });
                 obj.sub = () => [this.need_account_label()];
                 return obj;
@@ -8792,7 +8895,7 @@ var $;
                     password: this.pass(),
                 });
                 this.$.$mol_state_arg.value('person', person.username);
-                this.$.$mol_state_arg.value('sign', null);
+                this.$.$mol_state_arg.value('section', 'articles');
             }
         }
         $$.$hyoo_realworld_sign_in = $hyoo_realworld_sign_in;
@@ -8813,8 +8916,7 @@ var $;
         Close() {
             return ((obj) => {
                 obj.arg = () => ({
-                    "sign": null,
-                    "edit": null,
+                    "section": null,
                 });
                 obj.sub = () => [this.Close_icon()];
                 return obj;
@@ -8831,7 +8933,7 @@ var $;
         Have_account() {
             return ((obj) => {
                 obj.arg = () => ({
-                    "sign": "in",
+                    "section": "signin",
                 });
                 obj.sub = () => [this.have_account_label()];
                 return obj;
@@ -8991,7 +9093,7 @@ var $;
                     password: this.pass(),
                 });
                 this.$.$mol_state_arg.value('person', person.username);
-                this.$.$mol_state_arg.value('sign', null);
+                this.$.$mol_state_arg.value('section', 'articles');
             }
         }
         $$.$hyoo_realworld_sign_up = $hyoo_realworld_sign_up;
@@ -9002,53 +9104,168 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_realworld_sign extends $.$mol_view {
-        Sign_in() {
+    class $mol_icon_logout extends $.$mol_icon {
+        path() {
+            return "M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z";
+        }
+    }
+    $.$mol_icon_logout = $mol_icon_logout;
+})($ || ($ = {}));
+//logout.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_realworld_profile_page extends $.$mol_page {
+        title() {
+            return this.$.$mol_locale.text("$hyoo_realworld_profile_page_title");
+        }
+        tools() {
+            return [this.Sign_out(), this.Close()];
+        }
+        Sign_out() {
+            return ((obj) => {
+                obj.title = () => "";
+                obj.event_click = (val) => this.sign_out(val);
+                obj.sub = () => [this.Logout_icon()];
+                return obj;
+            })(new this.$.$mol_button_minor());
+        }
+        sign_out(val, force) {
+            return (val !== void 0) ? val : null;
+        }
+        Logout_icon() {
             return ((obj) => {
                 return obj;
-            })(new this.$.$hyoo_realworld_sign_in());
+            })(new this.$.$mol_icon_logout());
         }
-        Sign_up() {
+        Close() {
+            return ((obj) => {
+                obj.arg = () => ({
+                    "section": null,
+                });
+                obj.sub = () => [this.Close_icon()];
+                return obj;
+            })(new this.$.$mol_link());
+        }
+        Close_icon() {
             return ((obj) => {
                 return obj;
-            })(new this.$.$hyoo_realworld_sign_up());
+            })(new this.$.$mol_icon_cross());
         }
-        sub() {
-            return [];
+        email() {
+            return "user@mail.com";
+        }
+        username() {
+            return "jake";
+        }
+        bio() {
+            return "I work a statefarm";
+        }
+        image() {
+            return "https://static.productionready.io/images/smiley-cyrus.jpg";
+        }
+        body() {
+            return [this.Image(), this.Email(), this.Username(), this.Bio()];
+        }
+        Image() {
+            return ((obj) => {
+                obj.uri = () => this.image();
+                obj.title = () => this.image_title();
+                return obj;
+            })(new this.$.$mol_image());
+        }
+        image_title() {
+            return this.$.$mol_locale.text("$hyoo_realworld_profile_page_image_title");
+        }
+        Email() {
+            return ((obj) => {
+                obj.title = () => this.email_label();
+                obj.content = () => [this.email()];
+                return obj;
+            })(new this.$.$mol_labeler());
+        }
+        email_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_profile_page_email_label");
+        }
+        Username() {
+            return ((obj) => {
+                obj.title = () => this.username_label();
+                obj.content = () => [this.username()];
+                return obj;
+            })(new this.$.$mol_labeler());
+        }
+        username_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_profile_page_username_label");
+        }
+        Bio() {
+            return ((obj) => {
+                obj.title = () => this.bio_label();
+                obj.content = () => [this.bio()];
+                return obj;
+            })(new this.$.$mol_labeler());
+        }
+        bio_label() {
+            return this.$.$mol_locale.text("$hyoo_realworld_profile_page_bio_label");
         }
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign.prototype, "Sign_in", null);
+    ], $hyoo_realworld_profile_page.prototype, "Sign_out", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign.prototype, "Sign_up", null);
-    $.$hyoo_realworld_sign = $hyoo_realworld_sign;
+    ], $hyoo_realworld_profile_page.prototype, "sign_out", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Logout_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Close", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Close_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Image", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Email", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Username", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Bio", null);
+    $.$hyoo_realworld_profile_page = $hyoo_realworld_profile_page;
 })($ || ($ = {}));
-//sign.view.tree.js.map
+//page.view.tree.js.map
 ;
 "use strict";
 var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_realworld_sign extends $.$hyoo_realworld_sign {
-            sub() {
-                if (this.$.$mol_state_arg.value('sign') === 'up') {
-                    return [this.Sign_up()];
-                }
-                return [this.Sign_in()];
+        class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
+            sign_out() {
+                this.$.$hyoo_realworld_domain.sign_out();
+                this.$.$mol_state_arg.value('person', null);
+                this.$.$mol_state_arg.value('section', 'articles');
             }
         }
-        $$.$hyoo_realworld_sign = $hyoo_realworld_sign;
+        $$.$hyoo_realworld_profile_page = $hyoo_realworld_profile_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
-//sign.view.js.map
+//page.view.js.map
 ;
 "use strict";
 var $;
 (function ($) {
     class $hyoo_realworld extends $.$mol_book2 {
+        Menu() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$hyoo_realworld_home_page());
+        }
         Tags() {
             return ((obj) => {
                 return obj;
@@ -9069,12 +9286,25 @@ var $;
                 return obj;
             })(new this.$.$hyoo_realworld_article_edit());
         }
-        Sign() {
+        Sign_in() {
             return ((obj) => {
                 return obj;
-            })(new this.$.$hyoo_realworld_sign());
+            })(new this.$.$hyoo_realworld_sign_in());
+        }
+        Sign_up() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$hyoo_realworld_sign_up());
+        }
+        Profile() {
+            return ((obj) => {
+                return obj;
+            })(new this.$.$hyoo_realworld_profile_page());
         }
     }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld.prototype, "Menu", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld.prototype, "Tags", null);
@@ -9089,7 +9319,13 @@ var $;
     ], $hyoo_realworld.prototype, "Article_edit", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld.prototype, "Sign", null);
+    ], $hyoo_realworld.prototype, "Sign_in", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld.prototype, "Sign_up", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld.prototype, "Profile", null);
     $.$hyoo_realworld = $hyoo_realworld;
 })($ || ($ = {}));
 //realworld.view.tree.js.map
@@ -9123,25 +9359,30 @@ var $;
                 return this.$.$mol_state_arg.value('sign');
             }
             tag() {
-                return this.$.$mol_state_arg.value('tag') || '';
+                return this.$.$mol_state_arg.value('tag');
             }
             signed() {
                 return Boolean(this.$.$hyoo_realworld_domain.token());
             }
+            section(name) {
+                return this.$.$mol_state_arg.value('section') === name;
+            }
             pages() {
                 var _a, _b;
                 return [
-                    this.Tags(),
-                    this.Feed(this.tag()),
+                    this.Menu(),
+                    ...this.section('profile') ? [this.Profile()] : [],
+                    ...this.section('articles') ? [this.Feed('')] : [],
+                    ...this.section('tags') ? [this.Tags()] : [],
+                    ...this.tag() ? [this.Feed(this.tag())] : [],
+                    ...this.section('signin') ? [this.Sign_in()] : [],
+                    ...this.section('signup') ? [this.Sign_up()] : [],
                     ...this.article() ? [this.Article((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug)] : [],
                     ...(this.edit() && this.signed()) ? [this.Article_edit((_b = this.article()) === null || _b === void 0 ? void 0 : _b.slug)] : [],
-                    ...(this.edit() && !this.signed()) ? [this.Sign()] : [],
+                    ...(this.edit() && !this.signed()) ? [this.Sign_in()] : [],
                 ];
             }
         }
-        __decorate([
-            $.$mol_mem
-        ], $hyoo_realworld.prototype, "article", null);
         __decorate([
             $.$mol_mem
         ], $hyoo_realworld.prototype, "edit", null);
