@@ -4,10 +4,11 @@ namespace $.$$ {
 
 		@ $mol_mem
 		article() {
+			
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
 			
-			return this.$.$hyoo_realworld_domain.article( slug )
+			return this.$.$hyoo_realworld_article.item( slug )
 		}
 
 		@ $mol_mem
@@ -26,7 +27,7 @@ namespace $.$$ {
 		}
 
 		signed() {
-			return Boolean( this.$.$hyoo_realworld_domain.token() )
+			return this.$.$hyoo_realworld_sign.signed()
 		}
 
 		pages() {

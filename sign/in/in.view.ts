@@ -4,10 +4,10 @@ namespace $.$$ {
 
 		auth() {
 
-			const person = this.$.$hyoo_realworld_domain.sign_in( {
+			const person = this.$.$hyoo_realworld_sign.auth({
 				email : this.mail() ,
 				password : this.pass() ,
-			} )
+			})
 
 			this.$.$mol_state_arg.value( 'person' , person.username ) 
 			this.$.$mol_state_arg.value( 'sign' , null ) 
