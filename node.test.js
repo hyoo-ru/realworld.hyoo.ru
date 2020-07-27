@@ -4386,6 +4386,121 @@ var $;
 //page.view.tree.js.map
 ;
 "use strict";
+//value.js.map
+;
+"use strict";
+//merge.js.map
+;
+"use strict";
+//undefined.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_setup(value, config) {
+        return Object.assign(value, {
+            config,
+            Value: null
+        });
+    }
+    $.$mol_data_setup = $mol_data_setup;
+})($ || ($ = {}));
+//setup.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_record(sub) {
+        return $.$mol_data_setup((val) => {
+            let res = {};
+            for (const field in sub) {
+                try {
+                    res[field] = sub[field](val[field]);
+                }
+                catch (error) {
+                    if ('then' in error)
+                        return $.$mol_fail_hidden(error);
+                    error.message = `[${JSON.stringify(field)}] ${error.message}`;
+                    return $.$mol_fail(error);
+                }
+            }
+            return res;
+        }, sub);
+    }
+    $.$mol_data_record = $mol_data_record;
+})($ || ($ = {}));
+//record.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_diff_path(...paths) {
+        const limit = Math.min(...paths.map(path => path.length));
+        lookup: for (var i = 0; i < limit; ++i) {
+            const first = paths[0][i];
+            for (let j = 1; j < paths.length; ++j) {
+                if (paths[j][i] !== first)
+                    break lookup;
+            }
+        }
+        return {
+            prefix: paths[0].slice(0, i),
+            suffix: paths.map(path => path.slice(i)),
+        };
+    }
+    $.$mol_diff_path = $mol_diff_path;
+})($ || ($ = {}));
+//path.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_error_mix extends Error {
+        constructor(message, ...errors) {
+            super(message);
+            this.errors = errors;
+            if (errors.length) {
+                const stacks = [...errors.map(error => error.message), this.stack];
+                const diff = $.$mol_diff_path(...stacks.map(stack => {
+                    if (!stack)
+                        return [];
+                    return stack.split('\n').reverse();
+                }));
+                const head = diff.prefix.reverse().join('\n');
+                const tails = diff.suffix.map(path => path.reverse().map(line => line.replace(/^(?!\s+at)/, '\tat (.) ')).join('\n')).join('\n\tat (.) -----\n');
+                this.stack = `Error: ${this.constructor.name}\n\tat (.) /"""\\\n${tails}\n\tat (.) \\___/\n${head}`;
+                this.message += errors.map(error => '\n' + error.message).join('');
+            }
+        }
+        toJSON() {
+            return this.message;
+        }
+    }
+    $.$mol_error_mix = $mol_error_mix;
+})($ || ($ = {}));
+//mix.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_data_error extends $.$mol_error_mix {
+    }
+    $.$mol_data_error = $mol_data_error;
+})($ || ($ = {}));
+//error.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_data_string = (val) => {
+        if (typeof val === 'string')
+            return val;
+        return $.$mol_fail(new $.$mol_data_error(`${val} is not a string`));
+    };
+})($ || ($ = {}));
+//string.js.map
+;
+"use strict";
 var $;
 (function ($) {
     function $mol_dom_parse(text, type = 'application/xhtml+xml') {
@@ -4544,295 +4659,91 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $hyoo_realworld_person {
-    }
-    $.$hyoo_realworld_person = $hyoo_realworld_person;
-})($ || ($ = {}));
-//person.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_article {
-    }
-    $.$hyoo_realworld_article = $hyoo_realworld_article;
-})($ || ($ = {}));
-//article.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_feed {
-    }
-    $.$hyoo_realworld_feed = $hyoo_realworld_feed;
-})($ || ($ = {}));
-//feed.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_range2(item = index => index, size = () => Number.POSITIVE_INFINITY) {
-        return new Proxy(new $mol_range2_array(), {
-            get(target, field) {
-                if (typeof field === 'string') {
-                    if (field === 'length')
-                        return size();
-                    const index = Number(field);
-                    if (index === Math.trunc(index))
-                        return item(index);
-                }
-                return target[field];
-            },
-            set(target, field) {
-                return $.$mol_fail(new TypeError('Lazy range is read only'));
-            },
-            ownKeys(target) {
-                return [...Array(size())].map((v, i) => String(i)).concat('length');
-            },
-            getOwnPropertyDescriptor(target, field) {
-                if (field === "length")
-                    return {
-                        value: size(),
-                        writable: true,
-                        enumerable: false,
-                        configurable: false,
-                    };
-                const index = Number(field);
-                if (index === Math.trunc(index))
-                    return {
-                        get: () => this.get(target, field, this),
-                        enumerable: true,
-                        configurable: true,
-                    };
-                return Object.getOwnPropertyDescriptor(target, field);
-            }
-        });
-    }
-    $.$mol_range2 = $mol_range2;
-    class $mol_range2_array extends Array {
-        concat(...tail) {
-            if (tail.length === 0)
-                return this;
-            if (tail.length > 1) {
-                let list = this;
-                for (let item of tail)
-                    list = list.concat(item);
-                return list;
-            }
-            return $mol_range2(index => index < this.length ? this[index] : tail[0][index - this.length], () => this.length + tail[0].length);
-        }
-        filter(check, context) {
-            const filtered = new $mol_range2_array();
-            for (let index = 0; index < this.length; ++index) {
-                const item = this[index];
-                if (check.call(context, item, index, this))
-                    filtered.push(item);
-            }
-            return filtered;
-        }
-        forEach(proceed, context) {
-            for (let [key, value] of this.entries())
-                proceed.call(context, value, key, this);
-        }
-        map(proceed, context) {
-            return $mol_range2(index => proceed.call(context, this[index], index, this), () => this.length);
-        }
-        reduce(merge, result) {
-            let index = 0;
-            if (arguments.length === 1) {
-                result = this[index++];
-            }
-            for (; index < this.length; ++index) {
-                result = merge(result, this[index], index, this);
-            }
-            return result;
-        }
-        slice(from = 0, to = this.length) {
-            return $mol_range2(index => this[from + index], () => Math.min(to, this.length) - from);
-        }
-        some(check, context) {
-            for (let index = 0; index < this.length; ++index) {
-                if (check.call(context, this[index], index, this))
-                    return true;
-            }
-            return false;
-        }
-        every(check, context) {
-            for (let index = 0; index < this.length; ++index) {
-                if (!check.call(context, this[index], index, this))
-                    return false;
-            }
-            return true;
-        }
-    }
-    $.$mol_range2_array = $mol_range2_array;
-})($ || ($ = {}));
-//range2.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_comment {
-    }
-    $.$hyoo_realworld_comment = $hyoo_realworld_comment;
-})($ || ($ = {}));
-//comment.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_domain_tags {
-    }
-    $.$hyoo_realworld_domain_tags = $hyoo_realworld_domain_tags;
-    class $hyoo_realworld_domain extends $.$mol_object {
+    class $hyoo_realworld_transport extends $.$mol_object2 {
         static api_base() {
             return 'https://conduit.productionready.io/api/';
         }
-        static page_size() {
-            return 20;
+        static token(next) {
+            return this.$.$mol_state_local.value('token', next);
         }
-        static articles_page({ page, tag }) {
-            const uri = `${this.api_base()}articles?limit=${this.page_size()}&offset=${page * this.page_size()}&tag=${tag}`;
-            return this.$.$mol_fetch.json(uri);
-        }
-        static articles(tag = '') {
-            return [...$.$mol_range2(index => {
-                    const page = Math.floor(index / this.page_size());
-                    return new Proxy(new $.$hyoo_realworld_article, {
-                        get: (target, field) => this.articles_page({ tag, page }).articles[index % this.page_size()][field]
-                    });
-                }, () => this.articles_page({ tag, page: 0 }).articlesCount)];
-        }
-        static tags() {
-            const uri = `${this.api_base()}tags`;
-            return this.$.$mol_fetch.json(uri).tags;
-        }
-        static article(slug, article) {
-            if (article)
-                return article;
-            const uri = `${this.api_base()}articles/${slug}`;
-            const res = this.$.$mol_fetch.json(uri);
-            return res.article;
-        }
-        static person_current() {
+        static headers() {
+            const headers = {
+                'Content-Type': 'application/json',
+            };
             const token = this.token();
             if (!token)
-                return null;
-            const uri = `${this.api_base()}user`;
-            const headers = {
-                'Authorization': `Token ${token}`,
-            };
-            const res = this.$.$mol_fetch.json(uri, { headers });
-            return res.user;
+                return headers;
+            return Object.assign(Object.assign({}, headers), { 'Authorization': `Token ${token}` });
         }
-        static comments(slug) {
-            const uri = `${this.api_base()}articles/${slug}/comments`;
-            const res = this.$.$mol_fetch.json(uri);
-            this.comments_fresh(slug);
-            return res.comments;
-        }
-        static comments_fresh(slug, next) {
-            return next || '';
-        }
-        static comment_add(slug, comment) {
-            const uri = `${this.api_base()}articles/${slug}/comments`;
-            const res = this.$.$mol_fetch.json(uri, {
-                method: 'post',
-                headers: {
-                    'Authorization': `Token ${this.token()}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ comment }),
+        static load(path) {
+            return this.$.$mol_fetch.json(this.api_base() + path, {
+                headers: this.headers()
             });
-            this.comments_fresh(slug, res.comment.id);
-            return res.comment;
         }
-        static article_save(article) {
-            const uri = `${this.api_base()}articles/${article.slug || ''}`;
+        static save(path, method, body) {
+            const uri = this.api_base() + path;
             const res = this.$.$mol_fetch.json(uri, {
-                method: article.slug ? 'put' : 'post',
-                headers: {
-                    'Authorization': `Token ${this.token()}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ article }),
+                method,
+                headers: this.headers(),
+                body: JSON.stringify(body),
             });
-            this.article(res.article.slug, res.article);
-            return res.article;
-        }
-        static sign_in(creds) {
-            const uri = `${this.api_base()}users/login`;
-            const res = this.$.$mol_fetch.json(uri, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: creds }),
-            });
-            const person = res.user;
-            this.token(person['token']);
-            return person;
-        }
-        static sign_up(creds) {
-            const uri = `${this.api_base()}users`;
-            const res = this.$.$mol_fetch.json(uri, {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: creds }),
-            });
-            const person = res.user;
-            this.token(person['token']);
-            return person;
-        }
-        static sign_out() {
-            this.token('');
-        }
-        static token(next) {
-            var _a;
-            return (_a = this.$.$mol_state_local.value('token', next)) !== null && _a !== void 0 ? _a : '';
+            return res;
         }
     }
     __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_domain, "articles_page", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_domain, "articles", null);
+        $.$mol_mem
+    ], $hyoo_realworld_transport, "token", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_domain, "tags", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_domain, "article", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_domain, "person_current", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_domain, "comments", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_domain, "comments_fresh", null);
+    ], $hyoo_realworld_transport, "headers", null);
     __decorate([
         $.$mol_fiber.method
-    ], $hyoo_realworld_domain, "comment_add", null);
+    ], $hyoo_realworld_transport, "load", null);
     __decorate([
         $.$mol_fiber.method
-    ], $hyoo_realworld_domain, "article_save", null);
-    __decorate([
-        $.$mol_fiber.method
-    ], $hyoo_realworld_domain, "sign_in", null);
-    __decorate([
-        $.$mol_fiber.method
-    ], $hyoo_realworld_domain, "sign_up", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_domain, "token", null);
-    $.$hyoo_realworld_domain = $hyoo_realworld_domain;
+    ], $hyoo_realworld_transport, "save", null);
+    $.$hyoo_realworld_transport = $hyoo_realworld_transport;
 })($ || ($ = {}));
-//domain.js.map
+//transport.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    const Response = $.$mol_data_record({
+        user: $.$mol_data_record({
+            token: $.$mol_data_string,
+            username: $.$mol_data_string,
+        }),
+    });
+    class $hyoo_realworld_sign extends $.$mol_object2 {
+        static auth(creds) {
+            const res = this.$.$hyoo_realworld_transport.save(`users/login`, 'post', { user: creds });
+            const person = Response(res).user;
+            this.$.$hyoo_realworld_transport.token(person.token);
+            return person;
+        }
+        static register(creds) {
+            const res = this.$.$hyoo_realworld_transport.save(`users/login`, 'post', { user: creds });
+            const person = Response(res).user;
+            this.$.$hyoo_realworld_transport.token(person.token);
+            return person;
+        }
+        static signed() {
+            return Boolean(this.$.$hyoo_realworld_transport.token());
+        }
+        static drop() {
+            this.$.$hyoo_realworld_transport.token('');
+        }
+    }
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_sign, "auth", null);
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_sign, "register", null);
+    $.$hyoo_realworld_sign = $hyoo_realworld_sign;
+})($ || ($ = {}));
+//sign.js.map
 ;
 "use strict";
 var $;
@@ -4848,13 +4759,56 @@ var $;
     (function ($$) {
         class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
             body() {
-                return Boolean(this.$.$hyoo_realworld_domain.token()) ? this.signed_links() : this.unsigned_links();
+                return Boolean(this.$.$hyoo_realworld_sign.signed()) ? this.signed_links() : this.unsigned_links();
             }
         }
         $$.$hyoo_realworld_home_page = $hyoo_realworld_home_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //page.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_array(sub) {
+        return $.$mol_data_setup((val) => {
+            if (!Array.isArray(val))
+                return $.$mol_fail(new $.$mol_data_error(`${val} is not an array`));
+            return val.map((item, index) => {
+                try {
+                    return sub(item);
+                }
+                catch (error) {
+                    if ('then' in error)
+                        return $.$mol_fail_hidden(error);
+                    error.message = `[${index}] ${error.message}`;
+                    return $.$mol_fail(error);
+                }
+            });
+        }, sub);
+    }
+    $.$mol_data_array = $mol_data_array;
+})($ || ($ = {}));
+//array.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$hyoo_realworld_tags_json = $.$mol_data_array($.$mol_data_string);
+    const Response = $.$mol_data_record({
+        tags: $.$hyoo_realworld_tags_json,
+    });
+    class $hyoo_realworld_tags extends $.$mol_object2 {
+        static list() {
+            return Response(this.$.$hyoo_realworld_transport.load(`tags`)).tags;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_tags, "list", null);
+    $.$hyoo_realworld_tags = $hyoo_realworld_tags;
+})($ || ($ = {}));
+//tags.js.map
 ;
 "use strict";
 var $;
@@ -5156,7 +5110,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
             tags() {
-                return this.$.$hyoo_realworld_domain.tags();
+                return this.$.$hyoo_realworld_tags.list();
             }
             tag_links() {
                 return this.tags().map((tag, index) => this.Tag_link(index));
@@ -5184,6 +5138,736 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //page.view.js.map
+;
+"use strict";
+//unary.js.map
+;
+"use strict";
+//tail.js.map
+;
+"use strict";
+//foot.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_pipe(...funcs) {
+        return $.$mol_data_setup((input) => {
+            let value = input;
+            for (const func of funcs)
+                value = func.prototype ? new func(value) : func(value);
+            return value;
+        }, { funcs });
+    }
+    $.$mol_data_pipe = $mol_data_pipe;
+})($ || ($ = {}));
+//pipe.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_time_base {
+        static formatter(pattern) {
+            if (this.patterns[pattern])
+                return this.patterns[pattern];
+            var tokens = Object.keys(this.patterns)
+                .sort()
+                .reverse()
+                .map((token) => token.replace(/([-+*.\[\]()\^])/g, '\\$1'));
+            var lexer = RegExp('(.*?)(' + tokens.join('|') + '|$)', 'g');
+            var funcs = [];
+            pattern.replace(lexer, (str, text, token) => {
+                if (text)
+                    funcs.push(() => text);
+                if (token)
+                    funcs.push(this.patterns[token]);
+                return str;
+            });
+            return this.patterns[pattern] = (arg) => {
+                return funcs.reduce((res, func) => res + func(arg), '');
+            };
+        }
+        toString(pattern) {
+            var Base = this.constructor;
+            var formatter = Base.formatter(pattern);
+            return formatter.call(Base, this);
+        }
+    }
+    $mol_time_base.patterns = {};
+    $.$mol_time_base = $mol_time_base;
+})($ || ($ = {}));
+//base.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_time_duration extends $.$mol_time_base {
+        constructor(config = 0) {
+            super();
+            this.year = 0;
+            this.month = 0;
+            this.day = 0;
+            this.hour = 0;
+            this.minute = 0;
+            this.second = 0;
+            if (typeof config === 'number') {
+                this.second = config / 1000;
+                return;
+            }
+            if (typeof config === 'string') {
+                if (config === 'Z') {
+                    this.hour = 0;
+                    this.minute = 0;
+                    return;
+                }
+                duration: {
+                    const parser = /^P(?:([+-]?\d+(?:\.\d+)?)Y)?(?:([+-]?\d+(?:\.\d+)?)M)?(?:([+-]?\d+(?:\.\d+)?)D)?(?:T(?:([+-]?\d+(?:\.\d+)?)h)?(?:([+-]?\d+(?:\.\d+)?)m)?(?:([+-]?\d+(?:\.\d+)?)s)?)?$/i;
+                    const found = parser.exec(config);
+                    if (!found)
+                        break duration;
+                    if (found[1])
+                        this.year = Number(found[1]);
+                    if (found[2])
+                        this.month = Number(found[2]);
+                    if (found[3])
+                        this.day = Number(found[3]);
+                    if (found[4])
+                        this.hour = Number(found[4]);
+                    if (found[5])
+                        this.minute = Number(found[5]);
+                    if (found[6])
+                        this.second = Number(found[6]);
+                    return;
+                }
+                offset: {
+                    var parser = /^[+-](\d\d)(?::?(\d\d))?$/i;
+                    var found = parser.exec(config);
+                    if (!found)
+                        break offset;
+                    if (found[1])
+                        this.hour = Number(found[1]);
+                    if (found[2])
+                        this.minute = Number(found[2]);
+                    return;
+                }
+                throw new Error(`Can not parse time duration (${config})`);
+            }
+            this.year = config.year || 0;
+            this.month = config.month || 0;
+            this.day = config.day || 0;
+            this.hour = config.hour || 0;
+            this.minute = config.minute || 0;
+            this.second = config.second || 0;
+        }
+        summ(config) {
+            const duration = new $mol_time_duration(config);
+            return new $mol_time_duration({
+                year: this.year + duration.year,
+                month: this.month + duration.month,
+                day: this.day + duration.day,
+                hour: this.hour + duration.hour,
+                minute: this.minute + duration.minute,
+                second: this.second + duration.second,
+            });
+        }
+        mult(numb) {
+            return new $mol_time_duration({
+                year: this.year && this.year * numb,
+                month: this.month && this.month * numb,
+                day: this.day && this.day * numb,
+                hour: this.hour && this.hour * numb,
+                minute: this.minute && this.minute * numb,
+                second: this.second && this.second * numb,
+            });
+        }
+        count(config) {
+            const duration = new $mol_time_duration(config);
+            return this.valueOf() / duration.valueOf();
+        }
+        valueOf() {
+            var day = this.year * 365 + this.month * 30.4 + this.day;
+            var second = ((day * 24 + this.hour) * 60 + this.minute) * 60 + this.second;
+            return second * 1000;
+        }
+        toJSON() { return this.toString(); }
+        toString(pattern = 'P#Y#M#DT#h#m#s') {
+            return super.toString(pattern);
+        }
+    }
+    $mol_time_duration.patterns = {
+        '#Y': (duration) => {
+            if (!duration.year)
+                return '';
+            return duration.year + 'Y';
+        },
+        '#M': (duration) => {
+            if (!duration.month)
+                return '';
+            return duration.month + 'M';
+        },
+        '#D': (duration) => {
+            if (!duration.day)
+                return '';
+            return duration.day + 'D';
+        },
+        '#h': (duration) => {
+            if (!duration.hour)
+                return '';
+            return duration.hour + 'H';
+        },
+        '#m': (duration) => {
+            if (!duration.minute)
+                return '';
+            return duration.minute + 'M';
+        },
+        '#s': (duration) => {
+            if (!duration.second)
+                return '';
+            return duration.second + 'S';
+        },
+        '+hh': (duration) => {
+            var hour = duration.hour;
+            var sign = '+';
+            if (hour < 0) {
+                sign = '-';
+                hour = -hour;
+            }
+            return (hour < 10)
+                ? (sign + '0' + hour)
+                : (sign + hour);
+        },
+        'mm': (duration) => {
+            return (duration.minute < 10)
+                ? ('0' + duration.minute)
+                : String(duration.minute);
+        },
+    };
+    $.$mol_time_duration = $mol_time_duration;
+})($ || ($ = {}));
+//duration.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_time_moment extends $.$mol_time_base {
+        constructor(config = new Date) {
+            super();
+            if (typeof config === 'number')
+                config = new Date(config);
+            if (typeof config === 'string') {
+                const parsed = /^(?:(\d\d\d\d)(?:-?(\d\d)(?:-?(\d\d))?)?)?(?:[T ](\d\d)(?::?(\d\d)(?::?(\d\d(?:\.\d+)?))?)?(Z|[\+\-]\d\d(?::?(?:\d\d)?)?)?)?$/.exec(config);
+                if (!parsed)
+                    throw new Error(`Can not parse time moment (${config})`);
+                if (parsed[1])
+                    this.year = Number(parsed[1]);
+                if (parsed[2])
+                    this.month = Number(parsed[2]) - 1;
+                if (parsed[3])
+                    this.day = Number(parsed[3]) - 1;
+                if (parsed[4])
+                    this.hour = Number(parsed[4]);
+                if (parsed[5])
+                    this.minute = Number(parsed[5]);
+                if (parsed[6])
+                    this.second = Number(parsed[6]);
+                if (parsed[7])
+                    this.offset = new $.$mol_time_duration(parsed[7]);
+                return;
+            }
+            if (config instanceof Date) {
+                this.year = config.getFullYear();
+                this.month = config.getMonth();
+                this.day = config.getDate() - 1;
+                this.hour = config.getHours();
+                this.minute = config.getMinutes();
+                this.second = config.getSeconds() + config.getMilliseconds() / 1000;
+                const offset = -config.getTimezoneOffset();
+                this.offset = new $.$mol_time_duration({
+                    hour: (offset < 0) ? Math.ceil(offset / 60) : Math.floor(offset / 60),
+                    minute: offset % 60
+                });
+                return;
+            }
+            this.year = config.year;
+            this.month = config.month;
+            this.day = config.day;
+            this.hour = config.hour;
+            this.minute = config.minute;
+            this.second = config.second;
+            this.offset = config.offset == null ? config.offset : new $.$mol_time_duration(config.offset);
+        }
+        get weekday() {
+            return (this.native.getDay() + 6) % 7;
+        }
+        get native() {
+            var _a, _b, _c, _d, _e;
+            if (this._native)
+                return this._native;
+            const utc = this.toOffset('Z');
+            return this._native = new Date(Date.UTC((_a = utc.year) !== null && _a !== void 0 ? _a : 0, (_b = utc.month) !== null && _b !== void 0 ? _b : 0, ((_c = utc.day) !== null && _c !== void 0 ? _c : 0) + 1, (_d = utc.hour) !== null && _d !== void 0 ? _d : 0, (_e = utc.minute) !== null && _e !== void 0 ? _e : 0, utc.second != undefined ? Math.floor(utc.second) : 0, utc.second != undefined ? Math.floor((utc.second - Math.floor(utc.second)) * 1000) : 0));
+        }
+        get normal() {
+            if (this._normal)
+                return this._normal;
+            const moment = new $mol_time_moment(this.native);
+            return this._normal = new $mol_time_moment({
+                year: this.year === undefined ? undefined : moment.year,
+                month: this.month === undefined ? undefined : moment.month,
+                day: this.day === undefined ? undefined : moment.day,
+                hour: this.hour === undefined ? undefined : moment.hour,
+                minute: this.minute === undefined ? undefined : moment.minute,
+                second: this.second === undefined ? undefined : moment.second,
+                offset: this.offset === undefined ? undefined : moment.offset,
+            });
+        }
+        merge(config) {
+            const moment = new $mol_time_moment(config);
+            return new $mol_time_moment({
+                year: moment.year === undefined ? this.year : moment.year,
+                month: moment.month === undefined ? this.month : moment.month,
+                day: moment.day === undefined ? this.day : moment.day,
+                hour: moment.hour === undefined ? this.hour : moment.hour,
+                minute: moment.minute === undefined ? this.minute : moment.minute,
+                second: moment.second === undefined ? this.second : moment.second,
+                offset: moment.offset === undefined ? this.offset : moment.offset,
+            });
+        }
+        shift(config) {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+            const duration = new $.$mol_time_duration(config);
+            const moment = new $mol_time_moment().merge({
+                year: this.year,
+                month: this.month,
+                day: this.day,
+                hour: (_a = this.hour) !== null && _a !== void 0 ? _a : 0,
+                minute: (_b = this.minute) !== null && _b !== void 0 ? _b : 0,
+                second: (_c = this.second) !== null && _c !== void 0 ? _c : 0,
+                offset: (_d = this.offset) !== null && _d !== void 0 ? _d : 0
+            });
+            const second = moment.second + ((_e = duration.second) !== null && _e !== void 0 ? _e : 0);
+            const native = new Date(moment.year + ((_f = duration.year) !== null && _f !== void 0 ? _f : 0), moment.month + ((_g = duration.month) !== null && _g !== void 0 ? _g : 0), moment.day + 1 + ((_h = duration.day) !== null && _h !== void 0 ? _h : 0), moment.hour + ((_j = duration.hour) !== null && _j !== void 0 ? _j : 0), moment.minute + ((_k = duration.minute) !== null && _k !== void 0 ? _k : 0), Math.floor(second), (second - Math.floor(second)) * 1000);
+            if (isNaN(native.valueOf()))
+                throw new Error('Wrong time');
+            return new $mol_time_moment({
+                year: this.year === undefined ? undefined : native.getFullYear(),
+                month: this.month === undefined ? undefined : native.getMonth(),
+                day: this.day === undefined ? undefined : native.getDate() - 1,
+                hour: this.hour === undefined ? undefined : native.getHours(),
+                minute: this.minute === undefined ? undefined : native.getMinutes(),
+                second: this.second === undefined ? undefined : native.getSeconds() + native.getMilliseconds() / 1000,
+                offset: this.offset,
+            });
+        }
+        toOffset(config) {
+            if (this.hour === undefined)
+                return this;
+            if (this.minute === undefined)
+                return this;
+            if (this.second === undefined)
+                return this;
+            const duration = new $.$mol_time_duration(config);
+            const offset = this.offset || new $mol_time_moment().offset;
+            const moment = this.shift(duration.summ(offset.mult(-1)));
+            return moment.merge({ offset: duration });
+        }
+        valueOf() { return this.native.getTime(); }
+        toJSON() { return this.toString(); }
+        toString(pattern = 'YYYY-MM-DDThh:mm:ss.sssZ') {
+            return super.toString(pattern);
+        }
+    }
+    $mol_time_moment.patterns = {
+        'YYYY': (moment) => {
+            if (moment.year == null)
+                return '';
+            return String(moment.year);
+        },
+        'AD': (moment) => {
+            if (moment.year == null)
+                return '';
+            return String(Math.floor(moment.year / 100) + 1);
+        },
+        'YY': (moment) => {
+            if (moment.year == null)
+                return '';
+            return String(moment.year % 100);
+        },
+        'Month': (moment) => {
+            if (moment.month == null)
+                return '';
+            return moment.native.toLocaleString(undefined, { month: 'long' });
+        },
+        'DD Month': (moment) => {
+            return moment.native.toLocaleString(undefined, { day: '2-digit', month: 'long' });
+        },
+        'D Month': (moment) => {
+            return moment.native.toLocaleString(undefined, { day: 'numeric', month: 'long' });
+        },
+        'Mon': (moment) => {
+            if (moment.month == null)
+                return '';
+            return moment.native.toLocaleString(undefined, { month: 'short' });
+        },
+        'DD Mon': (moment) => {
+            return moment.native.toLocaleString(undefined, { day: '2-digit', month: 'short' });
+        },
+        'D Mon': (moment) => {
+            return moment.native.toLocaleString(undefined, { day: 'numeric', month: 'short' });
+        },
+        '-MM': (moment) => {
+            if (moment.month == null)
+                return '';
+            return '-' + $mol_time_moment.patterns['MM'](moment);
+        },
+        'MM': (moment) => {
+            if (moment.month == null)
+                return '';
+            const month = moment.month + 1;
+            return (month < 10)
+                ? ('0' + month)
+                : ('' + month);
+        },
+        'M': (moment) => {
+            if (moment.month == null)
+                return '';
+            return String(moment.month + 1);
+        },
+        'WeekDay': (moment) => {
+            if (moment.weekday == null)
+                return '';
+            return moment.native.toLocaleString(undefined, { weekday: 'long' });
+        },
+        'WD': (moment) => {
+            if (moment.weekday == null)
+                return '';
+            return moment.native.toLocaleString(undefined, { weekday: 'short' });
+        },
+        '-DD': (moment) => {
+            if (moment.day == null)
+                return '';
+            return '-' + $mol_time_moment.patterns['DD'](moment);
+        },
+        'DD': (moment) => {
+            if (moment.day == null)
+                return '';
+            const day = moment.day + 1;
+            return (day < 10)
+                ? ('0' + day)
+                : String(day);
+        },
+        'D': (moment) => {
+            if (moment.day == null)
+                return '';
+            return String(moment.day + 1);
+        },
+        'Thh': (moment) => {
+            if (moment.hour == null)
+                return '';
+            return 'T' + $mol_time_moment.patterns['hh'](moment);
+        },
+        'hh': (moment) => {
+            if (moment.hour == null)
+                return '';
+            return (moment.hour < 10)
+                ? ('0' + moment.hour)
+                : String(moment.hour);
+        },
+        'h': (moment) => {
+            if (moment.hour == null)
+                return '';
+            return String(moment.hour);
+        },
+        ':mm': (moment) => {
+            if (moment.minute == null)
+                return '';
+            return ':' + $mol_time_moment.patterns['mm'](moment);
+        },
+        'mm': (moment) => {
+            if (moment.minute == null)
+                return '';
+            return (moment.minute < 10)
+                ? ('0' + moment.minute)
+                : String(moment.minute);
+        },
+        'm': (moment) => {
+            if (moment.minute == null)
+                return '';
+            return String(moment.minute);
+        },
+        ':ss': (moment) => {
+            if (moment.second == null)
+                return '';
+            return ':' + $mol_time_moment.patterns['ss'](moment);
+        },
+        'ss': (moment) => {
+            if (moment.second == null)
+                return '';
+            const second = Math.floor(moment.second);
+            return (second < 10)
+                ? ('0' + second)
+                : String(second);
+        },
+        's': (moment) => {
+            if (moment.second == null)
+                return '';
+            return String(Math.floor(moment.second));
+        },
+        '.sss': (moment) => {
+            if (moment.second == null)
+                return '';
+            if (moment.second - Math.floor(moment.second) === 0)
+                return '';
+            return '.' + $mol_time_moment.patterns['sss'](moment);
+        },
+        'sss': (moment) => {
+            if (moment.second == null)
+                return '';
+            const millisecond = Math.floor((moment.second - Math.floor(moment.second)) * 1000);
+            return (millisecond < 10)
+                ? ('00' + millisecond)
+                : (millisecond < 100)
+                    ? ('0' + millisecond)
+                    : String(millisecond);
+        },
+        'Z': (moment) => {
+            const offset = moment.offset;
+            if (!offset)
+                return '';
+            return offset.toString('+hh:mm');
+        }
+    };
+    $.$mol_time_moment = $mol_time_moment;
+})($ || ($ = {}));
+//moment.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_nullable(sub) {
+        return $.$mol_data_setup((val) => {
+            if (val === null)
+                return null;
+            return sub(val);
+        }, sub);
+    }
+    $.$mol_data_nullable = $mol_data_nullable;
+})($ || ($ = {}));
+//nullable.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_data_boolean = (val) => {
+        if (typeof val === 'boolean')
+            return val;
+        return $.$mol_fail(new $.$mol_data_error(`${val} is not a boolean`));
+    };
+})($ || ($ = {}));
+//boolean.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$hyoo_realworld_person_json = $.$mol_data_record({
+        username: $.$mol_data_string,
+        bio: $.$mol_data_nullable($.$mol_data_string),
+        image: $.$mol_data_string,
+        following: $.$mol_data_boolean,
+    });
+    const Response = $.$mol_data_record({
+        profile: $.$hyoo_realworld_person_json,
+    });
+    class $hyoo_realworld_person extends $.$mol_object2 {
+        static item(username) {
+            const obj = new this;
+            obj.name = $.$mol_const(username);
+            return obj;
+        }
+        name() {
+            return '';
+        }
+        biography() {
+            return this.json().bio;
+        }
+        avatar() {
+            return this.json().image;
+        }
+        json(next) {
+            if (next)
+                return next;
+            const uri = `profiles/${this.name()}`;
+            const json = Response(this.$.$hyoo_realworld_transport.load(uri)).profile;
+            return json;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_person.prototype, "json", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_person, "item", null);
+    $.$hyoo_realworld_person = $hyoo_realworld_person;
+})($ || ($ = {}));
+//person.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_data_number = (val) => {
+        if (typeof val === 'number')
+            return val;
+        return $.$mol_fail(new $.$mol_data_error(`${val} is not a number`));
+    };
+})($ || ($ = {}));
+//number.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_integer(val) {
+        const val2 = $.$mol_data_number(val);
+        if (Math.floor(val2) === val2)
+            return val2;
+        return $.$mol_fail(new $.$mol_data_error(`${val} is not an integer`));
+    }
+    $.$mol_data_integer = $mol_data_integer;
+})($ || ($ = {}));
+//integer.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$hyoo_realworld_article_json = $.$mol_data_record({
+        title: $.$mol_data_string,
+        slug: $.$mol_data_string,
+        body: $.$mol_data_string,
+        createdAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+        updatedAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+        tagList: $.$hyoo_realworld_tags_json,
+        description: $.$mol_data_string,
+        author: $.$hyoo_realworld_person_json,
+        favorited: $.$mol_data_boolean,
+        favoritesCount: $.$mol_data_integer,
+    });
+    const Response_one = $.$mol_data_record({
+        article: $.$hyoo_realworld_article_json,
+    });
+    const Response_page = $.$mol_data_record({
+        articles: $.$mol_data_array($.$hyoo_realworld_article_json),
+        articlesCount: $.$mol_data_integer,
+    });
+    class $hyoo_realworld_article extends $.$mol_object2 {
+        static item(slug) {
+            const obj = new this;
+            obj.slug = $.$mol_const(slug);
+            return obj;
+        }
+        slug() {
+            return '';
+        }
+        title() {
+            return this.json().title;
+        }
+        description() {
+            return this.json().description;
+        }
+        body() {
+            return this.json().body;
+        }
+        author() {
+            var _a;
+            const id = (_a = this.json()) === null || _a === void 0 ? void 0 : _a.author.username;
+            return this.$.$hyoo_realworld_person.item(id);
+        }
+        tags() {
+            return this.json().tagList;
+        }
+        comments() {
+            return this.$.$hyoo_realworld_comment.list(this);
+        }
+        json(next) {
+            if (!next) {
+                const uri = `articles/${this.slug()}`;
+                next = Response_one(this.$.$hyoo_realworld_transport.load(uri)).article;
+            }
+            const author = this.$.$hyoo_realworld_person.item(next.author.username);
+            author.json(next.author);
+            return next;
+        }
+        static changes(next = '') {
+            return next;
+        }
+        static save(next) {
+            const uri = `articles/${next.slug}`;
+            const method = next.slug ? 'put' : 'post';
+            const res = this.$.$hyoo_realworld_transport.save(uri, method, next);
+            const json = Response_one(res).article;
+            const article = this.item(json.slug);
+            article.json(json);
+            this.changes(json.slug);
+            return article;
+        }
+        static list(tag) {
+            const page_size = this.page_size();
+            return Array.from({ length: this.count_total(tag) }, (_, index) => {
+                const page = Math.floor(index / page_size);
+                return $.$mol_delegate($hyoo_realworld_article.prototype, () => this.list_page({ tag, page })[index % page_size]);
+            });
+        }
+        static page_size() {
+            return 20;
+        }
+        static count_total(tag) {
+            return this.list_page_json({ tag, page: 0 }).articlesCount;
+        }
+        static list_page(id) {
+            return this.list_page_json(id).articles.map(json => this.$.$hyoo_realworld_article.item(json.slug));
+        }
+        static list_page_json(id) {
+            this.changes();
+            const limit = this.page_size();
+            const offset = id.page * limit;
+            const url = `articles?tag=${encodeURIComponent(id.tag)}&offset=${offset}&limit=${limit}`;
+            const json = Response_page(this.$.$hyoo_realworld_transport.load(url));
+            for (const article of json.articles) {
+                this.$.$hyoo_realworld_article.item(article.slug).json(article);
+            }
+            return json;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article.prototype, "json", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_article, "item", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article, "changes", null);
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_article, "save", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_article, "list", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_article, "list_page", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_article, "list_page_json", null);
+    $.$hyoo_realworld_article = $hyoo_realworld_article;
+})($ || ($ = {}));
+//article.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_realworld_feed {
+    }
+    $.$hyoo_realworld_feed = $hyoo_realworld_feed;
+})($ || ($ = {}));
+//feed.js.map
 ;
 "use strict";
 var $;
@@ -5528,16 +6212,16 @@ var $;
     (function ($$) {
         class $hyoo_realworld_article_card extends $.$hyoo_realworld_article_card {
             title() {
-                return this.article().title;
+                return this.article().title();
             }
             descr() {
-                return this.article().description;
+                return this.article().description();
             }
             avatar() {
-                return this.article().author.image;
+                return this.article().author().avatar();
             }
             author_name() {
-                return this.article().author.username;
+                return this.article().author().name();
             }
         }
         $$.$hyoo_realworld_article_card = $hyoo_realworld_article_card;
@@ -5648,13 +6332,13 @@ var $;
                 return this.$.$mol_state_arg.value('tag') || '';
             }
             articles() {
-                return this.$.$hyoo_realworld_domain.articles(this.tag());
+                return this.$.$hyoo_realworld_article.list(this.tag());
             }
             article_links() {
                 return this.articles().map((article, index) => this.Article_link(index));
             }
             article_slug(index) {
-                return this.articles()[index].slug;
+                return this.articles()[index].slug();
             }
             article(index) {
                 return this.articles()[index];
@@ -6441,7 +7125,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/link/iconed/iconed.view.css", "[mol_link_iconed] {\n\talign-items: center;\n\tcolor: var(--mol_theme_control);\n\tdisplay: inline;\n\tpadding: .5rem;\n}\n\n[mol_link_iconed_icon] {\n\tbox-shadow: none;\n\tmargin-right: 2px;\n\theight: 1em;\n\twidth: 1em;\n\tvertical-align: -25%;\n\tdisplay: inline-block;\n\tmargin: .25rem;\n}\n\n[mol_theme=\"$mol_theme_dark\"] [mol_link_iconed_icon] {\n\tfilter: invert(1) hue-rotate(180deg);\n}\n");
+    $.$mol_style_attach("mol/link/iconed/iconed.view.css", "[mol_link_iconed] {\n\talign-items: center;\n\tcolor: var(--mol_theme_control);\n\tdisplay: inline;\n\tpadding: .5rem;\n}\n\n[mol_link_iconed_icon] {\n\tbox-shadow: none;\n\theight: 1em;\n\twidth: 1em;\n\tdisplay: inline-block;\n\tmargin: -.25rem .25rem 0;\n\tvertical-align: middle;\n}\n\n[mol_theme=\"$mol_theme_dark\"] [mol_link_iconed_icon] {\n\tfilter: invert(1) hue-rotate(180deg);\n}\n");
 })($ || ($ = {}));
 //iconed.view.css.js.map
 ;
@@ -7013,6 +7697,89 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$hyoo_realworld_comment_json = $.$mol_data_record({
+        author: $.$hyoo_realworld_person_json,
+        id: $.$mol_data_integer,
+        body: $.$mol_data_string,
+        createdAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+        updatedAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+    });
+    const Response_one = $.$mol_data_record({
+        comment: $.$hyoo_realworld_comment_json,
+    });
+    const Response_list = $.$mol_data_record({
+        comments: $.$mol_data_array($.$hyoo_realworld_comment_json),
+    });
+    class $hyoo_realworld_comment extends $.$mol_object2 {
+        static item(id) {
+            const obj = new this;
+            obj.id = $.$mol_const(id);
+            return obj;
+        }
+        id() {
+            return 0;
+        }
+        body() {
+            return this.json().body;
+        }
+        updated_moment() {
+            return this.json().updatedAt;
+        }
+        author() {
+            var _a;
+            const id = (_a = this.json()) === null || _a === void 0 ? void 0 : _a.author.username;
+            return this.$.$hyoo_realworld_person.item(id);
+        }
+        json(next = {}) {
+            const author = this.$.$hyoo_realworld_person.item(next.author.username);
+            author.json(next.author);
+            return next;
+        }
+        static changes(next = 0) {
+            return next;
+        }
+        static save(article, next) {
+            const uri = `articles/${article}/comments`;
+            const res = this.$.$hyoo_realworld_transport.save(uri, 'post', next);
+            const json = Response_one(res).comment;
+            const comment = this.item(json.id);
+            comment.json(json);
+            this.changes(json.id);
+            return article;
+        }
+        static list(article) {
+            this.changes();
+            const url = `articles/${article.slug()}/comments`;
+            const json = Response_list(this.$.$hyoo_realworld_transport.load(url));
+            const next = json.comments.map(json => {
+                this.$.$hyoo_realworld_comment.item(json.id).json(json);
+                return this.$.$hyoo_realworld_comment.item(json.id);
+            });
+            return next;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment.prototype, "json", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_comment, "item", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment, "changes", null);
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_comment, "save", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_comment, "list", null);
+    $.$hyoo_realworld_comment = $hyoo_realworld_comment;
+})($ || ($ = {}));
+//comment.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_bar extends $.$mol_view {
     }
     $.$mol_bar = $mol_bar;
@@ -7435,7 +8202,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_comment_add extends $.$hyoo_realworld_comment_add {
             post() {
-                this.$.$hyoo_realworld_domain.comment_add(this.article().slug, { body: this.message() });
+                this.$.$hyoo_realworld_comment.save(this.article().slug(), { body: this.message() });
                 this.message('');
                 return null;
             }
@@ -7453,483 +8220,6 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //add.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_time_base {
-        static formatter(pattern) {
-            if (this.patterns[pattern])
-                return this.patterns[pattern];
-            var tokens = Object.keys(this.patterns)
-                .sort()
-                .reverse()
-                .map((token) => token.replace(/([-+*.\[\]()\^])/g, '\\$1'));
-            var lexer = RegExp('(.*?)(' + tokens.join('|') + '|$)', 'g');
-            var funcs = [];
-            pattern.replace(lexer, (str, text, token) => {
-                if (text)
-                    funcs.push(() => text);
-                if (token)
-                    funcs.push(this.patterns[token]);
-                return str;
-            });
-            return this.patterns[pattern] = (arg) => {
-                return funcs.reduce((res, func) => res + func(arg), '');
-            };
-        }
-        toString(pattern) {
-            var Base = this.constructor;
-            var formatter = Base.formatter(pattern);
-            return formatter.call(Base, this);
-        }
-    }
-    $mol_time_base.patterns = {};
-    $.$mol_time_base = $mol_time_base;
-})($ || ($ = {}));
-//base.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_time_duration extends $.$mol_time_base {
-        constructor(config = 0) {
-            super();
-            this.year = 0;
-            this.month = 0;
-            this.day = 0;
-            this.hour = 0;
-            this.minute = 0;
-            this.second = 0;
-            if (typeof config === 'number') {
-                this.second = config / 1000;
-                return;
-            }
-            if (typeof config === 'string') {
-                if (config === 'Z') {
-                    this.hour = 0;
-                    this.minute = 0;
-                    return;
-                }
-                duration: {
-                    const parser = /^P(?:([+-]?\d+(?:\.\d+)?)Y)?(?:([+-]?\d+(?:\.\d+)?)M)?(?:([+-]?\d+(?:\.\d+)?)D)?(?:T(?:([+-]?\d+(?:\.\d+)?)h)?(?:([+-]?\d+(?:\.\d+)?)m)?(?:([+-]?\d+(?:\.\d+)?)s)?)?$/i;
-                    const found = parser.exec(config);
-                    if (!found)
-                        break duration;
-                    if (found[1])
-                        this.year = Number(found[1]);
-                    if (found[2])
-                        this.month = Number(found[2]);
-                    if (found[3])
-                        this.day = Number(found[3]);
-                    if (found[4])
-                        this.hour = Number(found[4]);
-                    if (found[5])
-                        this.minute = Number(found[5]);
-                    if (found[6])
-                        this.second = Number(found[6]);
-                    return;
-                }
-                offset: {
-                    var parser = /^[+-](\d\d)(?::?(\d\d))?$/i;
-                    var found = parser.exec(config);
-                    if (!found)
-                        break offset;
-                    if (found[1])
-                        this.hour = Number(found[1]);
-                    if (found[2])
-                        this.minute = Number(found[2]);
-                    return;
-                }
-                throw new Error(`Can not parse time duration (${config})`);
-            }
-            this.year = config.year || 0;
-            this.month = config.month || 0;
-            this.day = config.day || 0;
-            this.hour = config.hour || 0;
-            this.minute = config.minute || 0;
-            this.second = config.second || 0;
-        }
-        summ(config) {
-            const duration = new $mol_time_duration(config);
-            return new $mol_time_duration({
-                year: this.year + duration.year,
-                month: this.month + duration.month,
-                day: this.day + duration.day,
-                hour: this.hour + duration.hour,
-                minute: this.minute + duration.minute,
-                second: this.second + duration.second,
-            });
-        }
-        mult(numb) {
-            return new $mol_time_duration({
-                year: this.year && this.year * numb,
-                month: this.month && this.month * numb,
-                day: this.day && this.day * numb,
-                hour: this.hour && this.hour * numb,
-                minute: this.minute && this.minute * numb,
-                second: this.second && this.second * numb,
-            });
-        }
-        count(config) {
-            const duration = new $mol_time_duration(config);
-            return this.valueOf() / duration.valueOf();
-        }
-        valueOf() {
-            var day = this.year * 365 + this.month * 30.4 + this.day;
-            var second = ((day * 24 + this.hour) * 60 + this.minute) * 60 + this.second;
-            return second * 1000;
-        }
-        toJSON() { return this.toString(); }
-        toString(pattern = 'P#Y#M#DT#h#m#s') {
-            return super.toString(pattern);
-        }
-    }
-    $mol_time_duration.patterns = {
-        '#Y': (duration) => {
-            if (!duration.year)
-                return '';
-            return duration.year + 'Y';
-        },
-        '#M': (duration) => {
-            if (!duration.month)
-                return '';
-            return duration.month + 'M';
-        },
-        '#D': (duration) => {
-            if (!duration.day)
-                return '';
-            return duration.day + 'D';
-        },
-        '#h': (duration) => {
-            if (!duration.hour)
-                return '';
-            return duration.hour + 'H';
-        },
-        '#m': (duration) => {
-            if (!duration.minute)
-                return '';
-            return duration.minute + 'M';
-        },
-        '#s': (duration) => {
-            if (!duration.second)
-                return '';
-            return duration.second + 'S';
-        },
-        '+hh': (duration) => {
-            var hour = duration.hour;
-            var sign = '+';
-            if (hour < 0) {
-                sign = '-';
-                hour = -hour;
-            }
-            return (hour < 10)
-                ? (sign + '0' + hour)
-                : (sign + hour);
-        },
-        'mm': (duration) => {
-            return (duration.minute < 10)
-                ? ('0' + duration.minute)
-                : String(duration.minute);
-        },
-    };
-    $.$mol_time_duration = $mol_time_duration;
-})($ || ($ = {}));
-//duration.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_time_moment extends $.$mol_time_base {
-        constructor(config = new Date) {
-            super();
-            if (typeof config === 'number')
-                config = new Date(config);
-            if (typeof config === 'string') {
-                const parsed = /^(?:(\d\d\d\d)(?:-?(\d\d)(?:-?(\d\d))?)?)?(?:[T ](\d\d)(?::?(\d\d)(?::?(\d\d(?:\.\d+)?))?)?(Z|[\+\-]\d\d(?::?(?:\d\d)?)?)?)?$/.exec(config);
-                if (!parsed)
-                    throw new Error(`Can not parse time moment (${config})`);
-                if (parsed[1])
-                    this.year = Number(parsed[1]);
-                if (parsed[2])
-                    this.month = Number(parsed[2]) - 1;
-                if (parsed[3])
-                    this.day = Number(parsed[3]) - 1;
-                if (parsed[4])
-                    this.hour = Number(parsed[4]);
-                if (parsed[5])
-                    this.minute = Number(parsed[5]);
-                if (parsed[6])
-                    this.second = Number(parsed[6]);
-                if (parsed[7])
-                    this.offset = new $.$mol_time_duration(parsed[7]);
-                return;
-            }
-            if (config instanceof Date) {
-                this.year = config.getFullYear();
-                this.month = config.getMonth();
-                this.day = config.getDate() - 1;
-                this.hour = config.getHours();
-                this.minute = config.getMinutes();
-                this.second = config.getSeconds() + config.getMilliseconds() / 1000;
-                const offset = -config.getTimezoneOffset();
-                this.offset = new $.$mol_time_duration({
-                    hour: (offset < 0) ? Math.ceil(offset / 60) : Math.floor(offset / 60),
-                    minute: offset % 60
-                });
-                return;
-            }
-            this.year = config.year;
-            this.month = config.month;
-            this.day = config.day;
-            this.hour = config.hour;
-            this.minute = config.minute;
-            this.second = config.second;
-            this.offset = config.offset == null ? config.offset : new $.$mol_time_duration(config.offset);
-        }
-        get weekday() {
-            return (this.native.getDay() + 6) % 7;
-        }
-        get native() {
-            var _a, _b, _c, _d, _e;
-            if (this._native)
-                return this._native;
-            const utc = this.toOffset('Z');
-            return this._native = new Date(Date.UTC((_a = utc.year) !== null && _a !== void 0 ? _a : 0, (_b = utc.month) !== null && _b !== void 0 ? _b : 0, ((_c = utc.day) !== null && _c !== void 0 ? _c : 0) + 1, (_d = utc.hour) !== null && _d !== void 0 ? _d : 0, (_e = utc.minute) !== null && _e !== void 0 ? _e : 0, utc.second != undefined ? Math.floor(utc.second) : 0, utc.second != undefined ? Math.floor((utc.second - Math.floor(utc.second)) * 1000) : 0));
-        }
-        get normal() {
-            if (this._normal)
-                return this._normal;
-            const moment = new $mol_time_moment(this.native);
-            return this._normal = new $mol_time_moment({
-                year: this.year === undefined ? undefined : moment.year,
-                month: this.month === undefined ? undefined : moment.month,
-                day: this.day === undefined ? undefined : moment.day,
-                hour: this.hour === undefined ? undefined : moment.hour,
-                minute: this.minute === undefined ? undefined : moment.minute,
-                second: this.second === undefined ? undefined : moment.second,
-                offset: this.offset === undefined ? undefined : moment.offset,
-            });
-        }
-        merge(config) {
-            const moment = new $mol_time_moment(config);
-            return new $mol_time_moment({
-                year: moment.year === undefined ? this.year : moment.year,
-                month: moment.month === undefined ? this.month : moment.month,
-                day: moment.day === undefined ? this.day : moment.day,
-                hour: moment.hour === undefined ? this.hour : moment.hour,
-                minute: moment.minute === undefined ? this.minute : moment.minute,
-                second: moment.second === undefined ? this.second : moment.second,
-                offset: moment.offset === undefined ? this.offset : moment.offset,
-            });
-        }
-        shift(config) {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-            const duration = new $.$mol_time_duration(config);
-            const moment = new $mol_time_moment().merge({
-                year: this.year,
-                month: this.month,
-                day: this.day,
-                hour: (_a = this.hour) !== null && _a !== void 0 ? _a : 0,
-                minute: (_b = this.minute) !== null && _b !== void 0 ? _b : 0,
-                second: (_c = this.second) !== null && _c !== void 0 ? _c : 0,
-                offset: (_d = this.offset) !== null && _d !== void 0 ? _d : 0
-            });
-            const second = moment.second + ((_e = duration.second) !== null && _e !== void 0 ? _e : 0);
-            const native = new Date(moment.year + ((_f = duration.year) !== null && _f !== void 0 ? _f : 0), moment.month + ((_g = duration.month) !== null && _g !== void 0 ? _g : 0), moment.day + 1 + ((_h = duration.day) !== null && _h !== void 0 ? _h : 0), moment.hour + ((_j = duration.hour) !== null && _j !== void 0 ? _j : 0), moment.minute + ((_k = duration.minute) !== null && _k !== void 0 ? _k : 0), Math.floor(second), (second - Math.floor(second)) * 1000);
-            if (isNaN(native.valueOf()))
-                throw new Error('Wrong time');
-            return new $mol_time_moment({
-                year: this.year === undefined ? undefined : native.getFullYear(),
-                month: this.month === undefined ? undefined : native.getMonth(),
-                day: this.day === undefined ? undefined : native.getDate() - 1,
-                hour: this.hour === undefined ? undefined : native.getHours(),
-                minute: this.minute === undefined ? undefined : native.getMinutes(),
-                second: this.second === undefined ? undefined : native.getSeconds() + native.getMilliseconds() / 1000,
-                offset: this.offset,
-            });
-        }
-        toOffset(config) {
-            if (this.hour === undefined)
-                return this;
-            if (this.minute === undefined)
-                return this;
-            if (this.second === undefined)
-                return this;
-            const duration = new $.$mol_time_duration(config);
-            const offset = this.offset || new $mol_time_moment().offset;
-            const moment = this.shift(duration.summ(offset.mult(-1)));
-            return moment.merge({ offset: duration });
-        }
-        valueOf() { return this.native.getTime(); }
-        toJSON() { return this.toString(); }
-        toString(pattern = 'YYYY-MM-DDThh:mm:ss.sssZ') {
-            return super.toString(pattern);
-        }
-    }
-    $mol_time_moment.patterns = {
-        'YYYY': (moment) => {
-            if (moment.year == null)
-                return '';
-            return String(moment.year);
-        },
-        'AD': (moment) => {
-            if (moment.year == null)
-                return '';
-            return String(Math.floor(moment.year / 100) + 1);
-        },
-        'YY': (moment) => {
-            if (moment.year == null)
-                return '';
-            return String(moment.year % 100);
-        },
-        'Month': (moment) => {
-            if (moment.month == null)
-                return '';
-            return moment.native.toLocaleString(undefined, { month: 'long' });
-        },
-        'DD Month': (moment) => {
-            return moment.native.toLocaleString(undefined, { day: '2-digit', month: 'long' });
-        },
-        'D Month': (moment) => {
-            return moment.native.toLocaleString(undefined, { day: 'numeric', month: 'long' });
-        },
-        'Mon': (moment) => {
-            if (moment.month == null)
-                return '';
-            return moment.native.toLocaleString(undefined, { month: 'short' });
-        },
-        'DD Mon': (moment) => {
-            return moment.native.toLocaleString(undefined, { day: '2-digit', month: 'short' });
-        },
-        'D Mon': (moment) => {
-            return moment.native.toLocaleString(undefined, { day: 'numeric', month: 'short' });
-        },
-        '-MM': (moment) => {
-            if (moment.month == null)
-                return '';
-            return '-' + $mol_time_moment.patterns['MM'](moment);
-        },
-        'MM': (moment) => {
-            if (moment.month == null)
-                return '';
-            const month = moment.month + 1;
-            return (month < 10)
-                ? ('0' + month)
-                : ('' + month);
-        },
-        'M': (moment) => {
-            if (moment.month == null)
-                return '';
-            return String(moment.month + 1);
-        },
-        'WeekDay': (moment) => {
-            if (moment.weekday == null)
-                return '';
-            return moment.native.toLocaleString(undefined, { weekday: 'long' });
-        },
-        'WD': (moment) => {
-            if (moment.weekday == null)
-                return '';
-            return moment.native.toLocaleString(undefined, { weekday: 'short' });
-        },
-        '-DD': (moment) => {
-            if (moment.day == null)
-                return '';
-            return '-' + $mol_time_moment.patterns['DD'](moment);
-        },
-        'DD': (moment) => {
-            if (moment.day == null)
-                return '';
-            const day = moment.day + 1;
-            return (day < 10)
-                ? ('0' + day)
-                : String(day);
-        },
-        'D': (moment) => {
-            if (moment.day == null)
-                return '';
-            return String(moment.day + 1);
-        },
-        'Thh': (moment) => {
-            if (moment.hour == null)
-                return '';
-            return 'T' + $mol_time_moment.patterns['hh'](moment);
-        },
-        'hh': (moment) => {
-            if (moment.hour == null)
-                return '';
-            return (moment.hour < 10)
-                ? ('0' + moment.hour)
-                : String(moment.hour);
-        },
-        'h': (moment) => {
-            if (moment.hour == null)
-                return '';
-            return String(moment.hour);
-        },
-        ':mm': (moment) => {
-            if (moment.minute == null)
-                return '';
-            return ':' + $mol_time_moment.patterns['mm'](moment);
-        },
-        'mm': (moment) => {
-            if (moment.minute == null)
-                return '';
-            return (moment.minute < 10)
-                ? ('0' + moment.minute)
-                : String(moment.minute);
-        },
-        'm': (moment) => {
-            if (moment.minute == null)
-                return '';
-            return String(moment.minute);
-        },
-        ':ss': (moment) => {
-            if (moment.second == null)
-                return '';
-            return ':' + $mol_time_moment.patterns['ss'](moment);
-        },
-        'ss': (moment) => {
-            if (moment.second == null)
-                return '';
-            const second = Math.floor(moment.second);
-            return (second < 10)
-                ? ('0' + second)
-                : String(second);
-        },
-        's': (moment) => {
-            if (moment.second == null)
-                return '';
-            return String(Math.floor(moment.second));
-        },
-        '.sss': (moment) => {
-            if (moment.second == null)
-                return '';
-            if (moment.second - Math.floor(moment.second) === 0)
-                return '';
-            return '.' + $mol_time_moment.patterns['sss'](moment);
-        },
-        'sss': (moment) => {
-            if (moment.second == null)
-                return '';
-            const millisecond = Math.floor((moment.second - Math.floor(moment.second)) * 1000);
-            return (millisecond < 10)
-                ? ('00' + millisecond)
-                : (millisecond < 100)
-                    ? ('0' + millisecond)
-                    : String(millisecond);
-        },
-        'Z': (moment) => {
-            const offset = moment.offset;
-            if (!offset)
-                return '';
-            return offset.toString('+hh:mm');
-        }
-    };
-    $.$mol_time_moment = $mol_time_moment;
-})($ || ($ = {}));
-//moment.js.map
 ;
 "use strict";
 var $;
@@ -8068,19 +8358,19 @@ var $;
     (function ($$) {
         class $hyoo_realworld_comment_card extends $.$hyoo_realworld_comment_card {
             name() {
-                return this.comment().author.username;
+                return this.comment().author().name();
             }
             text() {
-                return this.comment().body;
+                return this.comment().body();
             }
             avatar() {
-                return this.comment().author.image;
+                return this.comment().author().avatar();
             }
             moment() {
-                return new $.$mol_time_moment(this.comment().updatedAt).toOffset(new $.$mol_time_moment().offset);
+                return new $.$mol_time_moment(this.comment().updated_moment()).toOffset(new $.$mol_time_moment().offset);
             }
             avatar_link() {
-                return this.$.$mol_state_arg.make_link({ person: this.comment().author.username });
+                return this.$.$mol_state_arg.make_link({ person: this.comment().author().name() });
             }
         }
         __decorate([
@@ -8249,16 +8539,17 @@ var $;
     (function ($$) {
         class $hyoo_realworld_article_page extends $.$hyoo_realworld_article_page {
             article() {
-                return this.$.$hyoo_realworld_domain.article(this.$.$mol_state_arg.value('article'));
+                const slug = this.$.$mol_state_arg.value('article');
+                return this.$.$hyoo_realworld_article.item(slug);
             }
             content() {
-                return this.article().body;
+                return this.article().body();
             }
             title() {
-                return this.article().title;
+                return this.article().title();
             }
             comments() {
-                return this.$.$hyoo_realworld_domain.comments(this.article().slug);
+                return this.article().comments();
             }
             comment_cards() {
                 return this.comments().map((comment, index) => this.Comment_card(index));
@@ -8267,10 +8558,10 @@ var $;
                 return this.comments()[index];
             }
             tags() {
-                return this.article().tagList.map((tag, index) => this.Tag_link(index));
+                return this.article().tags().map((tag, index) => this.Tag_link(index));
             }
             tag_name(index) {
-                return this.article().tagList[index];
+                return this.article().tags()[index];
             }
         }
         __decorate([
@@ -8664,37 +8955,37 @@ var $;
                 const slug = this.$.$mol_state_arg.value('article');
                 if (!slug)
                     return null;
-                return this.$.$hyoo_realworld_domain.article(slug);
+                return this.$.$hyoo_realworld_article.item(slug);
             }
             article_title(next) {
                 var _a;
-                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.title) || '') : next;
+                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.title()) || '') : next;
             }
             article_descr(next) {
                 var _a;
-                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.description) || '') : next;
+                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.description()) || '') : next;
             }
             article_content(next) {
                 var _a;
-                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.body) || '') : next;
+                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.body()) || '') : next;
             }
             article_tags(next) {
                 var _a;
-                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.tagList.join(', ')) || '') : next;
+                return next === undefined ? (((_a = this.article()) === null || _a === void 0 ? void 0 : _a.tags().join(', ')) || '') : next;
             }
             save(next) {
                 var _a;
                 if (!next)
                     return;
-                const slug = ((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug) || '';
-                const article = this.$.$hyoo_realworld_domain.article_save({
+                const slug = ((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug()) || '';
+                const article = this.$.$hyoo_realworld_article.save({
                     slug,
                     title: this.article_title(),
                     description: this.article_descr(),
                     body: this.article_content(),
                     tagList: this.article_tags().split(/\s*,\s*/g),
                 });
-                this.$.$mol_state_arg.value('article', article.slug);
+                this.$.$mol_state_arg.value('article', article.slug());
                 this.$.$mol_state_arg.value('edit', null);
             }
             saveable() {
@@ -8705,13 +8996,13 @@ var $;
                     return false;
                 if (!this.article())
                     return true;
-                if (this.article_title() !== ((_a = this.article()) === null || _a === void 0 ? void 0 : _a.title))
+                if (this.article_title() !== ((_a = this.article()) === null || _a === void 0 ? void 0 : _a.title()))
                     return true;
-                if (this.article_descr() !== ((_b = this.article()) === null || _b === void 0 ? void 0 : _b.description))
+                if (this.article_descr() !== ((_b = this.article()) === null || _b === void 0 ? void 0 : _b.description()))
                     return true;
-                if (this.article_content() !== ((_c = this.article()) === null || _c === void 0 ? void 0 : _c.body))
+                if (this.article_content() !== ((_c = this.article()) === null || _c === void 0 ? void 0 : _c.body()))
                     return true;
-                if (this.article_tags() !== ((_d = this.article()) === null || _d === void 0 ? void 0 : _d.tagList.join(', ')))
+                if (this.article_tags() !== ((_d = this.article()) === null || _d === void 0 ? void 0 : _d.tags().join(', ')))
                     return true;
                 return false;
             }
@@ -8756,6 +9047,7 @@ var $;
             return ((obj) => {
                 obj.arg = () => ({
                     "section": null,
+                    "edit": null,
                 });
                 obj.sub = () => [this.Close_icon()];
                 return obj;
@@ -8897,7 +9189,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_sign_in extends $.$hyoo_realworld_sign_in {
             auth() {
-                const person = this.$.$hyoo_realworld_domain.sign_in({
+                const person = this.$.$hyoo_realworld_sign.auth({
                     email: this.mail(),
                     password: this.pass(),
                 });
@@ -9094,7 +9386,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_sign_up extends $.$hyoo_realworld_sign_up {
             reg() {
-                const person = this.$.$hyoo_realworld_domain.sign_up({
+                const person = this.$.$hyoo_realworld_sign.register({
                     username: this.username(),
                     email: this.mail(),
                     password: this.pass(),
@@ -9254,7 +9546,7 @@ var $;
     (function ($$) {
         class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
             sign_out() {
-                this.$.$hyoo_realworld_domain.sign_out();
+                this.$.$hyoo_realworld_sign.drop();
                 this.$.$mol_state_arg.value('person', null);
                 this.$.$mol_state_arg.value('section', 'articles');
             }
@@ -9357,7 +9649,7 @@ var $;
                 const slug = this.$.$mol_state_arg.value('article');
                 if (!slug)
                     return null;
-                return this.$.$hyoo_realworld_domain.article(slug);
+                return this.$.$hyoo_realworld_article.item(slug);
             }
             edit() {
                 return this.$.$mol_state_arg.value('edit') !== null;
@@ -9369,7 +9661,7 @@ var $;
                 return this.$.$mol_state_arg.value('tag');
             }
             signed() {
-                return Boolean(this.$.$hyoo_realworld_domain.token());
+                return this.$.$hyoo_realworld_sign.signed();
             }
             section(name) {
                 return this.$.$mol_state_arg.value('section') === name;
@@ -9384,8 +9676,8 @@ var $;
                     ...this.tag() ? [this.Feed(this.tag())] : [],
                     ...this.section('signin') ? [this.Sign_in()] : [],
                     ...this.section('signup') ? [this.Sign_up()] : [],
-                    ...this.article() ? [this.Article((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug)] : [],
-                    ...(this.edit() && this.signed()) ? [this.Article_edit((_b = this.article()) === null || _b === void 0 ? void 0 : _b.slug)] : [],
+                    ...this.article() ? [this.Article((_a = this.article()) === null || _a === void 0 ? void 0 : _a.slug())] : [],
+                    ...(this.edit() && this.signed()) ? [this.Article_edit((_b = this.article()) === null || _b === void 0 ? void 0 : _b.slug())] : [],
                     ...(this.edit() && !this.signed()) ? [this.Sign_in()] : [],
                 ];
             }
@@ -11740,199 +12032,190 @@ var $;
 var $;
 (function ($) {
     $.$mol_test({
-        'lazy calls'() {
-            let calls = 0;
-            const list = $.$mol_range2(index => (++calls, index), () => 10);
-            $.$mol_assert_ok(list instanceof Array);
-            $.$mol_assert_equal(list.length, 10);
-            $.$mol_assert_equal(list[-1], -1);
-            $.$mol_assert_equal(list[0], 0);
-            $.$mol_assert_equal(list[9], 9);
-            $.$mol_assert_equal(list[9.5], undefined);
-            $.$mol_assert_equal(list[10], 10);
-            $.$mol_assert_equal(calls, 4);
+        'equal paths'() {
+            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]);
+            $.$mol_assert_like(diff, {
+                prefix: [1, 2, 3, 4],
+                suffix: [[], [], []],
+            });
         },
-        'infinity list'() {
-            let calls = 0;
-            const list = $.$mol_range2(index => (++calls, index));
-            $.$mol_assert_equal(list.length, Number.POSITIVE_INFINITY);
-            $.$mol_assert_equal(list[0], 0);
-            $.$mol_assert_equal(list[4], 4);
-            $.$mol_assert_equal(list[Number.MAX_SAFE_INTEGER], Number.MAX_SAFE_INTEGER);
-            $.$mol_assert_equal(list[Number.POSITIVE_INFINITY], Number.POSITIVE_INFINITY);
-            $.$mol_assert_equal(calls, 4);
+        'different suffix'() {
+            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 5, 4]);
+            $.$mol_assert_like(diff, {
+                prefix: [1, 2],
+                suffix: [[3, 4], [3, 5], [5, 4]],
+            });
         },
-        'stringify'() {
-            const list = $.$mol_range2(i => i, () => 5);
-            $.$mol_assert_equal(list.toString(), '0,1,2,3,4');
-            $.$mol_assert_equal(list.join(';'), '0;1;2;3;4');
+        'one contains other'() {
+            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2], [1, 2, 3]);
+            $.$mol_assert_like(diff, {
+                prefix: [1, 2],
+                suffix: [[3, 4], [], [3]],
+            });
         },
-        'for-of'() {
-            let log = '';
-            for (let i of $.$mol_range2(i => i + 1, () => 5)) {
-                log += i;
-            }
-            $.$mol_assert_equal(log, '12345');
+        'fully different'() {
+            const diff = $.$mol_diff_path([1, 2], [3, 4], [5, 6]);
+            $.$mol_assert_like(diff, {
+                prefix: [],
+                suffix: [[1, 2], [3, 4], [5, 6]],
+            });
         },
-        'for-in'() {
-            let log = '';
-            for (let i in $.$mol_range2(i => i, () => 5)) {
-                log += i;
-            }
-            $.$mol_assert_equal(log, '01234');
-        },
-        'forEach'() {
-            let log = '';
-            $.$mol_range2(i => i, () => 5).forEach(i => log += i);
-            $.$mol_assert_equal(log, '01234');
-        },
-        'lazy concat'() {
-            let calls1 = 0;
-            let calls2 = 0;
-            const list = $.$mol_range2(index => (++calls1, index), () => 5).concat([0, 1, 2, 3, 4], $.$mol_range2(index => (++calls2, index), () => 5));
-            $.$mol_assert_ok(list instanceof Array);
-            $.$mol_assert_equal(list.length, 15);
-            $.$mol_assert_equal(list[0], 0);
-            $.$mol_assert_equal(list[4], 4);
-            $.$mol_assert_equal(list[5], 0);
-            $.$mol_assert_equal(list[9], 4);
-            $.$mol_assert_equal(list[10], 0);
-            $.$mol_assert_equal(list[14], 4);
-            $.$mol_assert_equal(list[15], 5);
-            $.$mol_assert_equal(calls1, 2);
-            $.$mol_assert_equal(calls2, 3);
-        },
-        'filter'() {
-            let calls = 0;
-            const list = $.$mol_range2(index => (++calls, index), () => 10).filter(v => v % 2).slice(0, 3);
-            $.$mol_assert_ok(list instanceof Array);
-            $.$mol_assert_equal(list.length, 3);
-            $.$mol_assert_equal(list[0], 1);
-            $.$mol_assert_equal(list[2], 5);
-            $.$mol_assert_equal(list[3], 7);
-            $.$mol_assert_equal(calls, 10);
-        },
-        'reduce'() {
-            let calls = 0;
-            const list = $.$mol_range2().slice(1, 6);
-            $.$mol_assert_equal(list.reduce((s, v) => s + v), 15);
-            $.$mol_assert_equal(list.reduce((s, v) => s + v, 5), 20);
-        },
-        'lazy map'() {
-            let calls1 = 0;
-            let calls2 = 0;
-            const source = $.$mol_range2(index => (++calls1, index), () => 5);
-            const target = source.map((item, index, self) => {
-                ++calls2;
-                $.$mol_assert_equal(source, self);
-                return index + 10;
-            }, () => 5);
-            $.$mol_assert_ok(target instanceof Array);
-            $.$mol_assert_equal(target.length, 5);
-            $.$mol_assert_equal(target[0], 10);
-            $.$mol_assert_equal(target[4], 14);
-            $.$mol_assert_equal(target[5], 15);
-            $.$mol_assert_equal(calls1, 3);
-            $.$mol_assert_equal(calls2, 3);
-        },
-        'lazy slice'() {
-            let calls = 0;
-            const list = $.$mol_range2(index => (++calls, index), () => 10).slice(3, 7);
-            $.$mol_assert_ok(list instanceof Array);
-            $.$mol_assert_equal(list.length, 4);
-            $.$mol_assert_equal(list[0], 3);
-            $.$mol_assert_equal(list[3], 6);
-            $.$mol_assert_equal(list[4], 7);
-            $.$mol_assert_equal(calls, 3);
-        },
-        'lazy some'() {
-            let calls = 0;
-            $.$mol_assert_ok($.$mol_range2(index => (++calls, index), () => 5).some(v => v >= 2));
-            $.$mol_assert_equal(calls, 3);
-            $.$mol_assert_not($.$mol_range2(i => i, () => 0).some(v => true));
-            $.$mol_assert_ok($.$mol_range2(i => i).some(v => v > 5));
-        },
-        'lazy every'() {
-            let calls = 0;
-            $.$mol_assert_not($.$mol_range2(index => (++calls, index), () => 5).every(v => v < 2));
-            $.$mol_assert_equal(calls, 3);
-            $.$mol_assert_ok($.$mol_range2(i => i, () => 0).every(v => false));
-            $.$mol_assert_not($.$mol_range2(i => i).every(v => v < 5));
-        },
-        'lazyfy'() {
-            let calls = 0;
-            const list = new $.$mol_range2_array(...[0, 1, 2, 3, 4, 5]).map(i => (++calls, i + 10)).slice(2);
-            $.$mol_assert_ok(list instanceof Array);
-            $.$mol_assert_equal(list.length, 4);
-            $.$mol_assert_equal(calls, 0);
-            $.$mol_assert_equal(list[0], 12);
-            $.$mol_assert_equal(list[3], 15);
-            $.$mol_assert_equal(list[4], Number.NaN);
-            $.$mol_assert_equal(calls, 3);
-        },
-        'prevent modification'() {
-            const list = $.$mol_range2(i => i, () => 5);
-            $.$mol_assert_fail(() => list.push(4), TypeError);
-            $.$mol_assert_fail(() => list.pop(), TypeError);
-            $.$mol_assert_fail(() => list.unshift(4), TypeError);
-            $.$mol_assert_fail(() => list.shift(), TypeError);
-            $.$mol_assert_fail(() => list.splice(1, 2), TypeError);
-            $.$mol_assert_fail(() => list[1] = 2, TypeError);
-            $.$mol_assert_equal(list.toString(), '0,1,2,3,4');
-        }
     });
 })($ || ($ = {}));
-//range2.test.js.map
+//path.test.js.map
 ;
 "use strict";
 var $;
 (function ($) {
     $.$mol_test({
-        'all cases of using maybe'() {
-            $.$mol_assert_equal($.$mol_maybe(0)[0], 0);
-            $.$mol_assert_equal($.$mol_maybe(false)[0], false);
-            $.$mol_assert_equal($.$mol_maybe(null)[0], void 0);
-            $.$mol_assert_equal($.$mol_maybe(void 0)[0], void 0);
-            $.$mol_assert_equal($.$mol_maybe(void 0).map(v => v.toString())[0], void 0);
-            $.$mol_assert_equal($.$mol_maybe(0).map(v => v.toString())[0], '0');
+        'Is number'() {
+            $.$mol_data_number(0);
+        },
+        'Is not number'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_number('x');
+            }, 'x is not a number');
+        },
+        'Is object number'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_number(new Number(''));
+            }, '0 is not a number');
         },
     });
 })($ || ($ = {}));
-//maybe.test.js.map
+//number.test.js.map
 ;
 "use strict";
 var $;
 (function ($) {
     $.$mol_test({
-        '$mol_syntax2_md_flow'() {
-            const check = (input, right) => {
-                const tokens = [];
-                $.$mol_syntax2_md_flow.tokenize(input, (...token) => tokens.push(token));
-                $.$mol_assert_like(JSON.stringify(tokens), JSON.stringify(right));
-            };
-            check('Hello,\nWorld..\r\n\r\n\nof Love!', [
-                ['block', 'Hello,\nWorld..\r\n\r\n\n', ['Hello,\nWorld..', '\r\n\r\n\n'], 0],
-                ['block', 'of Love!', ['of Love!', ''], 19],
-            ]);
-            check('# Header1\n\nHello!\n\n## Header2', [
-                ['header', '# Header1\n\n', ['#', ' ', 'Header1', '\n\n'], 0],
-                ['block', 'Hello!\n\n', ['Hello!', '\n\n'], 11],
-                ['header', '## Header2', ['##', ' ', 'Header2', ''], 19],
-            ]);
-            check('```\nstart()\n```\n\n```js\nrestart()\n```\n\nHello!\n\n```\nstop()\n```', [
-                ['code', '```\nstart()\n```\n\n', ['```', '', 'start()\n', '```', '\n\n'], 0],
-                ['code', '```js\nrestart()\n```\n\n', ['```', 'js', 'restart()\n', '```', '\n\n'], 17],
-                ['block', 'Hello!\n\n', ['Hello!', '\n\n'], 38],
-                ['code', '```\nstop()\n```', ['```', '', 'stop()\n', '```', ''], 46],
-            ]);
-            check('| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n\n| Cell11 | Cell12\n| Cell21 | Cell22\n', [
-                ['table', '| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n\n', ['| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n', '\n'], 0],
-                ['table', '| Cell11 | Cell12\n| Cell21 | Cell22\n', ['| Cell11 | Cell12\n| Cell21 | Cell22\n', ''], 68],
-            ]);
+        'Is string'() {
+            $.$mol_data_string('');
+        },
+        'Is not string'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_string(0);
+            }, '0 is not a string');
+        },
+        'Is object string'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_string(new String('x'));
+            }, 'x is not a string');
         },
     });
 })($ || ($ = {}));
-//md.test.js.map
+//string.test.js.map
+;
+"use strict";
+//merge.test.js.map
+;
+"use strict";
+//undefined.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'config by value'() {
+            const N = $.$mol_data_setup((a) => a, 5);
+            $.$mol_assert_equal(N.config, 5);
+        },
+    });
+})($ || ($ = {}));
+//setup.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'Fit to record'() {
+            const User = $.$mol_data_record({ age: $.$mol_data_number });
+            User({ age: 0 });
+        },
+        'Extends record'() {
+            const User = $.$mol_data_record({ age: $.$mol_data_number });
+            User({ age: 0, name: 'Jin' });
+        },
+        'Shrinks record'() {
+            $.$mol_assert_fail(() => {
+                const User = $.$mol_data_record({ age: $.$mol_data_number, name: $.$mol_data_string });
+                User({ age: 0 });
+            }, '["name"] undefined is not a string');
+        },
+        'Shrinks deep record'() {
+            $.$mol_assert_fail(() => {
+                const User = $.$mol_data_record({ wife: $.$mol_data_record({ age: $.$mol_data_number }) });
+                User({ wife: {} });
+            }, '["wife"] ["age"] undefined is not a number');
+        },
+    });
+})($ || ($ = {}));
+//record.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'Is empty array'() {
+            $.$mol_data_array($.$mol_data_number)([]);
+        },
+        'Is array'() {
+            $.$mol_data_array($.$mol_data_number)([1, 2]);
+        },
+        'Is not array'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_array($.$mol_data_number)({ [0]: 1, length: 1, map: () => { } });
+            }, '[object Object] is not an array');
+        },
+        'Has wrong item'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_array($.$mol_data_number)([1, '1']);
+            }, '[1] 1 is not a number');
+        },
+        'Has wrong deep item'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_array($.$mol_data_array($.$mol_data_number))([[], [0, 0, false]]);
+            }, '[1] [2] false is not a number');
+        },
+    });
+})($ || ($ = {}));
+//array.test.js.map
+;
+"use strict";
+//tail.test.js.map
+;
+"use strict";
+//foot.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'single function'() {
+            const stringify = $.$mol_data_pipe((input) => input.toString());
+            $.$mol_assert_equal(stringify(5), '5');
+        },
+        'two functions'() {
+            const isLong = $.$mol_data_pipe((input) => input.toString(), (input) => input.length > 2);
+            $.$mol_assert_equal(isLong(5.0), false);
+            $.$mol_assert_equal(isLong(5.1), true);
+        },
+        'three functions'() {
+            const pattern = $.$mol_data_pipe((input) => input.toString(), (input) => new RegExp(input), (input) => input.toString());
+            $.$mol_assert_equal(pattern(5), '/5/');
+        },
+        'classes'() {
+            class Box {
+                constructor(value) {
+                    this.value = value;
+                }
+            }
+            const boxify = $.$mol_data_pipe((input) => input.toString(), Box);
+            $.$mol_assert_like(boxify(5), new Box('5'));
+        },
+    });
+})($ || ($ = {}));
+//pipe.test.js.map
 ;
 "use strict";
 var $;
@@ -12006,6 +12289,116 @@ var $;
     });
 })($ || ($ = {}));
 //moment.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'Is null'() {
+            $.$mol_data_nullable($.$mol_data_number)(null);
+        },
+        'Is not null'() {
+            $.$mol_data_nullable($.$mol_data_number)(0);
+        },
+        'Is undefined'() {
+            $.$mol_assert_fail(() => {
+                const Type = $.$mol_data_nullable($.$mol_data_number);
+                Type(undefined);
+            }, 'undefined is not a number');
+        },
+    });
+})($ || ($ = {}));
+//nullable.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'Is boolean - true'() {
+            $.$mol_data_boolean(true);
+        },
+        'Is boolean - false'() {
+            $.$mol_data_boolean(false);
+        },
+        'Is not boolean'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_boolean('x');
+            }, 'x is not a boolean');
+        },
+        'Is object boolean'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_boolean(new Boolean(''));
+            }, 'false is not a boolean');
+        },
+    });
+})($ || ($ = {}));
+//boolean.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'Is integer'() {
+            $.$mol_data_integer(0);
+        },
+        'Is float'() {
+            $.$mol_assert_fail(() => {
+                $.$mol_data_integer(1.1);
+            }, '1.1 is not an integer');
+        },
+    });
+})($ || ($ = {}));
+//integer.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'all cases of using maybe'() {
+            $.$mol_assert_equal($.$mol_maybe(0)[0], 0);
+            $.$mol_assert_equal($.$mol_maybe(false)[0], false);
+            $.$mol_assert_equal($.$mol_maybe(null)[0], void 0);
+            $.$mol_assert_equal($.$mol_maybe(void 0)[0], void 0);
+            $.$mol_assert_equal($.$mol_maybe(void 0).map(v => v.toString())[0], void 0);
+            $.$mol_assert_equal($.$mol_maybe(0).map(v => v.toString())[0], '0');
+        },
+    });
+})($ || ($ = {}));
+//maybe.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        '$mol_syntax2_md_flow'() {
+            const check = (input, right) => {
+                const tokens = [];
+                $.$mol_syntax2_md_flow.tokenize(input, (...token) => tokens.push(token));
+                $.$mol_assert_like(JSON.stringify(tokens), JSON.stringify(right));
+            };
+            check('Hello,\nWorld..\r\n\r\n\nof Love!', [
+                ['block', 'Hello,\nWorld..\r\n\r\n\n', ['Hello,\nWorld..', '\r\n\r\n\n'], 0],
+                ['block', 'of Love!', ['of Love!', ''], 19],
+            ]);
+            check('# Header1\n\nHello!\n\n## Header2', [
+                ['header', '# Header1\n\n', ['#', ' ', 'Header1', '\n\n'], 0],
+                ['block', 'Hello!\n\n', ['Hello!', '\n\n'], 11],
+                ['header', '## Header2', ['##', ' ', 'Header2', ''], 19],
+            ]);
+            check('```\nstart()\n```\n\n```js\nrestart()\n```\n\nHello!\n\n```\nstop()\n```', [
+                ['code', '```\nstart()\n```\n\n', ['```', '', 'start()\n', '```', '\n\n'], 0],
+                ['code', '```js\nrestart()\n```\n\n', ['```', 'js', 'restart()\n', '```', '\n\n'], 17],
+                ['block', 'Hello!\n\n', ['Hello!', '\n\n'], 38],
+                ['code', '```\nstop()\n```', ['```', '', 'stop()\n', '```', ''], 46],
+            ]);
+            check('| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n\n| Cell11 | Cell12\n| Cell21 | Cell22\n', [
+                ['table', '| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n\n', ['| header1 | header2\n|----|----\n| Cell11 | Cell12\n| Cell21 | Cell22\n', '\n'], 0],
+                ['table', '| Cell11 | Cell12\n| Cell21 | Cell22\n', ['| Cell11 | Cell12\n| Cell21 | Cell22\n', ''], 68],
+            ]);
+        },
+    });
+})($ || ($ = {}));
+//md.test.js.map
 ;
 "use strict";
 var $;
@@ -12219,90 +12612,5 @@ var $;
     $.$mol_jsx_view = $mol_jsx_view;
 })($ || ($ = {}));
 //view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_test({
-        'equal paths'() {
-            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]);
-            $.$mol_assert_like(diff, {
-                prefix: [1, 2, 3, 4],
-                suffix: [[], [], []],
-            });
-        },
-        'different suffix'() {
-            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 5, 4]);
-            $.$mol_assert_like(diff, {
-                prefix: [1, 2],
-                suffix: [[3, 4], [3, 5], [5, 4]],
-            });
-        },
-        'one contains other'() {
-            const diff = $.$mol_diff_path([1, 2, 3, 4], [1, 2], [1, 2, 3]);
-            $.$mol_assert_like(diff, {
-                prefix: [1, 2],
-                suffix: [[3, 4], [], [3]],
-            });
-        },
-        'fully different'() {
-            const diff = $.$mol_diff_path([1, 2], [3, 4], [5, 6]);
-            $.$mol_assert_like(diff, {
-                prefix: [],
-                suffix: [[1, 2], [3, 4], [5, 6]],
-            });
-        },
-    });
-})($ || ($ = {}));
-//path.test.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_diff_path(...paths) {
-        const limit = Math.min(...paths.map(path => path.length));
-        lookup: for (var i = 0; i < limit; ++i) {
-            const first = paths[0][i];
-            for (let j = 1; j < paths.length; ++j) {
-                if (paths[j][i] !== first)
-                    break lookup;
-            }
-        }
-        return {
-            prefix: paths[0].slice(0, i),
-            suffix: paths.map(path => path.slice(i)),
-        };
-    }
-    $.$mol_diff_path = $mol_diff_path;
-})($ || ($ = {}));
-//path.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_error_mix extends Error {
-        constructor(message, ...errors) {
-            super(message);
-            this.errors = errors;
-            if (errors.length) {
-                const stacks = [...errors.map(error => error.message), this.stack];
-                const diff = $.$mol_diff_path(...stacks.map(stack => {
-                    if (!stack)
-                        return [];
-                    return stack.split('\n').reverse();
-                }));
-                const head = diff.prefix.reverse().join('\n');
-                const tails = diff.suffix.map(path => path.reverse().map(line => line.replace(/^(?!\s+at)/, '\tat (.) ')).join('\n')).join('\n\tat (.) -----\n');
-                this.stack = `Error: ${this.constructor.name}\n\tat (.) /"""\\\n${tails}\n\tat (.) \\___/\n${head}`;
-                this.message += errors.map(error => '\n' + error.message).join('');
-            }
-        }
-        toJSON() {
-            return this.message;
-        }
-    }
-    $.$mol_error_mix = $mol_error_mix;
-})($ || ($ = {}));
-//mix.js.map
 
 //# sourceMappingURL=node.test.js.map

@@ -791,6 +791,8 @@ declare namespace $ {
         bottom?: Value;
         left?: Value;
     };
+    type Span_align = 'none' | 'start' | 'end' | 'center';
+    type Snap_axis = 'x' | 'y' | 'block' | 'inline' | 'both';
     type Overflow = 'visible' | 'hidden' | 'clip' | 'scroll' | 'auto' | 'overlay' | Common;
     interface Overrides {
         alignContent?: 'baseline' | 'start' | 'end' | 'flex-start' | 'flex-end' | 'center' | 'normal' | 'space-between' | 'space-around' | 'space-evenly' | 'stretch' | ['first' | 'last', 'baseline'] | ['safe' | 'unsafe', 'start' | 'end' | 'flex-start' | 'flex-end'] | Common;
@@ -823,8 +825,15 @@ declare namespace $ {
         };
         whiteSpace?: 'normal' | 'nowrap' | 'break-spaces' | 'pre' | 'pre-wrap' | 'pre-line' | Common;
         webkitOverflowScrolling?: 'auto' | 'touch';
-        scrollbar: {
-            color: [Color, Color] | 'dark' | 'light' | 'auto' | Common;
+        scrollbar?: {
+            color?: [Color, Color] | 'dark' | 'light' | 'auto' | Common;
+        };
+        scroll?: {
+            snap?: {
+                type: 'none' | Snap_axis | [Snap_axis, 'mandatory' | 'proximity'] | Common;
+                stop: 'normal' | 'always' | Common;
+                align: Span_align | [Span_align, Span_align] | Common;
+            };
         };
         width?: Size;
         minWidth?: Size;
@@ -1366,90 +1375,93 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_realworld_person {
-        username: string;
-        bio: string;
-        image: string;
-        following: boolean;
+    type $mol_data_value<Input = any, Output = any> = (val: Input) => Output;
+}
+
+declare namespace $ {
+    type $mol_type_merge<Intersection> = Intersection extends (...a: any[]) => any ? Intersection : Intersection extends new (...a: any[]) => any ? Intersection : Intersection extends object ? {
+        [Key in keyof Intersection]: $mol_type_merge<Intersection[Key]>;
+    } : Intersection;
+}
+
+declare namespace $ {
+    type $mol_type_partial_undefined<Val> = $mol_type_merge<Partial<Val> & Pick<Val, {
+        [Field in keyof Val]: undefined extends Val[Field] ? never : Field;
+    }[keyof Val]>>;
+}
+
+declare namespace $ {
+    function $mol_data_setup<Value extends $mol_data_value, Config = never>(value: Value, config: Config): Value & {
+        config: Config;
+        Value: ReturnType<Value>;
+    };
+}
+
+declare namespace $ {
+    function $mol_data_record<Sub extends Record<string, $mol_data_value<any>>>(sub: Sub): ((val: unknown) => Readonly<$mol_type_merge<Partial<{ [key in keyof Sub]: ReturnType<Sub[key]>; }> & Pick<{ [key in keyof Sub]: ReturnType<Sub[key]>; }, { [Field in keyof { [key in keyof Sub]: ReturnType<Sub[key]>; }]: undefined extends { [key in keyof Sub]: ReturnType<Sub[key]>; }[Field] ? never : Field; }[keyof Sub]>>>) & {
+        config: Sub;
+        Value: Readonly<$mol_type_merge<Partial<{ [key in keyof Sub]: ReturnType<Sub[key]>; }> & Pick<{ [key in keyof Sub]: ReturnType<Sub[key]>; }, { [Field in keyof { [key in keyof Sub]: ReturnType<Sub[key]>; }]: undefined extends { [key in keyof Sub]: ReturnType<Sub[key]>; }[Field] ? never : Field; }[keyof Sub]>>>;
+    };
+}
+
+declare namespace $ {
+    function $mol_diff_path<Item>(...paths: Item[][]): {
+        prefix: Item[];
+        suffix: Item[][];
+    };
+}
+
+declare namespace $ {
+    class $mol_error_mix extends Error {
+        errors: Error[];
+        constructor(message: string, ...errors: Error[]);
+        toJSON(): string;
     }
 }
 
 declare namespace $ {
-    class $hyoo_realworld_article {
-        title: string;
-        slug: string;
-        body: string;
-        createdAt: string;
-        updatedAt: string;
-        tagList: string[];
-        description: string;
-        author: $hyoo_realworld_person;
-        favorited: boolean;
-        favoritesCount: number;
+    class $mol_data_error extends $mol_error_mix {
     }
 }
 
 declare namespace $ {
-    class $hyoo_realworld_feed {
-        articles: $hyoo_realworld_article[];
-        articlesCount: number;
-    }
+    let $mol_data_string: (val: string) => string;
 }
 
 declare namespace $ {
-    function $mol_range2<Item = number>(item?: (index: number) => Item, size?: () => number): Item[];
-    class $mol_range2_array<Item> extends Array<Item> {
-        concat(...tail: this[]): Item[];
-        filter<Context>(check: (val: Item, index: number, list: Item[]) => boolean, context?: Context): Item[];
-        forEach<Context>(proceed: (this: Context, val: Item, index: number, list: Item[]) => void, context?: Context): void;
-        map<Item_out, Context>(proceed: (this: Context, val: Item, index: number, list: Item[]) => Item_out, context?: Context): Item_out[];
-        reduce<Result>(merge: (result: Result, val: Item, index: number, list: Item[]) => Result, result?: Result): Result | undefined;
-        slice(from?: number, to?: number): Item[];
-        some<Context>(check: (this: Context, val: Item, index: number, list: Item[]) => boolean, context?: Context): boolean;
-        every<Context = null>(check: (this: Context, val: Item, index: number, list: Item[]) => boolean, context?: Context): boolean;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_comment {
-        author: $hyoo_realworld_person;
-        id: string;
-        body: string;
-        createdAt: string;
-        updatedAt: string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_domain_tags {
-        tags: string[];
-    }
-    class $hyoo_realworld_domain extends $mol_object {
+    class $hyoo_realworld_transport extends $mol_object2 {
         static api_base(): string;
-        static page_size(): number;
-        static articles_page({ page, tag }: {
-            page: number;
-            tag: string;
-        }): $hyoo_realworld_feed;
-        static articles(tag?: string): $hyoo_realworld_article[];
-        static tags(): string[];
-        static article(slug: string, article?: $hyoo_realworld_article): $hyoo_realworld_article;
-        static person_current(): $hyoo_realworld_person | null;
-        static comments(slug: string): $hyoo_realworld_comment[];
-        static comments_fresh(slug: string, next?: string): string;
-        static comment_add(slug: string, comment: Partial<$hyoo_realworld_comment>): Partial<$hyoo_realworld_comment>;
-        static article_save(article: Partial<$hyoo_realworld_article>): $hyoo_realworld_article;
-        static sign_in(creds: {
+        static token(next?: string | null): string | null;
+        static headers(): {
+            'Content-Type': string;
+        } | {
+            Authorization: string;
+            'Content-Type': string;
+        };
+        static load(path: string): any;
+        static save(path: string, method: 'post' | 'put', body: object): any;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_sign extends $mol_object2 {
+        static auth(creds: {
             email: string;
             password: string;
-        }): $hyoo_realworld_person;
-        static sign_up(creds: {
+        }): {
+            readonly token: string;
+            readonly username: string;
+        };
+        static register(creds: {
             username: string;
             email: string;
             password: string;
-        }): $hyoo_realworld_person;
-        static sign_out(): void;
-        static token(next?: string): string;
+        }): {
+            readonly token: string;
+            readonly username: string;
+        };
+        static signed(): boolean;
+        static drop(): void;
     }
 }
 
@@ -1459,6 +1471,23 @@ declare namespace $ {
 declare namespace $.$$ {
     class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
         body(): readonly any[];
+    }
+}
+
+declare namespace $ {
+    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][] | unknown) => readonly ReturnType<Sub>[]) & {
+        config: Sub;
+        Value: readonly ReturnType<Sub>[];
+    };
+}
+
+declare namespace $ {
+    const $hyoo_realworld_tags_json: ((val: unknown) => readonly string[]) & {
+        config: (val: string) => string;
+        Value: readonly string[];
+    };
+    class $hyoo_realworld_tags extends $mol_object2 {
+        static list(): readonly string[];
     }
 }
 
@@ -1532,10 +1561,1532 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
-        tags(): string[];
+        tags(): readonly string[];
         tag_links(): $mol_link[];
         tag_id(index: number): string;
         tag_name(index: number): string;
+    }
+}
+
+declare namespace $ {
+    type $mol_type_unary_func = ((param: any) => any);
+    type $mol_type_unary_class = new (param: any) => any;
+    type $mol_type_unary = $mol_type_unary_func | $mol_type_unary_class;
+}
+
+declare namespace $ {
+    type $mol_type_tail<Tuple extends readonly any[]> = ((...tail: Tuple) => any) extends ((head: any, ...tail: infer Tail) => any) ? Tail : never;
+}
+
+declare namespace $ {
+    type $mol_type_foot<Tuple extends readonly any[]> = Tuple['length'] extends 0 ? never : Tuple[$mol_type_tail<Tuple>['length']];
+}
+
+declare namespace $ {
+    type Guard_value<Funcs extends $mol_type_unary[], Index extends keyof Funcs> = $mol_type_param<Index extends keyof $mol_type_tail<Funcs> ? $mol_type_tail<Funcs>[Index] : any, 0>;
+    type Guard<Funcs extends $mol_type_unary[]> = {
+        [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
+    };
+    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
+        config: {
+            funcs: Funcs & Guard<Funcs>;
+        };
+        Value: $mol_type_result<$mol_type_foot<Funcs>>;
+    };
+    export {};
+}
+
+declare namespace $ {
+    class $mol_time_base {
+        static patterns: any;
+        static formatter(pattern: string): any;
+        toString(pattern: string): string;
+    }
+}
+
+declare namespace $ {
+    type $mol_time_duration_config = number | string | {
+        year?: number;
+        month?: number;
+        day?: number;
+        hour?: number;
+        minute?: number;
+        second?: number;
+    };
+    class $mol_time_duration extends $mol_time_base {
+        constructor(config?: $mol_time_duration_config);
+        readonly year: number;
+        readonly month: number;
+        readonly day: number;
+        readonly hour: number;
+        readonly minute: number;
+        readonly second: number;
+        summ(config: $mol_time_duration_config): $mol_time_duration;
+        mult(numb: number): $mol_time_duration;
+        count(config: $mol_time_duration_config): number;
+        valueOf(): number;
+        toJSON(): string;
+        toString(pattern?: string): string;
+        static patterns: {
+            '#Y': (duration: $mol_time_duration) => string;
+            '#M': (duration: $mol_time_duration) => string;
+            '#D': (duration: $mol_time_duration) => string;
+            '#h': (duration: $mol_time_duration) => string;
+            '#m': (duration: $mol_time_duration) => string;
+            '#s': (duration: $mol_time_duration) => string;
+            '+hh': (duration: $mol_time_duration) => string;
+            mm: (duration: $mol_time_duration) => string;
+        };
+    }
+}
+
+declare namespace $ {
+    type $mol_time_moment_config = number | Date | string | {
+        year?: number;
+        month?: number;
+        day?: number;
+        hour?: number;
+        minute?: number;
+        second?: number;
+        offset?: $mol_time_duration_config;
+    };
+    class $mol_time_moment extends $mol_time_base {
+        constructor(config?: $mol_time_moment_config);
+        readonly year: number | undefined;
+        readonly month: number | undefined;
+        readonly day: number | undefined;
+        readonly hour: number | undefined;
+        readonly minute: number | undefined;
+        readonly second: number | undefined;
+        readonly offset: $mol_time_duration | undefined;
+        get weekday(): number;
+        _native: Date | undefined;
+        get native(): Date;
+        _normal: $mol_time_moment | undefined;
+        get normal(): $mol_time_moment;
+        merge(config: $mol_time_moment_config): $mol_time_moment;
+        shift(config: $mol_time_duration_config): $mol_time_moment;
+        toOffset(config: $mol_time_duration_config): $mol_time_moment;
+        valueOf(): number;
+        toJSON(): string;
+        toString(pattern?: string): string;
+        static patterns: {
+            YYYY: (moment: $mol_time_moment) => string;
+            AD: (moment: $mol_time_moment) => string;
+            YY: (moment: $mol_time_moment) => string;
+            Month: (moment: $mol_time_moment) => string;
+            'DD Month': (moment: $mol_time_moment) => string;
+            'D Month': (moment: $mol_time_moment) => string;
+            Mon: (moment: $mol_time_moment) => string;
+            'DD Mon': (moment: $mol_time_moment) => string;
+            'D Mon': (moment: $mol_time_moment) => string;
+            '-MM': (moment: $mol_time_moment) => string;
+            MM: (moment: $mol_time_moment) => string;
+            M: (moment: $mol_time_moment) => string;
+            WeekDay: (moment: $mol_time_moment) => string;
+            WD: (moment: $mol_time_moment) => string;
+            '-DD': (moment: $mol_time_moment) => string;
+            DD: (moment: $mol_time_moment) => string;
+            D: (moment: $mol_time_moment) => string;
+            Thh: (moment: $mol_time_moment) => string;
+            hh: (moment: $mol_time_moment) => string;
+            h: (moment: $mol_time_moment) => string;
+            ':mm': (moment: $mol_time_moment) => string;
+            mm: (moment: $mol_time_moment) => string;
+            m: (moment: $mol_time_moment) => string;
+            ':ss': (moment: $mol_time_moment) => string;
+            ss: (moment: $mol_time_moment) => string;
+            s: (moment: $mol_time_moment) => string;
+            '.sss': (moment: $mol_time_moment) => string;
+            sss: (moment: $mol_time_moment) => string;
+            Z: (moment: $mol_time_moment) => string;
+        };
+    }
+}
+
+declare namespace $ {
+    function $mol_data_nullable<Sub extends $mol_data_value>(sub: Sub): ((val: Parameters<Sub>[0] | null) => ReturnType<Sub> | null) & {
+        config: Sub;
+        Value: ReturnType<Sub> | null;
+    };
+}
+
+declare namespace $ {
+    let $mol_data_boolean: (val: boolean) => boolean;
+}
+
+declare namespace $ {
+    const $hyoo_realworld_person_json: ((val: unknown) => Readonly<{
+        username: string;
+        bio: string | null;
+        image: string;
+        following: boolean;
+    }>) & {
+        config: {
+            username: (val: string) => string;
+            bio: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            image: (val: string) => string;
+            following: (val: boolean) => boolean;
+        };
+        Value: Readonly<{
+            username: string;
+            bio: string | null;
+            image: string;
+            following: boolean;
+        }>;
+    };
+    class $hyoo_realworld_person extends $mol_object2 {
+        static item(username: string): $hyoo_realworld_person;
+        name(): string;
+        biography(): string | null;
+        avatar(): string;
+        json(next?: typeof $hyoo_realworld_person_json.Value): Readonly<{
+            username: string;
+            bio: string | null;
+            image: string;
+            following: boolean;
+        }>;
+    }
+}
+
+declare namespace $ {
+    let $mol_data_number: (val: number) => number;
+}
+
+declare namespace $ {
+    function $mol_data_integer(val: number): number;
+}
+
+declare namespace $ {
+    const $hyoo_realworld_article_json: ((val: unknown) => Readonly<{
+        title: string;
+        slug: string;
+        body: string;
+        createdAt: {
+            readonly year: number | undefined;
+            readonly month: number | undefined;
+            readonly day: number | undefined;
+            readonly hour: number | undefined;
+            readonly minute: number | undefined;
+            readonly second: number | undefined;
+            readonly offset: {
+                readonly year: number;
+                readonly month: number;
+                readonly day: number;
+                readonly hour: number;
+                readonly minute: number;
+                readonly second: number;
+                summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                mult: (numb: number) => $mol_time_duration;
+                count: (config: $mol_time_duration_config) => number;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            } | undefined;
+            readonly weekday: number;
+            _native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            } | undefined;
+            readonly native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            };
+            _normal: any | undefined;
+            readonly normal: any;
+            merge: (config: $mol_time_moment_config) => $mol_time_moment;
+            shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+            valueOf: () => number;
+            toJSON: () => string;
+            toString: (pattern?: string) => string;
+        };
+        updatedAt: {
+            readonly year: number | undefined;
+            readonly month: number | undefined;
+            readonly day: number | undefined;
+            readonly hour: number | undefined;
+            readonly minute: number | undefined;
+            readonly second: number | undefined;
+            readonly offset: {
+                readonly year: number;
+                readonly month: number;
+                readonly day: number;
+                readonly hour: number;
+                readonly minute: number;
+                readonly second: number;
+                summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                mult: (numb: number) => $mol_time_duration;
+                count: (config: $mol_time_duration_config) => number;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            } | undefined;
+            readonly weekday: number;
+            _native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            } | undefined;
+            readonly native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            };
+            _normal: any | undefined;
+            readonly normal: any;
+            merge: (config: $mol_time_moment_config) => $mol_time_moment;
+            shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+            valueOf: () => number;
+            toJSON: () => string;
+            toString: (pattern?: string) => string;
+        };
+        tagList: readonly string[];
+        description: string;
+        author: {
+            readonly username: string;
+            readonly bio: string | null;
+            readonly image: string;
+            readonly following: boolean;
+        };
+        favorited: boolean;
+        favoritesCount: number;
+    }>) & {
+        config: {
+            title: (val: string) => string;
+            slug: (val: string) => string;
+            body: (val: string) => string;
+            createdAt: ((input: string) => $mol_time_moment) & {
+                config: {
+                    funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined, new (input: string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined) => unknown];
+                };
+                Value: $mol_time_moment;
+            };
+            updatedAt: ((input: string) => $mol_time_moment) & {
+                config: {
+                    funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined, new (input: string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined) => unknown];
+                };
+                Value: $mol_time_moment;
+            };
+            tagList: ((val: unknown) => readonly string[]) & {
+                config: (val: string) => string;
+                Value: readonly string[];
+            };
+            description: (val: string) => string;
+            author: ((val: unknown) => Readonly<{
+                username: string;
+                bio: string | null;
+                image: string;
+                following: boolean;
+            }>) & {
+                config: {
+                    username: (val: string) => string;
+                    bio: ((val: string | null) => string | null) & {
+                        config: (val: string) => string;
+                        Value: string | null;
+                    };
+                    image: (val: string) => string;
+                    following: (val: boolean) => boolean;
+                };
+                Value: Readonly<{
+                    username: string;
+                    bio: string | null;
+                    image: string;
+                    following: boolean;
+                }>;
+            };
+            favorited: (val: boolean) => boolean;
+            favoritesCount: typeof $mol_data_integer;
+        };
+        Value: Readonly<{
+            title: string;
+            slug: string;
+            body: string;
+            createdAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            updatedAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            tagList: readonly string[];
+            description: string;
+            author: {
+                readonly username: string;
+                readonly bio: string | null;
+                readonly image: string;
+                readonly following: boolean;
+            };
+            favorited: boolean;
+            favoritesCount: number;
+        }>;
+    };
+    class $hyoo_realworld_article extends $mol_object2 {
+        static item(slug: string): $hyoo_realworld_article;
+        slug(): string;
+        title(): string;
+        description(): string;
+        body(): string;
+        author(): $hyoo_realworld_person;
+        tags(): readonly string[];
+        comments(): $hyoo_realworld_comment[];
+        json(next?: typeof $hyoo_realworld_article_json.Value): Readonly<{
+            title: string;
+            slug: string;
+            body: string;
+            createdAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            updatedAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            tagList: readonly string[];
+            description: string;
+            author: {
+                readonly username: string;
+                readonly bio: string | null;
+                readonly image: string;
+                readonly following: boolean;
+            };
+            favorited: boolean;
+            favoritesCount: number;
+        }>;
+        static changes(next?: string): string;
+        static save(next: Partial<typeof $hyoo_realworld_article_json.Value>): $hyoo_realworld_article;
+        static list(tag: string): $hyoo_realworld_article[];
+        static page_size(): number;
+        static count_total(tag: string): number;
+        static list_page(id: {
+            tag: string;
+            page: number;
+        }): $hyoo_realworld_article[];
+        static list_page_json(id: {
+            tag: string;
+            page: number;
+        }): Readonly<{
+            articles: readonly {
+                readonly title: string;
+                readonly slug: string;
+                readonly body: string;
+                readonly createdAt: {
+                    readonly year: number | undefined;
+                    readonly month: number | undefined;
+                    readonly day: number | undefined;
+                    readonly hour: number | undefined;
+                    readonly minute: number | undefined;
+                    readonly second: number | undefined;
+                    readonly offset: {
+                        readonly year: number;
+                        readonly month: number;
+                        readonly day: number;
+                        readonly hour: number;
+                        readonly minute: number;
+                        readonly second: number;
+                        summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                        mult: (numb: number) => $mol_time_duration;
+                        count: (config: $mol_time_duration_config) => number;
+                        valueOf: () => number;
+                        toJSON: () => string;
+                        toString: (pattern?: string) => string;
+                    } | undefined;
+                    readonly weekday: number;
+                    _native: {
+                        toString: () => string;
+                        toDateString: () => string;
+                        toTimeString: () => string;
+                        toLocaleString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleDateString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleTimeString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        valueOf: () => number;
+                        getTime: () => number;
+                        getFullYear: () => number;
+                        getUTCFullYear: () => number;
+                        getMonth: () => number;
+                        getUTCMonth: () => number;
+                        getDate: () => number;
+                        getUTCDate: () => number;
+                        getDay: () => number;
+                        getUTCDay: () => number;
+                        getHours: () => number;
+                        getUTCHours: () => number;
+                        getMinutes: () => number;
+                        getUTCMinutes: () => number;
+                        getSeconds: () => number;
+                        getUTCSeconds: () => number;
+                        getMilliseconds: () => number;
+                        getUTCMilliseconds: () => number;
+                        getTimezoneOffset: () => number;
+                        setTime: (time: number) => number;
+                        setMilliseconds: (ms: number) => number;
+                        setUTCMilliseconds: (ms: number) => number;
+                        setSeconds: (sec: number, ms?: number | undefined) => number;
+                        setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                        setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setDate: (date: number) => number;
+                        setUTCDate: (date: number) => number;
+                        setMonth: (month: number, date?: number | undefined) => number;
+                        setUTCMonth: (month: number, date?: number | undefined) => number;
+                        setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        toUTCString: () => string;
+                        toISOString: () => string;
+                        toJSON: (key?: any) => string;
+                        getVarDate: () => VarDate;
+                    } | undefined;
+                    readonly native: {
+                        toString: () => string;
+                        toDateString: () => string;
+                        toTimeString: () => string;
+                        toLocaleString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleDateString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleTimeString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        valueOf: () => number;
+                        getTime: () => number;
+                        getFullYear: () => number;
+                        getUTCFullYear: () => number;
+                        getMonth: () => number;
+                        getUTCMonth: () => number;
+                        getDate: () => number;
+                        getUTCDate: () => number;
+                        getDay: () => number;
+                        getUTCDay: () => number;
+                        getHours: () => number;
+                        getUTCHours: () => number;
+                        getMinutes: () => number;
+                        getUTCMinutes: () => number;
+                        getSeconds: () => number;
+                        getUTCSeconds: () => number;
+                        getMilliseconds: () => number;
+                        getUTCMilliseconds: () => number;
+                        getTimezoneOffset: () => number;
+                        setTime: (time: number) => number;
+                        setMilliseconds: (ms: number) => number;
+                        setUTCMilliseconds: (ms: number) => number;
+                        setSeconds: (sec: number, ms?: number | undefined) => number;
+                        setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                        setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setDate: (date: number) => number;
+                        setUTCDate: (date: number) => number;
+                        setMonth: (month: number, date?: number | undefined) => number;
+                        setUTCMonth: (month: number, date?: number | undefined) => number;
+                        setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        toUTCString: () => string;
+                        toISOString: () => string;
+                        toJSON: (key?: any) => string;
+                        getVarDate: () => VarDate;
+                    };
+                    _normal: any | undefined;
+                    readonly normal: any;
+                    merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                    shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                    toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                };
+                readonly updatedAt: {
+                    readonly year: number | undefined;
+                    readonly month: number | undefined;
+                    readonly day: number | undefined;
+                    readonly hour: number | undefined;
+                    readonly minute: number | undefined;
+                    readonly second: number | undefined;
+                    readonly offset: {
+                        readonly year: number;
+                        readonly month: number;
+                        readonly day: number;
+                        readonly hour: number;
+                        readonly minute: number;
+                        readonly second: number;
+                        summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                        mult: (numb: number) => $mol_time_duration;
+                        count: (config: $mol_time_duration_config) => number;
+                        valueOf: () => number;
+                        toJSON: () => string;
+                        toString: (pattern?: string) => string;
+                    } | undefined;
+                    readonly weekday: number;
+                    _native: {
+                        toString: () => string;
+                        toDateString: () => string;
+                        toTimeString: () => string;
+                        toLocaleString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleDateString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleTimeString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        valueOf: () => number;
+                        getTime: () => number;
+                        getFullYear: () => number;
+                        getUTCFullYear: () => number;
+                        getMonth: () => number;
+                        getUTCMonth: () => number;
+                        getDate: () => number;
+                        getUTCDate: () => number;
+                        getDay: () => number;
+                        getUTCDay: () => number;
+                        getHours: () => number;
+                        getUTCHours: () => number;
+                        getMinutes: () => number;
+                        getUTCMinutes: () => number;
+                        getSeconds: () => number;
+                        getUTCSeconds: () => number;
+                        getMilliseconds: () => number;
+                        getUTCMilliseconds: () => number;
+                        getTimezoneOffset: () => number;
+                        setTime: (time: number) => number;
+                        setMilliseconds: (ms: number) => number;
+                        setUTCMilliseconds: (ms: number) => number;
+                        setSeconds: (sec: number, ms?: number | undefined) => number;
+                        setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                        setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setDate: (date: number) => number;
+                        setUTCDate: (date: number) => number;
+                        setMonth: (month: number, date?: number | undefined) => number;
+                        setUTCMonth: (month: number, date?: number | undefined) => number;
+                        setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        toUTCString: () => string;
+                        toISOString: () => string;
+                        toJSON: (key?: any) => string;
+                        getVarDate: () => VarDate;
+                    } | undefined;
+                    readonly native: {
+                        toString: () => string;
+                        toDateString: () => string;
+                        toTimeString: () => string;
+                        toLocaleString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleDateString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        toLocaleTimeString: {
+                            (): string;
+                            (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                        };
+                        valueOf: () => number;
+                        getTime: () => number;
+                        getFullYear: () => number;
+                        getUTCFullYear: () => number;
+                        getMonth: () => number;
+                        getUTCMonth: () => number;
+                        getDate: () => number;
+                        getUTCDate: () => number;
+                        getDay: () => number;
+                        getUTCDay: () => number;
+                        getHours: () => number;
+                        getUTCHours: () => number;
+                        getMinutes: () => number;
+                        getUTCMinutes: () => number;
+                        getSeconds: () => number;
+                        getUTCSeconds: () => number;
+                        getMilliseconds: () => number;
+                        getUTCMilliseconds: () => number;
+                        getTimezoneOffset: () => number;
+                        setTime: (time: number) => number;
+                        setMilliseconds: (ms: number) => number;
+                        setUTCMilliseconds: (ms: number) => number;
+                        setSeconds: (sec: number, ms?: number | undefined) => number;
+                        setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                        setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                        setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                        setDate: (date: number) => number;
+                        setUTCDate: (date: number) => number;
+                        setMonth: (month: number, date?: number | undefined) => number;
+                        setUTCMonth: (month: number, date?: number | undefined) => number;
+                        setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                        toUTCString: () => string;
+                        toISOString: () => string;
+                        toJSON: (key?: any) => string;
+                        getVarDate: () => VarDate;
+                    };
+                    _normal: any | undefined;
+                    readonly normal: any;
+                    merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                    shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                    toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                };
+                readonly tagList: readonly string[];
+                readonly description: string;
+                readonly author: {
+                    readonly username: string;
+                    readonly bio: string | null;
+                    readonly image: string;
+                    readonly following: boolean;
+                };
+                readonly favorited: boolean;
+                readonly favoritesCount: number;
+            }[];
+            articlesCount: number;
+        }>;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_feed {
+        articles: $hyoo_realworld_article[];
+        articlesCount: number;
     }
 }
 
@@ -2147,6 +3698,1425 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    const $hyoo_realworld_comment_json: ((val: unknown) => Readonly<{
+        author: {
+            readonly username: string;
+            readonly bio: string | null;
+            readonly image: string;
+            readonly following: boolean;
+        };
+        id: number;
+        body: string;
+        createdAt: {
+            readonly year: number | undefined;
+            readonly month: number | undefined;
+            readonly day: number | undefined;
+            readonly hour: number | undefined;
+            readonly minute: number | undefined;
+            readonly second: number | undefined;
+            readonly offset: {
+                readonly year: number;
+                readonly month: number;
+                readonly day: number;
+                readonly hour: number;
+                readonly minute: number;
+                readonly second: number;
+                summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                mult: (numb: number) => $mol_time_duration;
+                count: (config: $mol_time_duration_config) => number;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            } | undefined;
+            readonly weekday: number;
+            _native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            } | undefined;
+            readonly native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            };
+            _normal: any | undefined;
+            readonly normal: any;
+            merge: (config: $mol_time_moment_config) => $mol_time_moment;
+            shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+            valueOf: () => number;
+            toJSON: () => string;
+            toString: (pattern?: string) => string;
+        };
+        updatedAt: {
+            readonly year: number | undefined;
+            readonly month: number | undefined;
+            readonly day: number | undefined;
+            readonly hour: number | undefined;
+            readonly minute: number | undefined;
+            readonly second: number | undefined;
+            readonly offset: {
+                readonly year: number;
+                readonly month: number;
+                readonly day: number;
+                readonly hour: number;
+                readonly minute: number;
+                readonly second: number;
+                summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                mult: (numb: number) => $mol_time_duration;
+                count: (config: $mol_time_duration_config) => number;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            } | undefined;
+            readonly weekday: number;
+            _native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            } | undefined;
+            readonly native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            };
+            _normal: any | undefined;
+            readonly normal: any;
+            merge: (config: $mol_time_moment_config) => $mol_time_moment;
+            shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+            valueOf: () => number;
+            toJSON: () => string;
+            toString: (pattern?: string) => string;
+        };
+    }>) & {
+        config: {
+            author: ((val: unknown) => Readonly<{
+                username: string;
+                bio: string | null;
+                image: string;
+                following: boolean;
+            }>) & {
+                config: {
+                    username: (val: string) => string;
+                    bio: ((val: string | null) => string | null) & {
+                        config: (val: string) => string;
+                        Value: string | null;
+                    };
+                    image: (val: string) => string;
+                    following: (val: boolean) => boolean;
+                };
+                Value: Readonly<{
+                    username: string;
+                    bio: string | null;
+                    image: string;
+                    following: boolean;
+                }>;
+            };
+            id: typeof $mol_data_integer;
+            body: (val: string) => string;
+            createdAt: ((input: string) => $mol_time_moment) & {
+                config: {
+                    funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined, new (input: string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined) => unknown];
+                };
+                Value: $mol_time_moment;
+            };
+            updatedAt: ((input: string) => $mol_time_moment) & {
+                config: {
+                    funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined, new (input: string | number | Date | {
+                        year?: number | undefined;
+                        month?: number | undefined;
+                        day?: number | undefined;
+                        hour?: number | undefined;
+                        minute?: number | undefined;
+                        second?: number | undefined;
+                        offset?: string | number | {
+                            year?: number | undefined;
+                            month?: number | undefined;
+                            day?: number | undefined;
+                            hour?: number | undefined;
+                            minute?: number | undefined;
+                            second?: number | undefined;
+                        } | undefined;
+                    } | undefined) => unknown];
+                };
+                Value: $mol_time_moment;
+            };
+        };
+        Value: Readonly<{
+            author: {
+                readonly username: string;
+                readonly bio: string | null;
+                readonly image: string;
+                readonly following: boolean;
+            };
+            id: number;
+            body: string;
+            createdAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            updatedAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+        }>;
+    };
+    class $hyoo_realworld_comment extends $mol_object2 {
+        static item(id: number): $hyoo_realworld_comment;
+        id(): number;
+        body(): string;
+        updated_moment(): {
+            readonly year: number | undefined;
+            readonly month: number | undefined;
+            readonly day: number | undefined;
+            readonly hour: number | undefined;
+            readonly minute: number | undefined;
+            readonly second: number | undefined;
+            readonly offset: {
+                readonly year: number;
+                readonly month: number;
+                readonly day: number;
+                readonly hour: number;
+                readonly minute: number;
+                readonly second: number;
+                summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                mult: (numb: number) => $mol_time_duration;
+                count: (config: $mol_time_duration_config) => number;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            } | undefined;
+            readonly weekday: number;
+            _native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            } | undefined;
+            readonly native: {
+                toString: () => string;
+                toDateString: () => string;
+                toTimeString: () => string;
+                toLocaleString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleDateString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                toLocaleTimeString: {
+                    (): string;
+                    (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                };
+                valueOf: () => number;
+                getTime: () => number;
+                getFullYear: () => number;
+                getUTCFullYear: () => number;
+                getMonth: () => number;
+                getUTCMonth: () => number;
+                getDate: () => number;
+                getUTCDate: () => number;
+                getDay: () => number;
+                getUTCDay: () => number;
+                getHours: () => number;
+                getUTCHours: () => number;
+                getMinutes: () => number;
+                getUTCMinutes: () => number;
+                getSeconds: () => number;
+                getUTCSeconds: () => number;
+                getMilliseconds: () => number;
+                getUTCMilliseconds: () => number;
+                getTimezoneOffset: () => number;
+                setTime: (time: number) => number;
+                setMilliseconds: (ms: number) => number;
+                setUTCMilliseconds: (ms: number) => number;
+                setSeconds: (sec: number, ms?: number | undefined) => number;
+                setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                setDate: (date: number) => number;
+                setUTCDate: (date: number) => number;
+                setMonth: (month: number, date?: number | undefined) => number;
+                setUTCMonth: (month: number, date?: number | undefined) => number;
+                setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                toUTCString: () => string;
+                toISOString: () => string;
+                toJSON: (key?: any) => string;
+                getVarDate: () => VarDate;
+            };
+            _normal: any | undefined;
+            readonly normal: any;
+            merge: (config: $mol_time_moment_config) => $mol_time_moment;
+            shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+            valueOf: () => number;
+            toJSON: () => string;
+            toString: (pattern?: string) => string;
+        };
+        author(): $hyoo_realworld_person;
+        json(next?: Readonly<{
+            author: {
+                readonly username: string;
+                readonly bio: string | null;
+                readonly image: string;
+                readonly following: boolean;
+            };
+            id: number;
+            body: string;
+            createdAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            updatedAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+        }>): Readonly<{
+            author: {
+                readonly username: string;
+                readonly bio: string | null;
+                readonly image: string;
+                readonly following: boolean;
+            };
+            id: number;
+            body: string;
+            createdAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+            updatedAt: {
+                readonly year: number | undefined;
+                readonly month: number | undefined;
+                readonly day: number | undefined;
+                readonly hour: number | undefined;
+                readonly minute: number | undefined;
+                readonly second: number | undefined;
+                readonly offset: {
+                    readonly year: number;
+                    readonly month: number;
+                    readonly day: number;
+                    readonly hour: number;
+                    readonly minute: number;
+                    readonly second: number;
+                    summ: (config: $mol_time_duration_config) => $mol_time_duration;
+                    mult: (numb: number) => $mol_time_duration;
+                    count: (config: $mol_time_duration_config) => number;
+                    valueOf: () => number;
+                    toJSON: () => string;
+                    toString: (pattern?: string) => string;
+                } | undefined;
+                readonly weekday: number;
+                _native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                } | undefined;
+                readonly native: {
+                    toString: () => string;
+                    toDateString: () => string;
+                    toTimeString: () => string;
+                    toLocaleString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleDateString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    toLocaleTimeString: {
+                        (): string;
+                        (locales?: string | string[] | undefined, options?: Intl.DateTimeFormatOptions | undefined): string;
+                    };
+                    valueOf: () => number;
+                    getTime: () => number;
+                    getFullYear: () => number;
+                    getUTCFullYear: () => number;
+                    getMonth: () => number;
+                    getUTCMonth: () => number;
+                    getDate: () => number;
+                    getUTCDate: () => number;
+                    getDay: () => number;
+                    getUTCDay: () => number;
+                    getHours: () => number;
+                    getUTCHours: () => number;
+                    getMinutes: () => number;
+                    getUTCMinutes: () => number;
+                    getSeconds: () => number;
+                    getUTCSeconds: () => number;
+                    getMilliseconds: () => number;
+                    getUTCMilliseconds: () => number;
+                    getTimezoneOffset: () => number;
+                    setTime: (time: number) => number;
+                    setMilliseconds: (ms: number) => number;
+                    setUTCMilliseconds: (ms: number) => number;
+                    setSeconds: (sec: number, ms?: number | undefined) => number;
+                    setUTCSeconds: (sec: number, ms?: number | undefined) => number;
+                    setMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCMinutes: (min: number, sec?: number | undefined, ms?: number | undefined) => number;
+                    setHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setUTCHours: (hours: number, min?: number | undefined, sec?: number | undefined, ms?: number | undefined) => number;
+                    setDate: (date: number) => number;
+                    setUTCDate: (date: number) => number;
+                    setMonth: (month: number, date?: number | undefined) => number;
+                    setUTCMonth: (month: number, date?: number | undefined) => number;
+                    setFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    setUTCFullYear: (year: number, month?: number | undefined, date?: number | undefined) => number;
+                    toUTCString: () => string;
+                    toISOString: () => string;
+                    toJSON: (key?: any) => string;
+                    getVarDate: () => VarDate;
+                };
+                _normal: any | undefined;
+                readonly normal: any;
+                merge: (config: $mol_time_moment_config) => $mol_time_moment;
+                shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
+                valueOf: () => number;
+                toJSON: () => string;
+                toString: (pattern?: string) => string;
+            };
+        }>;
+        static changes(next?: number): number;
+        static save(article: string, next: Partial<typeof $hyoo_realworld_comment_json.Value>): string;
+        static list(article: $hyoo_realworld_article): $hyoo_realworld_comment[];
+    }
+}
+
+declare namespace $ {
     class $mol_bar extends $mol_view {
     }
 }
@@ -2399,114 +5369,6 @@ declare namespace $.$$ {
     class $hyoo_realworld_comment_add extends $.$hyoo_realworld_comment_add {
         post(): any;
         postable(): boolean;
-    }
-}
-
-declare namespace $ {
-    class $mol_time_base {
-        static patterns: any;
-        static formatter(pattern: string): any;
-        toString(pattern: string): string;
-    }
-}
-
-declare namespace $ {
-    type $mol_time_duration_config = number | string | {
-        year?: number;
-        month?: number;
-        day?: number;
-        hour?: number;
-        minute?: number;
-        second?: number;
-    };
-    class $mol_time_duration extends $mol_time_base {
-        constructor(config?: $mol_time_duration_config);
-        readonly year: number;
-        readonly month: number;
-        readonly day: number;
-        readonly hour: number;
-        readonly minute: number;
-        readonly second: number;
-        summ(config: $mol_time_duration_config): $mol_time_duration;
-        mult(numb: number): $mol_time_duration;
-        count(config: $mol_time_duration_config): number;
-        valueOf(): number;
-        toJSON(): string;
-        toString(pattern?: string): string;
-        static patterns: {
-            '#Y': (duration: $mol_time_duration) => string;
-            '#M': (duration: $mol_time_duration) => string;
-            '#D': (duration: $mol_time_duration) => string;
-            '#h': (duration: $mol_time_duration) => string;
-            '#m': (duration: $mol_time_duration) => string;
-            '#s': (duration: $mol_time_duration) => string;
-            '+hh': (duration: $mol_time_duration) => string;
-            mm: (duration: $mol_time_duration) => string;
-        };
-    }
-}
-
-declare namespace $ {
-    type $mol_time_moment_config = number | Date | string | {
-        year?: number;
-        month?: number;
-        day?: number;
-        hour?: number;
-        minute?: number;
-        second?: number;
-        offset?: $mol_time_duration_config;
-    };
-    class $mol_time_moment extends $mol_time_base {
-        constructor(config?: $mol_time_moment_config);
-        readonly year: number | undefined;
-        readonly month: number | undefined;
-        readonly day: number | undefined;
-        readonly hour: number | undefined;
-        readonly minute: number | undefined;
-        readonly second: number | undefined;
-        readonly offset: $mol_time_duration | undefined;
-        get weekday(): number;
-        _native: Date | undefined;
-        get native(): Date;
-        _normal: $mol_time_moment | undefined;
-        get normal(): $mol_time_moment;
-        merge(config: $mol_time_moment_config): $mol_time_moment;
-        shift(config: $mol_time_duration_config): $mol_time_moment;
-        toOffset(config: $mol_time_duration_config): $mol_time_moment;
-        valueOf(): number;
-        toJSON(): string;
-        toString(pattern?: string): string;
-        static patterns: {
-            YYYY: (moment: $mol_time_moment) => string;
-            AD: (moment: $mol_time_moment) => string;
-            YY: (moment: $mol_time_moment) => string;
-            Month: (moment: $mol_time_moment) => string;
-            'DD Month': (moment: $mol_time_moment) => string;
-            'D Month': (moment: $mol_time_moment) => string;
-            Mon: (moment: $mol_time_moment) => string;
-            'DD Mon': (moment: $mol_time_moment) => string;
-            'D Mon': (moment: $mol_time_moment) => string;
-            '-MM': (moment: $mol_time_moment) => string;
-            MM: (moment: $mol_time_moment) => string;
-            M: (moment: $mol_time_moment) => string;
-            WeekDay: (moment: $mol_time_moment) => string;
-            WD: (moment: $mol_time_moment) => string;
-            '-DD': (moment: $mol_time_moment) => string;
-            DD: (moment: $mol_time_moment) => string;
-            D: (moment: $mol_time_moment) => string;
-            Thh: (moment: $mol_time_moment) => string;
-            hh: (moment: $mol_time_moment) => string;
-            h: (moment: $mol_time_moment) => string;
-            ':mm': (moment: $mol_time_moment) => string;
-            mm: (moment: $mol_time_moment) => string;
-            m: (moment: $mol_time_moment) => string;
-            ':ss': (moment: $mol_time_moment) => string;
-            ss: (moment: $mol_time_moment) => string;
-            s: (moment: $mol_time_moment) => string;
-            '.sss': (moment: $mol_time_moment) => string;
-            sss: (moment: $mol_time_moment) => string;
-            Z: (moment: $mol_time_moment) => string;
-        };
     }
 }
 

@@ -573,6 +573,7 @@ $hyoo_realworld_sign_in $mol_page
 		<= Close $mol_link
 			arg *
 				section null
+				edit null
 			sub / <= Close_icon $mol_icon_cross
 	body /
 		<= Need_account $mol_link
