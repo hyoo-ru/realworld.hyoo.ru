@@ -12,7 +12,26 @@ namespace $ {
 		@ $mol_fiber.method
 		static auth( creds : { email : string , password : string } ) {
 
-			const res = this.$.$hyoo_realworld_transport.save( `users/login` , 'post' , { user : creds } )
+			const res = this.$.$hyoo_realworld_transport.save(
+				`users/login`,
+				'post',
+				{ user : creds },
+			)
+			const person = Response( res ).user
+			
+			this.$.$hyoo_realworld_transport.token( person.token )
+
+			return person
+		}
+
+		@ $mol_fiber.method
+		static register( creds : { username : string , email : string , password : string } ) {
+
+			const res = this.$.$hyoo_realworld_transport.save(
+				`users/login`,
+				'post',
+				{ user : creds },
+			)
 			const person = Response( res ).user
 			
 			this.$.$hyoo_realworld_transport.token( person.token )

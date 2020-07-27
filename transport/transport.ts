@@ -22,6 +22,7 @@ namespace $ {
 			if( !token ) return headers
 			
 			return {
+				... headers,
 				'Authorization': `Token ${token}`,
 			}
 

@@ -1,18 +1,22 @@
-$hyoo_realworld_sign_in $mol_page
-	title @ \Sign In
+$hyoo_realworld_sign_up $mol_page
+	title @ \Sign Up
 	tools /
 		<= Close $mol_link
 			arg *
 				section null
-				edit null
 			sub / <= Close_icon $mol_icon_cross
 	body /
-		<= Need_account $mol_link
+		<= Have_account $mol_link
 			arg *
-				section \signup
-			sub / <= need_account_label @ \Need an account?
+				section \signin
+			sub / <= have_account_label @ \Have an account?
 		<= Form $mol_form
 			form_fields /
+				<= Username_field $mol_form_field
+					name <= Username_name @ \Username
+					control <= Username $mol_string
+						hint \user666
+						value?val <=> username?val \
 				<= Mail_field $mol_form_field
 					name <= Mail_name @ \E-Mail
 					control <= Mail $mol_string
@@ -26,5 +30,5 @@ $hyoo_realworld_sign_in $mol_page
 						value?val <=> pass?val \
 			buttons /
 				<= Submit $mol_button_major
-					title <= Auth_label @ \Sign In
-					click?val <=> auth?val null
+					title <= Reg_label @ \Sign Up
+					click?val <=> reg?val null

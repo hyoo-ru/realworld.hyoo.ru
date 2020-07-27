@@ -11,4 +11,3 @@ $hyoo_realworld_tags_page $mol_page
 			article null
 			edit null
 		title <= tag_name!index \
-	tag_all_name @ \All articles
