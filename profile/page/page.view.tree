@@ -1,9 +1,10 @@
 $hyoo_realworld_profile_page $mol_page
 	title @ \Profile
+	section null
 	tools /
 		<= Sign_out $mol_button_minor
 			title \
-			event_click?val <=> sign_out?val null
+			click?val <=> sign_out?val null
 			sub / <= Logout_icon $mol_icon_logout
 		<= Close $mol_link
 			arg *

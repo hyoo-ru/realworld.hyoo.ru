@@ -8,7 +8,7 @@ $hyoo_realworld_sign_in $mol_page
 	body /
 		<= Need_account $mol_link
 			arg *
-				section \signup
+				section \sign_up
 			sub / <= need_account_label @ \Need an account?
 		<= Form $mol_form
 			form_fields /

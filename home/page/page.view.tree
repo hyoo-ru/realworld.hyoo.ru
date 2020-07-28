@@ -28,11 +28,11 @@ $hyoo_realworld_home_page $mol_page
 		sub / <= settings_link @ \Settings
 	Sign_in $mol_link
 		arg *
-			section \signin
+			section \sign_in
 		sub / <= sign_in_link @ \Sign in
 	Sign_up $mol_link
 		arg *
-			section \signup
+			section \sign_up
 		sub / <= sign_up_link @ \Sign up
 	signed_links /
 		<= Articles

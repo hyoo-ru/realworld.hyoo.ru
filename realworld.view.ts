@@ -1,4 +1,7 @@
 namespace $.$$ {
+
+	export type SectionUnion = 'profile' | 'articles' | 'tags' | 'sign_up' | 'sign_in'
+
 	export class $hyoo_realworld extends $.$hyoo_realworld {
 
 		article() {
@@ -27,19 +30,23 @@ namespace $.$$ {
 			return Boolean( this.$.$hyoo_realworld_domain.token() )
 		}
 
-		section( name : string ) {
-			return this.$.$mol_state_arg.value( 'section' ) === name 
+		section( next? : SectionUnion | undefined ) : SectionUnion {
+			if ( next !== undefined ) {
+				this.$.$mol_state_arg.value( 'section' , next ) 
+				return next;
+			}
+			return this.$.$mol_state_arg.value( 'section' ) as SectionUnion;
 		}
 
 		pages() {
 			return [
 				this.Menu() ,
-				... this.section( 'profile' ) ? [ this.Profile() ] : [ ] ,
-				... this.section( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
-				... this.section( 'tags' ) ? [ this.Tags() ] : [ ] ,
+				... this.section() === 'profile' ? [ this.Profile() ] : [ ] ,
+				... this.section() === 'articles' ? [ this.Feed( '' ) ] : [ ] ,
+				... this.section() === 'tags' ? [ this.Tags() ] : [ ] ,
+				... this.section() === 'sign_in' ? [ this.Sign_in() ] : [ ] ,
+				... this.section() === 'sign_up' ? [ this.Sign_up() ] : [ ] ,
 				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
-				... this.section( 'signin' ) ? [ this.Sign_in() ] : [ ] ,
-				... this.section( 'signup' ) ? [ this.Sign_up() ] : [ ] ,
 				... this.article() ? [ this.Article( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug ) ] : [] ,
 				... ( this.edit() && !this.signed() ) ? [ this.Sign_in() ] : [] ,
