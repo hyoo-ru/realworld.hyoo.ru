@@ -5,7 +5,7 @@ namespace $.$$ {
 		sign_out() {
 			this.$.$hyoo_realworld_domain.sign_out()
 			this.$.$mol_state_arg.value( 'person' , null ) 
-			this.section( $hyoo_realworld_sections.profile );
+			this.section( null );
 		}
 
 	}

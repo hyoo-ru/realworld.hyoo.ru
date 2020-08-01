@@ -3,9 +3,7 @@ $hyoo_realworld_feed_page $mol_page
 	minimal_width 400
 	tools /
 		<= Add_link $mol_link
-			arg *
-				article \
-				edit \
+			arg * edit \
 			sub / <= Add_icon $mol_icon_plus
 	body /
 		<= Article_links $mol_list
