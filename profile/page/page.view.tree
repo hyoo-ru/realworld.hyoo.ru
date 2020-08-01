@@ -13,10 +13,10 @@ $hyoo_realworld_profile_page $mol_page
 	email \user@mail.com
 	username \jake
 	bio \I work a statefarm
-	image \https://static.productionready.io/images/smiley-cyrus.jpg
+	avatar \https://static.productionready.io/images/smiley-cyrus.jpg
 	body /
 		<= Image $mol_image
-			uri <= image
+			uri <= avatar
 			title <= image_title @ \User image
 		<= Email $mol_labeler
 			title <= email_label @ \Email
