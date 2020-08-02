@@ -5,9 +5,9 @@ $hyoo_realworld $mol_book2
 	Profile $hyoo_realworld_profile_page
 		section?name <=> section?name \
 	sections *
-		articles <= feed_current null 
-		article <= article_current null
-		edit <= edit_current null
+		articles <= feed_current $hyoo_realworld_feed_page
+		article <= article_current $hyoo_realworld_article_page
+		edit <= edit_current $hyoo_realworld_article_edit
 		profile <= Profile
 		home <= Home $hyoo_realworld_home_page
 		tags <= Tags $hyoo_realworld_tags_page
