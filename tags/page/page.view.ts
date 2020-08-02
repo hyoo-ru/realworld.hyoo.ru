@@ -4,7 +4,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tags() {
-			return this.$.$hyoo_realworld_domain.tags()
+			return this.$.$hyoo_realworld_tags.list()
 		}
 
 		@ $mol_mem

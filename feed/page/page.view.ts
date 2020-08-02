@@ -8,7 +8,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		articles() {
-			return this.$.$hyoo_realworld_domain.articles( this.tag() )
+			return this.$.$hyoo_realworld_article.list( this.tag() )
 		}
 
 		@ $mol_mem
@@ -18,7 +18,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		article_slug( index : number ) {
-			return this.articles()[ index ].slug
+			return this.articles()[ index ].slug()
 		}
 
 		@ $mol_mem_key

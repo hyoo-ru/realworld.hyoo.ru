@@ -5,7 +5,10 @@ namespace $.$$ {
 		@ $mol_fiber.method
 		post() {
 			
-			this.$.$hyoo_realworld_domain.comment_add( this.article().slug , { body : this.message() } )
+			this.$.$hyoo_realworld_comment.save(
+				this.article().slug(),
+				{ body : this.message() },
+			)
 			
 			this.message( '' )
 			

@@ -18,6 +18,7 @@ namespace $.$$ {
 		article() {
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
+                          
 			return this.$.$hyoo_realworld_domain.article( slug )
 		}
 
@@ -32,7 +33,7 @@ namespace $.$$ {
 		}
 
 		signed() {
-			return Boolean( this.$.$hyoo_realworld_domain.token() )
+			return this.$.$hyoo_realworld_sign.signed()
 		}
 
 		@ $mol_mem
@@ -54,7 +55,8 @@ namespace $.$$ {
 				this.edit() && (
 					this.signed() ? this.edit_current() : this.sections().sign_in
 				)
-			].filter(Boolean)
+			].filter( Boolean )
+      
 		}
 
 	}

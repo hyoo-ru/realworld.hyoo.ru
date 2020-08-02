@@ -4,7 +4,7 @@ namespace $.$$ {
 
 		reg() {
 
-			const person = this.$.$hyoo_realworld_domain.sign_up( {
+			const person = this.$.$hyoo_realworld_sign.register( {
 				username : this.username() ,
 				email : this.mail() ,
 				password : this.pass() ,

@@ -4,20 +4,21 @@ namespace $.$$ {
 
 		@ $mol_mem
 		article() {
-			return this.$.$hyoo_realworld_domain.article( this.$.$mol_state_arg.value( 'article' )! )
+			const slug = this.$.$mol_state_arg.value( 'article' )!
+			return this.$.$hyoo_realworld_article.item( slug )
 		}
 
 		content() {
-			return this.article().body
+			return this.article().body()
 		}
 
 		title() {
-			return this.article().title
+			return this.article().title()
 		}
 
 		@ $mol_mem
 		comments() {
-			return this.$.$hyoo_realworld_domain.comments( this.article().slug )
+			return this.article().comments()
 		}
 
 		@ $mol_mem
@@ -32,11 +33,11 @@ namespace $.$$ {
 
 		@ $mol_mem
 		tags() {
-			return this.article().tagList.map( ( tag , index )=> this.Tag_link( index ) )
+			return this.article().tags().map( ( tag , index )=> this.Tag_link( index ) )
 		}
 
 		tag_name( index : number ) {
-			return this.article().tagList[ index ]
+			return this.article().tags()[ index ]
 		}
 
 	}
