@@ -941,416 +941,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_speck extends $mol_view {
-        attr(): {
-            mol_theme: string;
-        };
-        style(): {
-            minHeight: string;
-        };
-        sub(): readonly any[];
-        value(): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_button extends $mol_view {
-        enabled(): boolean;
-        minimal_height(): number;
-        click(event?: any, force?: $mol_mem_force): any;
-        event_click(event?: any, force?: $mol_mem_force): any;
-        event(): {
-            click: (event?: any) => any;
-            keypress: (event?: any) => any;
-        };
-        event_activate(event?: any, force?: $mol_mem_force): any;
-        event_key_press(event?: any, force?: $mol_mem_force): any;
-        attr(): {
-            disabled: boolean;
-            role: string;
-            tabindex: number;
-            title: string;
-        };
-        disabled(): boolean;
-        tab_index(): number;
-        hint_or_error(): string;
-        hint(): string;
-        sub(): readonly (string | number | boolean | $mol_view | Node)[];
-        Speck(): $mol_speck;
-    }
-}
-
-declare namespace $ {
-    enum $mol_keyboard_code {
-        backspace = 8,
-        tab = 9,
-        enter = 13,
-        shift = 16,
-        ctrl = 17,
-        alt = 18,
-        pause = 19,
-        capsLock = 20,
-        escape = 27,
-        space = 32,
-        pageUp = 33,
-        pageDown = 34,
-        end = 35,
-        home = 36,
-        left = 37,
-        up = 38,
-        right = 39,
-        down = 40,
-        insert = 45,
-        delete = 46,
-        key0 = 48,
-        key1 = 49,
-        key2 = 50,
-        key3 = 51,
-        key4 = 52,
-        key5 = 53,
-        key6 = 54,
-        key7 = 55,
-        key8 = 56,
-        key9 = 57,
-        A = 65,
-        B = 66,
-        C = 67,
-        D = 68,
-        E = 69,
-        F = 70,
-        G = 71,
-        H = 72,
-        I = 73,
-        J = 74,
-        K = 75,
-        L = 76,
-        M = 77,
-        N = 78,
-        O = 79,
-        P = 80,
-        Q = 81,
-        R = 82,
-        S = 83,
-        T = 84,
-        U = 85,
-        V = 86,
-        W = 87,
-        X = 88,
-        Y = 89,
-        Z = 90,
-        metaLeft = 91,
-        metaRight = 92,
-        select = 93,
-        numpad0 = 96,
-        numpad1 = 97,
-        numpad2 = 98,
-        numpad3 = 99,
-        numpad4 = 100,
-        numpad5 = 101,
-        numpad6 = 102,
-        numpad7 = 103,
-        numpad8 = 104,
-        numpad9 = 105,
-        multiply = 106,
-        add = 107,
-        subtract = 109,
-        decimal = 110,
-        divide = 111,
-        F1 = 112,
-        F2 = 113,
-        F3 = 114,
-        F4 = 115,
-        F5 = 116,
-        F6 = 117,
-        F7 = 118,
-        F8 = 119,
-        F9 = 120,
-        F10 = 121,
-        F11 = 122,
-        F12 = 123,
-        numLock = 144,
-        scrollLock = 145,
-        semicolon = 186,
-        equals = 187,
-        comma = 188,
-        dash = 189,
-        period = 190,
-        forwardSlash = 191,
-        graveAccent = 192,
-        bracketOpen = 219,
-        slashBack = 220,
-        slashBackLeft = 226,
-        bracketClose = 221,
-        quoteSingle = 222
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_button extends $.$mol_button {
-        fiber(next?: $mol_fiber<any> | null): $mol_fiber<any> | null;
-        disabled(): boolean;
-        event_activate(next: Event): void;
-        event_key_press(event: KeyboardEvent): void;
-        tab_index(): number;
-        error(): string;
-        hint_or_error(): string;
-        sub_visible(): (string | number | boolean | $mol_view | Node | $mol_speck)[];
-    }
-}
-
-declare namespace $ {
-    class $mol_page extends $mol_view {
-        sub(): readonly any[];
-        Head(): $mol_view;
-        head(): readonly any[];
-        Title(): $$.$mol_button;
-        event_top(val?: any, force?: $mol_mem_force): any;
-        Tools(): $mol_view;
-        tools(): readonly (string | number | boolean | $mol_view | Node)[];
-        Body(): $$.$mol_scroll;
-        body_scroll_top(val?: any, force?: $mol_mem_force): any;
-        body(): readonly (string | number | boolean | $mol_view | Node)[];
-        Foot(): $mol_view;
-        foot(): readonly $mol_view[];
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $.$$ {
-    class $mol_page extends $.$mol_page {
-        body_scroll_top(next?: number): number;
-    }
-}
-
-declare namespace $ {
-    class $mol_link extends $mol_view {
-        dom_name(): string;
-        attr(): {
-            href: string;
-            title: string;
-            target: string;
-            download: string;
-            mol_link_current: boolean;
-            mol_theme: any;
-        };
-        uri(): string;
-        hint(): string;
-        target(): string;
-        file_name(): string;
-        current(): boolean;
-        theme(): any;
-        sub(): readonly (string | number | boolean | $mol_view | Node)[];
-        arg(): {};
-        event(): {
-            click: (event?: any) => any;
-        };
-        click(event?: any, force?: $mol_mem_force): any;
-        event_click(event?: any, force?: $mol_mem_force): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_state_arg extends $mol_object {
-        prefix: string;
-        static href(next?: string, force?: $mol_mem_force): string;
-        static dict(next?: {
-            [key: string]: string | null;
-        }): {
-            [key: string]: string;
-        };
-        static dict_cut(except: string[]): {
-            [key: string]: string;
-        };
-        static value(key: string, next?: string | null): string | null;
-        static link(next: {
-            [key: string]: string;
-        }): string;
-        static make_link(next: {
-            [key: string]: string | null;
-        }): string;
-        static encode(str: string): string;
-        constructor(prefix?: string);
-        value(key: string, next?: string): string | null;
-        sub(postfix: string): $mol_state_arg;
-        link(next: {
-            [key: string]: string;
-        }): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_link extends $.$mol_link {
-        uri(): string;
-        current(): boolean;
-        event_click(event?: Event): void;
-        file_name(): string;
-        minimal_height(): number;
-        theme(): "$mol_theme_base" | null;
-    }
-}
-
-declare namespace $ {
-    class $mol_state_local<Value> extends $mol_object {
-        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
-        static native(): Storage | {
-            getItem(key: string): any;
-            setItem(key: string, value: string): void;
-            removeItem(key: string): void;
-        };
-        static value<Value>(key: string, next?: Value, force?: $mol_mem_force): Value | null;
-        prefix(): string;
-        value(key: string, next?: Value): Value | null;
-    }
-}
-
-declare namespace $ {
-}
-
-declare var $node: any;
-
-declare namespace $ {
-    type $mol_charset_encoding = 'utf8' | 'ibm866' | 'iso-8859-2' | 'iso-8859-3' | 'iso-8859-4' | 'iso-8859-5' | 'iso-8859-6' | 'iso-8859-7' | 'iso-8859-8' | 'iso-8859-8i' | 'iso-8859-10' | 'iso-8859-13' | 'iso-8859-14' | 'iso-8859-15' | 'iso-8859-16' | 'koi8-r' | 'koi8-u' | 'koi8-r' | 'macintosh' | 'windows-874' | 'windows-1250' | 'windows-1251' | 'windows-1252' | 'windows-1253' | 'windows-1254' | 'windows-1255' | 'windows-1256' | 'windows-1257' | 'windows-1258' | 'x-mac-cyrillic' | 'gbk' | 'gb18030' | 'hz-gb-2312' | 'big5' | 'euc-jp' | 'iso-2022-jp' | 'shift-jis' | 'euc-kr' | 'iso-2022-kr';
-    function $mol_charset_decode(value: Uint8Array, code?: $mol_charset_encoding): string;
-}
-
-declare namespace $ {
-    function $mol_charset_encode(value: string): Uint8Array;
-}
-
-declare namespace $ {
-    type $mol_file_type = 'file' | 'dir' | 'link';
-    interface $mol_file_stat {
-        type: $mol_file_type;
-        size: number;
-        atime: Date;
-        mtime: Date;
-        ctime: Date;
-    }
-    class $mol_file_not_found extends Error {
-    }
-    abstract class $mol_file extends $mol_object {
-        static absolute(path: string): $mol_file;
-        static relative(path: string): $mol_file;
-        path(): string;
-        parent(): $mol_file;
-        abstract stat(next?: $mol_file_stat, force?: $mol_mem_force): $mol_file_stat;
-        reset(): void;
-        version(): string;
-        abstract ensure(next?: boolean): boolean;
-        watcher(): {
-            destructor(): void;
-        };
-        exists(next?: boolean, force?: $mol_mem_force): boolean;
-        type(): $mol_file_type;
-        name(): string;
-        ext(): string;
-        abstract buffer(next?: Uint8Array, force?: $mol_mem_force): Uint8Array;
-        text(next?: string, force?: $mol_mem_force): string;
-        fail(error: Error): void;
-        buffer_cached(buffer: Uint8Array): void;
-        text_cached(content: string): void;
-        abstract sub(): $mol_file[];
-        abstract resolve(path: string): $mol_file;
-        abstract relate(base?: $mol_file): string;
-        abstract append(next: Uint8Array | string): void;
-        find(include?: RegExp, exclude?: RegExp): $mol_file[];
-    }
-}
-
-declare namespace $ {
-    function $mol_dom_parse(text: string, type?: SupportedType): Document;
-}
-
-declare namespace $ {
-    class $mol_fetch_response extends $mol_object2 {
-        readonly native: Response;
-        constructor(native: Response);
-        headers(): Headers;
-        mime(): string | null;
-        stream(): ReadableStream<Uint8Array> | null;
-        text(): string;
-        json(): unknown;
-        buffer(): ArrayBuffer;
-        xml(): Document;
-        xhtml(): Document;
-        html(): Document;
-    }
-    class $mol_fetch extends $mol_object2 {
-        static request: (input: RequestInfo, init?: RequestInit | undefined) => Response;
-        static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
-        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array> | null;
-        static text(input: RequestInfo, init?: RequestInit): string;
-        static json(input: RequestInfo, init?: RequestInit): unknown;
-        static buffer(input: RequestInfo, init?: RequestInit): void;
-        static xml(input: RequestInfo, init?: RequestInit): Document;
-        static xhtml(input: RequestInfo, init?: RequestInit): Document;
-        static html(input: RequestInfo, init?: RequestInit): Document;
-    }
-}
-
-declare namespace $ {
-    class $mol_file_web extends $mol_file {
-        static absolute(path: string): $mol_file_web;
-        static relative(path: string): $mol_file_web;
-        static base: string;
-        buffer(next?: Uint8Array, force?: $mol_mem_force): Uint8Array;
-        stat(next?: $mol_file_stat, force?: $mol_mem_force): $mol_file_stat;
-        resolve(path: string): $mol_file_web;
-        ensure(next?: boolean): boolean;
-        sub(): $mol_file[];
-        relate(base?: $mol_file): string;
-        append(next: Uint8Array | string): void;
-    }
-}
-
-declare namespace $ {
-    interface $mol_locale_dict {
-        [key: string]: string;
-    }
-    class $mol_locale extends $mol_object {
-        static lang_default(): string;
-        static lang(next?: string): string;
-        static source(lang: string): any;
-        static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
-        static text(key: string): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_home_page extends $mol_page {
-        Page_link(): $$.$mol_link;
-        title(): string;
-        Articles(): $$.$mol_link;
-        articles_link(): string;
-        Tags(): $$.$mol_link;
-        tags_link(): string;
-        Favorites(): $$.$mol_link;
-        favorites_link(): string;
-        Profile(): $$.$mol_link;
-        profile_link(): string;
-        Settings(): $$.$mol_link;
-        settings_link(): string;
-        Sign_in(): $$.$mol_link;
-        sign_in_link(): string;
-        Sign_up(): $$.$mol_link;
-        sign_up_link(): string;
-        signed_links(): readonly any[];
-        unsigned_links(): readonly any[];
-    }
-}
-
-declare namespace $ {
     type $mol_data_value<Input = any, Output = any> = (val: Input) => Output;
 }
 
@@ -1402,146 +992,6 @@ declare namespace $ {
 
 declare namespace $ {
     let $mol_data_string: (val: string) => string;
-}
-
-declare namespace $ {
-    class $hyoo_realworld_transport extends $mol_object2 {
-        static api_base(): string;
-        static token(next?: string | null): string | null;
-        static headers(): {
-            'Content-Type': string;
-        } | {
-            Authorization: string;
-            'Content-Type': string;
-        };
-        static load(path: string): any;
-        static save(path: string, method: 'post' | 'put', body: object): any;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_sign extends $mol_object2 {
-        static auth(creds: {
-            email: string;
-            password: string;
-        }): {
-            readonly token: string;
-            readonly username: string;
-        };
-        static register(creds: {
-            username: string;
-            email: string;
-            password: string;
-        }): {
-            readonly token: string;
-            readonly username: string;
-        };
-        static signed(): boolean;
-        static drop(): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
-        body(): readonly any[];
-    }
-}
-
-declare namespace $ {
-    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][] | unknown) => readonly ReturnType<Sub>[]) & {
-        config: Sub;
-        Value: readonly ReturnType<Sub>[];
-    };
-}
-
-declare namespace $ {
-    const $hyoo_realworld_tags_json: ((val: unknown) => readonly string[]) & {
-        config: (val: string) => string;
-        Value: readonly string[];
-    };
-    class $hyoo_realworld_tags extends $mol_object2 {
-        static list(): readonly string[];
-    }
-}
-
-declare namespace $ {
-    class $mol_list extends $mol_view {
-        render_visible_only(): boolean;
-        render_over(): number;
-        sub(): readonly $mol_view[];
-        rows(): readonly $mol_view[];
-        Empty(): $mol_view;
-        Gap_before(): $mol_view;
-        gap_before(): number;
-        Gap_after(): $mol_view;
-        gap_after(): number;
-        view_window(): readonly any[];
-    }
-}
-
-declare namespace $ {
-    class $mol_dom_listener extends $mol_object {
-        _node: any;
-        _event: string;
-        _handler: (event: any) => any;
-        _config: boolean | {
-            passive: boolean;
-        };
-        constructor(_node: any, _event: string, _handler: (event: any) => any, _config?: boolean | {
-            passive: boolean;
-        });
-        destructor(): void;
-    }
-}
-
-declare namespace $ {
-    class $mol_print extends $mol_object {
-        static before(): $mol_dom_listener;
-        static after(): $mol_dom_listener;
-        static active(next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_list extends $.$mol_list {
-        sub(): readonly $mol_view[];
-        render_visible_only(): boolean;
-        view_window(): [number, number];
-        gap_before(): number;
-        gap_after(): number;
-        sub_visible(): $mol_view[];
-        minimal_height(): number;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_tags_page extends $mol_page {
-        title(): string;
-        body(): readonly any[];
-        Tag_links(): $$.$mol_list;
-        tag_links(): readonly any[];
-        Tag_link(index: any): $$.$mol_link;
-        tag_id(index: any): string;
-        tag_name(index: any): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
-        tags(): readonly string[];
-        tag_links(): $mol_link[];
-        tag_id(index: number): string;
-        tag_name(index: number): string;
-    }
 }
 
 declare namespace $ {
@@ -1677,6 +1127,88 @@ declare namespace $ {
             sss: (moment: $mol_time_moment) => string;
             Z: (moment: $mol_time_moment) => string;
         };
+    }
+}
+
+declare namespace $ {
+    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][] | unknown) => readonly ReturnType<Sub>[]) & {
+        config: Sub;
+        Value: readonly ReturnType<Sub>[];
+    };
+}
+
+declare namespace $ {
+    class $mol_state_local<Value> extends $mol_object {
+        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+        static native(): Storage | {
+            getItem(key: string): any;
+            setItem(key: string, value: string): void;
+            removeItem(key: string): void;
+        };
+        static value<Value>(key: string, next?: Value, force?: $mol_mem_force): Value | null;
+        prefix(): string;
+        value(key: string, next?: Value): Value | null;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    function $mol_dom_parse(text: string, type?: SupportedType): Document;
+}
+
+declare var $node: any;
+
+declare namespace $ {
+    class $mol_fetch_response extends $mol_object2 {
+        readonly native: Response;
+        constructor(native: Response);
+        headers(): Headers;
+        mime(): string | null;
+        stream(): ReadableStream<Uint8Array> | null;
+        text(): string;
+        json(): unknown;
+        buffer(): ArrayBuffer;
+        xml(): Document;
+        xhtml(): Document;
+        html(): Document;
+    }
+    class $mol_fetch extends $mol_object2 {
+        static request: (input: RequestInfo, init?: RequestInit | undefined) => Response;
+        static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
+        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array> | null;
+        static text(input: RequestInfo, init?: RequestInit): string;
+        static json(input: RequestInfo, init?: RequestInit): unknown;
+        static buffer(input: RequestInfo, init?: RequestInit): void;
+        static xml(input: RequestInfo, init?: RequestInit): Document;
+        static xhtml(input: RequestInfo, init?: RequestInit): Document;
+        static html(input: RequestInfo, init?: RequestInit): Document;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_transport extends $mol_object2 {
+        static api_base(): string;
+        static token(next?: string | null): string | null;
+        static headers(): {
+            'Content-Type': string;
+        } | {
+            Authorization: string;
+            'Content-Type': string;
+        };
+        static load(path: string): any;
+        static save(path: string, method: 'post' | 'put', body: object): any;
+    }
+}
+
+declare namespace $ {
+    const $hyoo_realworld_tags_json: ((val: unknown) => readonly string[]) & {
+        config: (val: string) => string;
+        Value: readonly string[];
+    };
+    class $hyoo_realworld_tags extends $mol_object2 {
+        static list(): readonly string[];
     }
 }
 
@@ -3060,9 +2592,339 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_realworld_feed {
-        articles: $hyoo_realworld_article[];
-        articlesCount: number;
+    class $mol_speck extends $mol_view {
+        attr(): {
+            mol_theme: string;
+        };
+        style(): {
+            minHeight: string;
+        };
+        sub(): readonly any[];
+        value(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_button extends $mol_view {
+        enabled(): boolean;
+        minimal_height(): number;
+        click(event?: any, force?: $mol_mem_force): any;
+        event_click(event?: any, force?: $mol_mem_force): any;
+        event(): {
+            click: (event?: any) => any;
+            keypress: (event?: any) => any;
+        };
+        event_activate(event?: any, force?: $mol_mem_force): any;
+        event_key_press(event?: any, force?: $mol_mem_force): any;
+        attr(): {
+            disabled: boolean;
+            role: string;
+            tabindex: number;
+            title: string;
+        };
+        disabled(): boolean;
+        tab_index(): number;
+        hint_or_error(): string;
+        hint(): string;
+        sub(): readonly (string | number | boolean | $mol_view | Node)[];
+        Speck(): $mol_speck;
+    }
+}
+
+declare namespace $ {
+    enum $mol_keyboard_code {
+        backspace = 8,
+        tab = 9,
+        enter = 13,
+        shift = 16,
+        ctrl = 17,
+        alt = 18,
+        pause = 19,
+        capsLock = 20,
+        escape = 27,
+        space = 32,
+        pageUp = 33,
+        pageDown = 34,
+        end = 35,
+        home = 36,
+        left = 37,
+        up = 38,
+        right = 39,
+        down = 40,
+        insert = 45,
+        delete = 46,
+        key0 = 48,
+        key1 = 49,
+        key2 = 50,
+        key3 = 51,
+        key4 = 52,
+        key5 = 53,
+        key6 = 54,
+        key7 = 55,
+        key8 = 56,
+        key9 = 57,
+        A = 65,
+        B = 66,
+        C = 67,
+        D = 68,
+        E = 69,
+        F = 70,
+        G = 71,
+        H = 72,
+        I = 73,
+        J = 74,
+        K = 75,
+        L = 76,
+        M = 77,
+        N = 78,
+        O = 79,
+        P = 80,
+        Q = 81,
+        R = 82,
+        S = 83,
+        T = 84,
+        U = 85,
+        V = 86,
+        W = 87,
+        X = 88,
+        Y = 89,
+        Z = 90,
+        metaLeft = 91,
+        metaRight = 92,
+        select = 93,
+        numpad0 = 96,
+        numpad1 = 97,
+        numpad2 = 98,
+        numpad3 = 99,
+        numpad4 = 100,
+        numpad5 = 101,
+        numpad6 = 102,
+        numpad7 = 103,
+        numpad8 = 104,
+        numpad9 = 105,
+        multiply = 106,
+        add = 107,
+        subtract = 109,
+        decimal = 110,
+        divide = 111,
+        F1 = 112,
+        F2 = 113,
+        F3 = 114,
+        F4 = 115,
+        F5 = 116,
+        F6 = 117,
+        F7 = 118,
+        F8 = 119,
+        F9 = 120,
+        F10 = 121,
+        F11 = 122,
+        F12 = 123,
+        numLock = 144,
+        scrollLock = 145,
+        semicolon = 186,
+        equals = 187,
+        comma = 188,
+        dash = 189,
+        period = 190,
+        forwardSlash = 191,
+        graveAccent = 192,
+        bracketOpen = 219,
+        slashBack = 220,
+        slashBackLeft = 226,
+        bracketClose = 221,
+        quoteSingle = 222
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_button extends $.$mol_button {
+        fiber(next?: $mol_fiber<any> | null): $mol_fiber<any> | null;
+        disabled(): boolean;
+        event_activate(next: Event): void;
+        event_key_press(event: KeyboardEvent): void;
+        tab_index(): number;
+        error(): string;
+        hint_or_error(): string;
+        sub_visible(): (string | number | boolean | $mol_view | Node | $mol_speck)[];
+    }
+}
+
+declare namespace $ {
+    class $mol_page extends $mol_view {
+        sub(): readonly any[];
+        Head(): $mol_view;
+        head(): readonly any[];
+        Title(): $$.$mol_button;
+        event_top(val?: any, force?: $mol_mem_force): any;
+        Tools(): $mol_view;
+        tools(): readonly (string | number | boolean | $mol_view | Node)[];
+        Body(): $$.$mol_scroll;
+        body_scroll_top(val?: any, force?: $mol_mem_force): any;
+        body(): readonly (string | number | boolean | $mol_view | Node)[];
+        Foot(): $mol_view;
+        foot(): readonly $mol_view[];
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $.$$ {
+    class $mol_page extends $.$mol_page {
+        body_scroll_top(next?: number): number;
+    }
+}
+
+declare namespace $ {
+    type $mol_charset_encoding = 'utf8' | 'ibm866' | 'iso-8859-2' | 'iso-8859-3' | 'iso-8859-4' | 'iso-8859-5' | 'iso-8859-6' | 'iso-8859-7' | 'iso-8859-8' | 'iso-8859-8i' | 'iso-8859-10' | 'iso-8859-13' | 'iso-8859-14' | 'iso-8859-15' | 'iso-8859-16' | 'koi8-r' | 'koi8-u' | 'koi8-r' | 'macintosh' | 'windows-874' | 'windows-1250' | 'windows-1251' | 'windows-1252' | 'windows-1253' | 'windows-1254' | 'windows-1255' | 'windows-1256' | 'windows-1257' | 'windows-1258' | 'x-mac-cyrillic' | 'gbk' | 'gb18030' | 'hz-gb-2312' | 'big5' | 'euc-jp' | 'iso-2022-jp' | 'shift-jis' | 'euc-kr' | 'iso-2022-kr';
+    function $mol_charset_decode(value: Uint8Array, code?: $mol_charset_encoding): string;
+}
+
+declare namespace $ {
+    function $mol_charset_encode(value: string): Uint8Array;
+}
+
+declare namespace $ {
+    type $mol_file_type = 'file' | 'dir' | 'link';
+    interface $mol_file_stat {
+        type: $mol_file_type;
+        size: number;
+        atime: Date;
+        mtime: Date;
+        ctime: Date;
+    }
+    class $mol_file_not_found extends Error {
+    }
+    abstract class $mol_file extends $mol_object {
+        static absolute(path: string): $mol_file;
+        static relative(path: string): $mol_file;
+        path(): string;
+        parent(): $mol_file;
+        abstract stat(next?: $mol_file_stat, force?: $mol_mem_force): $mol_file_stat;
+        reset(): void;
+        version(): string;
+        abstract ensure(next?: boolean): boolean;
+        watcher(): {
+            destructor(): void;
+        };
+        exists(next?: boolean, force?: $mol_mem_force): boolean;
+        type(): $mol_file_type;
+        name(): string;
+        ext(): string;
+        abstract buffer(next?: Uint8Array, force?: $mol_mem_force): Uint8Array;
+        text(next?: string, force?: $mol_mem_force): string;
+        fail(error: Error): void;
+        buffer_cached(buffer: Uint8Array): void;
+        text_cached(content: string): void;
+        abstract sub(): $mol_file[];
+        abstract resolve(path: string): $mol_file;
+        abstract relate(base?: $mol_file): string;
+        abstract append(next: Uint8Array | string): void;
+        find(include?: RegExp, exclude?: RegExp): $mol_file[];
+    }
+}
+
+declare namespace $ {
+    class $mol_file_web extends $mol_file {
+        static absolute(path: string): $mol_file_web;
+        static relative(path: string): $mol_file_web;
+        static base: string;
+        buffer(next?: Uint8Array, force?: $mol_mem_force): Uint8Array;
+        stat(next?: $mol_file_stat, force?: $mol_mem_force): $mol_file_stat;
+        resolve(path: string): $mol_file_web;
+        ensure(next?: boolean): boolean;
+        sub(): $mol_file[];
+        relate(base?: $mol_file): string;
+        append(next: Uint8Array | string): void;
+    }
+}
+
+declare namespace $ {
+    interface $mol_locale_dict {
+        [key: string]: string;
+    }
+    class $mol_locale extends $mol_object {
+        static lang_default(): string;
+        static lang(next?: string): string;
+        static source(lang: string): any;
+        static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
+        static text(key: string): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_link extends $mol_view {
+        dom_name(): string;
+        attr(): {
+            href: string;
+            title: string;
+            target: string;
+            download: string;
+            mol_link_current: boolean;
+            mol_theme: any;
+        };
+        uri(): string;
+        hint(): string;
+        target(): string;
+        file_name(): string;
+        current(): boolean;
+        theme(): any;
+        sub(): readonly (string | number | boolean | $mol_view | Node)[];
+        arg(): {};
+        event(): {
+            click: (event?: any) => any;
+        };
+        click(event?: any, force?: $mol_mem_force): any;
+        event_click(event?: any, force?: $mol_mem_force): any;
+    }
+}
+
+declare namespace $ {
+    class $mol_state_arg extends $mol_object {
+        prefix: string;
+        static href(next?: string, force?: $mol_mem_force): string;
+        static dict(next?: {
+            [key: string]: string | null;
+        }): {
+            [key: string]: string;
+        };
+        static dict_cut(except: string[]): {
+            [key: string]: string;
+        };
+        static value(key: string, next?: string | null): string | null;
+        static link(next: {
+            [key: string]: string;
+        }): string;
+        static make_link(next: {
+            [key: string]: string | null;
+        }): string;
+        static encode(str: string): string;
+        constructor(prefix?: string);
+        value(key: string, next?: string): string | null;
+        sub(postfix: string): $mol_state_arg;
+        link(next: {
+            [key: string]: string;
+        }): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_link extends $.$mol_link {
+        uri(): string;
+        current(): boolean;
+        event_click(event?: Event): void;
+        file_name(): string;
+        minimal_height(): number;
+        theme(): "$mol_theme_base" | null;
     }
 }
 
@@ -3129,94 +2991,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_row extends $mol_view {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_image extends $mol_view {
-        dom_name(): string;
-        field(): {
-            src: string;
-            alt: string;
-        };
-        uri(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $hyoo_realworld_article_card extends $mol_row {
-        minimal_height(): number;
-        article(): $hyoo_realworld_article;
-        sub(): readonly any[];
-        Author(): $mol_view;
-        Avatar(): $mol_image;
-        avatar(): string;
-        Author_name(): $mol_view;
-        author_name(): string;
-        Title(): $mol_view;
-        title(): string;
-        Descr(): $mol_view;
-        descr(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_realworld_article_card extends $.$hyoo_realworld_article_card {
-        title(): string;
-        descr(): string;
-        avatar(): string;
-        author_name(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_feed_page extends $mol_page {
-        title(): string;
-        minimal_width(): number;
-        tools(): readonly any[];
-        Add_link(): $$.$mol_link;
-        Add_icon(): $mol_icon_plus;
-        body(): readonly any[];
-        Article_links(): $$.$mol_list;
-        article_links(): readonly any[];
-        Article_link(index: any): $$.$mol_link;
-        article_slug(index: any): string;
-        Article_card(index: any): $$.$hyoo_realworld_article_card;
-        article(index: any): $hyoo_realworld_article;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $hyoo_realworld_feed_page extends $.$hyoo_realworld_feed_page {
-        tag(): string;
-        articles(): $hyoo_realworld_article[];
-        article_links(): $mol_link[];
-        article_slug(index: number): string;
-        article(index: number): $hyoo_realworld_article;
-        body_scroll_top(val?: number): number;
-    }
-}
-
-declare namespace $ {
     class $mol_icon_edit extends $mol_icon {
         path(): string;
     }
@@ -3225,6 +2999,59 @@ declare namespace $ {
 declare namespace $ {
     class $mol_icon_cross extends $mol_icon {
         path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_list extends $mol_view {
+        render_visible_only(): boolean;
+        render_over(): number;
+        sub(): readonly $mol_view[];
+        rows(): readonly $mol_view[];
+        Empty(): $mol_view;
+        Gap_before(): $mol_view;
+        gap_before(): number;
+        Gap_after(): $mol_view;
+        gap_after(): number;
+        view_window(): readonly any[];
+    }
+}
+
+declare namespace $ {
+    class $mol_dom_listener extends $mol_object {
+        _node: any;
+        _event: string;
+        _handler: (event: any) => any;
+        _config: boolean | {
+            passive: boolean;
+        };
+        constructor(_node: any, _event: string, _handler: (event: any) => any, _config?: boolean | {
+            passive: boolean;
+        });
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_print extends $mol_object {
+        static before(): $mol_dom_listener;
+        static after(): $mol_dom_listener;
+        static active(next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_list extends $.$mol_list {
+        sub(): readonly $mol_view[];
+        render_visible_only(): boolean;
+        view_window(): [number, number];
+        gap_before(): number;
+        gap_after(): number;
+        sub_visible(): $mol_view[];
+        minimal_height(): number;
     }
 }
 
@@ -3463,6 +3290,20 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_image extends $mol_view {
+        dom_name(): string;
+        field(): {
+            src: string;
+            alt: string;
+        };
+        uri(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_link_iconed extends $mol_link {
         sub(): readonly any[];
         Icon(): $mol_image;
@@ -3661,6 +3502,14 @@ declare namespace $.$$ {
         code2spans(prefix: string, text: string): $mol_view[];
         block_content(indexBlock: number): ($mol_view | string)[];
     }
+}
+
+declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -5422,6 +5271,79 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $hyoo_realworld_feed {
+        articles: $hyoo_realworld_article[];
+        articlesCount: number;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_article_card extends $mol_row {
+        minimal_height(): number;
+        article(): $hyoo_realworld_article;
+        sub(): readonly any[];
+        Author(): $mol_view;
+        Avatar(): $mol_image;
+        avatar(): string;
+        Author_name(): $mol_view;
+        author_name(): string;
+        Title(): $mol_view;
+        title(): string;
+        Descr(): $mol_view;
+        descr(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_article_card extends $.$hyoo_realworld_article_card {
+        title(): string;
+        descr(): string;
+        avatar(): string;
+        author_name(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_feed_page extends $mol_page {
+        title(): string;
+        minimal_width(): number;
+        tools(): readonly any[];
+        Add_link(): $$.$mol_link;
+        Add_icon(): $mol_icon_plus;
+        body(): readonly any[];
+        Article_links(): $$.$mol_list;
+        article_links(): readonly any[];
+        Article_link(index: any): $$.$mol_link;
+        article_slug(index: any): string;
+        Article_card(index: any): $$.$hyoo_realworld_article_card;
+        article(index: any): $hyoo_realworld_article;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_feed_page extends $.$hyoo_realworld_feed_page {
+        tag(): string;
+        articles(): $hyoo_realworld_article[];
+        article_links(): $mol_link[];
+        article_slug(index: number): string;
+        article(index: number): $hyoo_realworld_article;
+        body_scroll_top(val?: number): number;
+    }
+}
+
+declare namespace $ {
     class $mol_labeler extends $mol_list {
         rows(): readonly any[];
         Title(): $mol_view;
@@ -5521,6 +5443,125 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_icon_logout extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_profile_page extends $mol_page {
+        title(): string;
+        section(name?: any, force?: $mol_mem_force): any;
+        tools(): readonly any[];
+        Sign_out(): $mol_button_minor;
+        sign_out(val?: any, force?: $mol_mem_force): any;
+        Logout_icon(): $mol_icon_logout;
+        Close(): $$.$mol_link;
+        Close_icon(): $mol_icon_cross;
+        email(): string;
+        username(): string;
+        bio(): string;
+        avatar(): string;
+        body(): readonly any[];
+        Image(): $mol_image;
+        image_title(): string;
+        Email(): $mol_labeler;
+        email_label(): string;
+        Username(): $mol_labeler;
+        username_label(): string;
+        Bio(): $mol_labeler;
+        bio_label(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_sign extends $mol_object2 {
+        static auth(creds: {
+            email: string;
+            password: string;
+        }): {
+            readonly token: string;
+            readonly username: string;
+        };
+        static register(creds: {
+            username: string;
+            email: string;
+            password: string;
+        }): {
+            readonly token: string;
+            readonly username: string;
+        };
+        static signed(): boolean;
+        static drop(): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
+        sign_out(): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_home_page extends $mol_page {
+        Page_link(): $$.$mol_link;
+        title(): string;
+        Articles(): $$.$mol_link;
+        articles_link(): string;
+        Tags(): $$.$mol_link;
+        tags_link(): string;
+        Favorites(): $$.$mol_link;
+        favorites_link(): string;
+        Profile(): $$.$mol_link;
+        profile_link(): string;
+        Settings(): $$.$mol_link;
+        settings_link(): string;
+        Sign_in(): $$.$mol_link;
+        sign_in_link(): string;
+        Sign_up(): $$.$mol_link;
+        sign_up_link(): string;
+        signed_links(): readonly any[];
+        unsigned_links(): readonly any[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_home_page extends $.$hyoo_realworld_home_page {
+        body(): readonly any[];
+    }
+}
+
+declare namespace $ {
+    class $hyoo_realworld_tags_page extends $mol_page {
+        title(): string;
+        body(): readonly any[];
+        Tag_links(): $$.$mol_list;
+        tag_links(): readonly any[];
+        Tag_link(index: any): $$.$mol_link;
+        tag_id(index: any): string;
+        tag_name(index: any): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $hyoo_realworld_tags_page extends $.$hyoo_realworld_tags_page {
+        tags(): readonly string[];
+        tag_links(): $mol_link[];
+        tag_id(index: number): string;
+        tag_name(index: number): string;
+    }
+}
+
+declare namespace $ {
     class $hyoo_realworld_sign_in extends $mol_page {
         title(): string;
         tools(): readonly any[];
@@ -5591,52 +5632,29 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_icon_logout extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_profile_page extends $mol_page {
-        title(): string;
-        tools(): readonly any[];
-        Sign_out(): $mol_button_minor;
-        sign_out(val?: any, force?: $mol_mem_force): any;
-        Logout_icon(): $mol_icon_logout;
-        Close(): $$.$mol_link;
-        Close_icon(): $mol_icon_cross;
-        email(): string;
-        username(): string;
-        bio(): string;
-        image(): string;
-        body(): readonly any[];
-        Image(): $mol_image;
-        image_title(): string;
-        Email(): $mol_labeler;
-        email_label(): string;
-        Username(): $mol_labeler;
-        username_label(): string;
-        Bio(): $mol_labeler;
-        bio_label(): string;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
-        sign_out(): void;
-    }
-}
-
-declare namespace $ {
     class $hyoo_realworld extends $mol_book2 {
-        Menu(): $$.$hyoo_realworld_home_page;
-        Tags(): $$.$hyoo_realworld_tags_page;
-        Feed(id: any): $$.$hyoo_realworld_feed_page;
         Article(id: any): $$.$hyoo_realworld_article_page;
+        Feed(id: any): $$.$hyoo_realworld_feed_page;
         Article_edit(id: any): $$.$hyoo_realworld_article_edit;
+        Profile(): $$.$hyoo_realworld_profile_page;
+        section(name?: any, force?: $mol_mem_force): any;
+        sections(): {
+            articles: $$.$hyoo_realworld_feed_page;
+            article: $$.$hyoo_realworld_article_page;
+            edit: $$.$hyoo_realworld_article_edit;
+            profile: $$.$hyoo_realworld_profile_page;
+            home: $$.$hyoo_realworld_home_page;
+            tags: $$.$hyoo_realworld_tags_page;
+            sign_in: $$.$hyoo_realworld_sign_in;
+            sign_up: $$.$hyoo_realworld_sign_up;
+        };
+        feed_current(): $$.$hyoo_realworld_feed_page;
+        article_current(): $$.$hyoo_realworld_article_page;
+        edit_current(): $$.$hyoo_realworld_article_edit;
+        Home(): $$.$hyoo_realworld_home_page;
+        Tags(): $$.$hyoo_realworld_tags_page;
         Sign_in(): $$.$hyoo_realworld_sign_in;
         Sign_up(): $$.$hyoo_realworld_sign_up;
-        Profile(): $$.$hyoo_realworld_profile_page;
     }
 }
 
@@ -5645,12 +5663,14 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $hyoo_realworld extends $.$hyoo_realworld {
+        article_current(): $hyoo_realworld_article_page;
+        feed_current(): $hyoo_realworld_feed_page;
+        edit_current(): $hyoo_realworld_article_edit;
         article(): $hyoo_realworld_article | null;
         edit(): boolean;
-        sign(): string | null;
-        tag(): string | null;
+        tag(): string;
         signed(): boolean;
-        section(name: string): boolean;
-        pages(): ($hyoo_realworld_home_page | $hyoo_realworld_tags_page | $hyoo_realworld_feed_page | $hyoo_realworld_article_page | $hyoo_realworld_article_edit | $hyoo_realworld_sign_in | $hyoo_realworld_sign_up | $hyoo_realworld_profile_page)[];
+        section(next?: string | undefined): string | null;
+        pages(): any[];
     }
 }

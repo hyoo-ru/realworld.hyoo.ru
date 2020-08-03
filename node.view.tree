@@ -76,79 +76,6 @@ $mol_link $mol_view
 		^
 		click?event <=> click?event <=> event_click?event null
 
-$hyoo_realworld_home_page $mol_page
-	Page_link $mol_link
-		arg *
-	title @ \Home
-	Articles $mol_link
-		arg *
-			section \articles
-			tag null
-		sub / <= articles_link @ \Articles
-	Tags $mol_link
-		arg *
-			section \tags
-		sub / <= tags_link @ \Tags
-	Favorites $mol_link
-		arg *
-			section \favorites
-			tag null
-		sub / <= favorites_link @ \Favorites
-	Profile $mol_link
-		arg *
-			section \profile
-			tag null
-		sub / <= profile_link @ \Profile
-	Settings $mol_link
-		arg *
-			section \settings
-			tag null
-		sub / <= settings_link @ \Settings
-	Sign_in $mol_link
-		arg *
-			section \signin
-		sub / <= sign_in_link @ \Sign in
-	Sign_up $mol_link
-		arg *
-			section \signup
-		sub / <= sign_up_link @ \Sign up
-	signed_links /
-		<= Articles
-		<= Tags
-		<= Favorites
-		<= Profile
-		<= Settings
-	unsigned_links /
-		<= Articles
-		<= Tags
-		<= Sign_in
-		<= Sign_up
-
-$mol_list $mol_view
-	render_visible_only true
-	render_over 0.5
-	sub <= rows /$mol_view
-	Empty $mol_view
-	Gap_before $mol_view style * paddingTop <= gap_before 0
-	Gap_after $mol_view style * paddingTop <= gap_after 0
-	view_window /
-		0
-		0
-
-$hyoo_realworld_tags_page $mol_page
-	title @ \Tags
-	body /
-		<= Tag_links $mol_list
-			rows <= tag_links /
-	Tag_link!index $mol_link
-		minimal_height 40
-		minimal_width 40
-		arg *
-			tag <= tag_id!index \
-			article null
-			edit null
-		title <= tag_name!index \
-
 $mol_svg $mol_view
 	dom_name \svg
 	dom_name_space \http://www.w3.org/2000/svg
@@ -177,49 +104,20 @@ $mol_icon $mol_svg_root
 		<= Path $mol_svg_path
 			geometry <= path \
 
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
-
-$mol_row $mol_view
-
-$mol_image $mol_view
-	dom_name \img
-	field *
-		^
-		src <= uri \
-		alt <= title
-
-$hyoo_realworld_article_card $mol_row
-	minimal_height 72
-	article $hyoo_realworld_article
-	sub /
-		<= Author $mol_view sub /
-			<= Avatar $mol_image uri <= avatar \
-			<= Author_name $mol_view sub / <= author_name \
-		<= Title $mol_view sub / <= title \
-		<= Descr $mol_view sub / <= descr \
-
-$hyoo_realworld_feed_page $mol_page
-	title @ \Articles
-	minimal_width 400
-	tools /
-		<= Add_link $mol_link
-			arg *
-				article \
-				edit \
-			sub / <= Add_icon $mol_icon_plus
-	body /
-		<= Article_links $mol_list
-			rows <= article_links /
-	Article_link!index $mol_link
-		arg *
-			article <= article_slug!index \
-		sub /
-			<= Article_card!index $hyoo_realworld_article_card
-				article <= article!index $hyoo_realworld_article
-
 $mol_icon_edit $mol_icon path \M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
 
 $mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
+
+$mol_list $mol_view
+	render_visible_only true
+	render_over 0.5
+	sub <= rows /$mol_view
+	Empty $mol_view
+	Gap_before $mol_view style * paddingTop <= gap_before 0
+	Gap_after $mol_view style * paddingTop <= gap_after 0
+	view_window /
+		0
+		0
 
 $mol_float $mol_view
 	style *
@@ -321,6 +219,13 @@ $mol_grid_cell $mol_view
 
 $mol_grid_number $mol_grid_cell
 
+$mol_image $mol_view
+	dom_name \img
+	field *
+		^
+		src <= uri \
+		alt <= title
+
 $mol_link_iconed $mol_link
 	sub /
 		<= Icon $mol_image
@@ -390,6 +295,8 @@ $mol_text_image $mol_view
 		data <= link?val \
 	sub /
 		<= title?val \
+
+$mol_row $mol_view
 
 $mol_bar $mol_view
 
@@ -503,6 +410,35 @@ $hyoo_realworld_article_page $mol_page
 			article null
 		sub / <= tag_name!index \
 
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
+$hyoo_realworld_article_card $mol_row
+	minimal_height 72
+	article $hyoo_realworld_article
+	sub /
+		<= Author $mol_view sub /
+			<= Avatar $mol_image uri <= avatar \
+			<= Author_name $mol_view sub / <= author_name \
+		<= Title $mol_view sub / <= title \
+		<= Descr $mol_view sub / <= descr \
+
+$hyoo_realworld_feed_page $mol_page
+	title @ \Articles
+	minimal_width 400
+	tools /
+		<= Add_link $mol_link
+			arg * edit \
+			sub / <= Add_icon $mol_icon_plus
+	body /
+		<= Article_links $mol_list
+			rows <= article_links /
+	Article_link!index $mol_link
+		arg *
+			article <= article_slug!index \
+		sub /
+			<= Article_card!index $hyoo_realworld_article_card
+				article <= article!index $hyoo_realworld_article
+
 $mol_labeler $mol_list
 	rows /
 		<= Title $mol_view
@@ -566,6 +502,100 @@ $hyoo_realworld_article_edit $mol_page
 					click?val <=> save?val null
 					enabled <= saveable false
 
+$mol_icon_logout $mol_icon path \M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z
+
+$hyoo_realworld_profile_page $mol_page
+	title @ \Profile
+	section?name \
+	tools /
+		<= Sign_out $mol_button_minor
+			title \
+			click?val <=> sign_out?val null
+			sub / <= Logout_icon $mol_icon_logout
+		<= Close $mol_link
+			arg *
+				section null
+			sub / <= Close_icon $mol_icon_cross
+	email \user@mail.com
+	username \jake
+	bio \I work a statefarm
+	avatar \https://static.productionready.io/images/smiley-cyrus.jpg
+	body /
+		<= Image $mol_image
+			uri <= avatar
+			title <= image_title @ \User image
+		<= Email $mol_labeler
+			title <= email_label @ \Email
+			content / <= email
+		<= Username $mol_labeler
+			title <= username_label @ \Username
+			content / <= username
+		<= Bio $mol_labeler
+			title <= bio_label @ \Bio
+			content / <= bio
+
+$hyoo_realworld_home_page $mol_page
+	Page_link $mol_link
+		arg *
+	title @ \Home
+	Articles $mol_link
+		arg *
+			section \articles
+			tag null
+		sub / <= articles_link @ \Articles
+	Tags $mol_link
+		arg *
+			section \tags
+		sub / <= tags_link @ \Tags
+	Favorites $mol_link
+		arg *
+			section \favorites
+			tag null
+		sub / <= favorites_link @ \Favorites
+	Profile $mol_link
+		arg *
+			section \profile
+			tag null
+		sub / <= profile_link @ \Profile
+	Settings $mol_link
+		arg *
+			section \settings
+			tag null
+		sub / <= settings_link @ \Settings
+	Sign_in $mol_link
+		arg *
+			section \sign_in
+		sub / <= sign_in_link @ \Sign in
+	Sign_up $mol_link
+		arg *
+			section \sign_up
+		sub / <= sign_up_link @ \Sign up
+	signed_links /
+		<= Articles
+		<= Tags
+		<= Favorites
+		<= Profile
+		<= Settings
+	unsigned_links /
+		<= Articles
+		<= Tags
+		<= Sign_in
+		<= Sign_up
+
+$hyoo_realworld_tags_page $mol_page
+	title @ \Tags
+	body /
+		<= Tag_links $mol_list
+			rows <= tag_links /
+	Tag_link!index $mol_link
+		minimal_height 40
+		minimal_width 40
+		arg *
+			tag <= tag_id!index \
+			article null
+			edit null
+		title <= tag_name!index \
+
 $hyoo_realworld_sign_in $mol_page
 	title @ \Sign In
 	tools /
@@ -577,7 +607,7 @@ $hyoo_realworld_sign_in $mol_page
 	body /
 		<= Need_account $mol_link
 			arg *
-				section \signup
+				section \sign_up
 			sub / <= need_account_label @ \Need an account?
 		<= Form $mol_form
 			form_fields /
@@ -607,7 +637,7 @@ $hyoo_realworld_sign_up $mol_page
 	body /
 		<= Have_account $mol_link
 			arg *
-				section \signin
+				section \sign_in
 			sub / <= have_account_label @ \Have an account?
 		<= Form $mol_form
 			form_fields /
@@ -632,43 +662,18 @@ $hyoo_realworld_sign_up $mol_page
 					title <= Reg_label @ \Sign Up
 					click?val <=> reg?val null
 
-$mol_icon_logout $mol_icon path \M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z
-
-$hyoo_realworld_profile_page $mol_page
-	title @ \Profile
-	tools /
-		<= Sign_out $mol_button_minor
-			title \
-			event_click?val <=> sign_out?val null
-			sub / <= Logout_icon $mol_icon_logout
-		<= Close $mol_link
-			arg *
-				section null
-			sub / <= Close_icon $mol_icon_cross
-	email \user@mail.com
-	username \jake
-	bio \I work a statefarm
-	image \https://static.productionready.io/images/smiley-cyrus.jpg
-	body /
-		<= Image $mol_image
-			uri <= image
-			title <= image_title @ \User image
-		<= Email $mol_labeler
-			title <= email_label @ \Email
-			content / <= email
-		<= Username $mol_labeler
-			title <= username_label @ \Username
-			content / <= username
-		<= Bio $mol_labeler
-			title <= bio_label @ \Bio
-			content / <= bio
-
 $hyoo_realworld $mol_book2
-	Menu $hyoo_realworld_home_page
-	Tags $hyoo_realworld_tags_page
-	Feed!id $hyoo_realworld_feed_page
 	Article!id $hyoo_realworld_article_page
+	Feed!id $hyoo_realworld_feed_page
 	Article_edit!id $hyoo_realworld_article_edit
-	Sign_in $hyoo_realworld_sign_in
-	Sign_up $hyoo_realworld_sign_up
 	Profile $hyoo_realworld_profile_page
+		section?name <=> section?name \
+	sections *
+		articles <= feed_current $hyoo_realworld_feed_page
+		article <= article_current $hyoo_realworld_article_page
+		edit <= edit_current $hyoo_realworld_article_edit
+		profile <= Profile
+		home <= Home $hyoo_realworld_home_page
+		tags <= Tags $hyoo_realworld_tags_page
+		sign_in <= Sign_in $hyoo_realworld_sign_in
+		sign_up <= Sign_up $hyoo_realworld_sign_up
