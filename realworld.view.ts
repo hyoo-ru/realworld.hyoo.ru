@@ -1,11 +1,24 @@
 namespace $.$$ {
+
 	export class $hyoo_realworld extends $.$hyoo_realworld {
 
+		article_current() {
+			return this.Article( this.article()?.slug )
+		}
+
+		feed_current() {
+			return this.Feed( this.tag() )
+		}
+
+		edit_current() {
+			return this.Article_edit( this.article()?.slug )
+		}
+
+		@ $mol_mem
 		article() {
-			
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
-			
+                          
 			return this.$.$hyoo_realworld_article.item( slug )
 		}
 
@@ -15,36 +28,30 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		sign() {
-			return this.$.$mol_state_arg.value( 'sign' )
-		}
-
-		@ $mol_mem
 		tag() {
-			return this.$.$mol_state_arg.value( 'tag' )
+			return this.$.$mol_state_arg.value( 'tag' ) || ''
 		}
 
 		signed() {
 			return this.$.$hyoo_realworld_sign.signed()
 		}
 
-		section( name : string ) {
-			return this.$.$mol_state_arg.value( 'section' ) === name 
+		@ $mol_mem
+		section( next? : string | undefined ) {
+			return this.$.$mol_state_arg.value( 'section' , next ) 
 		}
 
 		pages() {
 			return [
-				this.Menu() ,
-				... this.section( 'profile' ) ? [ this.Profile() ] : [ ] ,
-				... this.section( 'articles' ) ? [ this.Feed( '' ) ] : [ ] ,
-				... this.section( 'tags' ) ? [ this.Tags() ] : [ ] ,
-				... this.tag() ? [ this.Feed( this.tag() ) ] : [ ] ,
-				... this.section( 'signin' ) ? [ this.Sign_in() ] : [ ] ,
-				... this.section( 'signup' ) ? [ this.Sign_up() ] : [ ] ,
-				... this.article() ? [ this.Article( this.article()?.slug() ) ] : [] ,
-				... ( this.edit() && this.signed() ) ? [ this.Article_edit( this.article()?.slug() ) ] : [] ,
-				... ( this.edit() && !this.signed() ) ? [ this.Sign_in() ] : [] ,
-			]
+				this.Home() ,
+				this.section() ? this.sections()[ this.section()! ] : this.sections().articles , 
+				this.tag() && this.feed_current() ,
+				this.article() && this.article_current() ,
+				this.edit() && (
+					this.signed() ? this.edit_current() : this.sections().sign_in
+				)
+			].filter( Boolean )
+      
 		}
 
 	}
