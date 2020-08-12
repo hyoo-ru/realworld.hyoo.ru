@@ -1094,6 +1094,7 @@ declare namespace $ {
         get normal(): $mol_time_moment;
         merge(config: $mol_time_moment_config): $mol_time_moment;
         shift(config: $mol_time_duration_config): $mol_time_moment;
+        mask(config: $mol_time_duration_config): $mol_time_moment;
         toOffset(config: $mol_time_duration_config): $mol_time_moment;
         valueOf(): number;
         toJSON(): string;
@@ -1411,6 +1412,7 @@ declare namespace $ {
             readonly normal: any;
             merge: (config: $mol_time_moment_config) => $mol_time_moment;
             shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            mask: (config: $mol_time_duration_config) => $mol_time_moment;
             toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
             valueOf: () => number;
             toJSON: () => string;
@@ -1552,6 +1554,7 @@ declare namespace $ {
             readonly normal: any;
             merge: (config: $mol_time_moment_config) => $mol_time_moment;
             shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            mask: (config: $mol_time_duration_config) => $mol_time_moment;
             toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
             valueOf: () => number;
             toJSON: () => string;
@@ -1814,6 +1817,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -1955,6 +1959,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -2121,6 +2126,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -2262,6 +2268,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -2431,6 +2438,7 @@ declare namespace $ {
                     readonly normal: any;
                     merge: (config: $mol_time_moment_config) => $mol_time_moment;
                     shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                    mask: (config: $mol_time_duration_config) => $mol_time_moment;
                     toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                     valueOf: () => number;
                     toJSON: () => string;
@@ -2572,6 +2580,7 @@ declare namespace $ {
                     readonly normal: any;
                     merge: (config: $mol_time_moment_config) => $mol_time_moment;
                     shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                    mask: (config: $mol_time_duration_config) => $mol_time_moment;
                     toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                     valueOf: () => number;
                     toJSON: () => string;
@@ -2829,6 +2838,7 @@ declare namespace $ {
         abstract relate(base?: $mol_file): string;
         abstract append(next: Uint8Array | string): void;
         find(include?: RegExp, exclude?: RegExp): $mol_file[];
+        size(): number;
     }
 }
 
@@ -3660,6 +3670,7 @@ declare namespace $ {
             readonly normal: any;
             merge: (config: $mol_time_moment_config) => $mol_time_moment;
             shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            mask: (config: $mol_time_duration_config) => $mol_time_moment;
             toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
             valueOf: () => number;
             toJSON: () => string;
@@ -3801,6 +3812,7 @@ declare namespace $ {
             readonly normal: any;
             merge: (config: $mol_time_moment_config) => $mol_time_moment;
             shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            mask: (config: $mol_time_duration_config) => $mol_time_moment;
             toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
             valueOf: () => number;
             toJSON: () => string;
@@ -4050,6 +4062,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -4191,6 +4204,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -4338,6 +4352,7 @@ declare namespace $ {
             readonly normal: any;
             merge: (config: $mol_time_moment_config) => $mol_time_moment;
             shift: (config: $mol_time_duration_config) => $mol_time_moment;
+            mask: (config: $mol_time_duration_config) => $mol_time_moment;
             toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
             valueOf: () => number;
             toJSON: () => string;
@@ -4489,6 +4504,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -4630,6 +4646,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -4780,6 +4797,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
@@ -4921,6 +4939,7 @@ declare namespace $ {
                 readonly normal: any;
                 merge: (config: $mol_time_moment_config) => $mol_time_moment;
                 shift: (config: $mol_time_duration_config) => $mol_time_moment;
+                mask: (config: $mol_time_duration_config) => $mol_time_moment;
                 toOffset: (config: $mol_time_duration_config) => $mol_time_moment;
                 valueOf: () => number;
                 toJSON: () => string;
