@@ -28,7 +28,7 @@ namespace $ {
 		static register( creds : { username : string , email : string , password : string } ) {
 
 			const res = this.$.$hyoo_realworld_transport.save(
-				`users/login`,
+				`users`,
 				'post',
 				{ user : creds },
 			)
