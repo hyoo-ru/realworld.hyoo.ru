@@ -2882,6 +2882,9 @@ var $;
         field() {
             return Object.assign(Object.assign({}, super.field()), { scrollTop: this.scroll_top(), scrollLeft: this.scroll_left(), tabIndex: this.tabindex() });
         }
+        event() {
+            return Object.assign(Object.assign({}, super.event()), { scroll: (event) => this.event_scroll(event) });
+        }
         scroll_top(val) {
             if (val !== undefined)
                 return val;
@@ -2894,9 +2897,6 @@ var $;
         }
         tabindex() {
             return -1;
-        }
-        event() {
-            return Object.assign(Object.assign({}, super.event()), { scroll: (event) => this.event_scroll(event) });
         }
         event_scroll(event) {
             if (event !== undefined)
@@ -3071,15 +3071,15 @@ var $;
         sub() {
             return this.pages();
         }
-        pages() {
-            return [];
-        }
         minimal_width() {
             return 0;
         }
         Placeholder() {
             const obj = new this.$.$mol_view();
             return obj;
+        }
+        pages() {
+            return [];
         }
     }
     __decorate([
@@ -4331,30 +4331,8 @@ var $;
         event() {
             return Object.assign(Object.assign({}, super.event()), { click: (event) => this.event_activate(event), keypress: (event) => this.event_key_press(event) });
         }
-        event_activate(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
-        event_key_press(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { disabled: this.disabled(), role: "button", tabindex: this.tab_index(), title: this.hint_or_error() });
-        }
-        disabled() {
-            return false;
-        }
-        tab_index() {
-            return 0;
-        }
-        hint_or_error() {
-            return this.hint();
-        }
-        hint() {
-            return "";
         }
         sub() {
             return [
@@ -4365,6 +4343,28 @@ var $;
             const obj = new this.$.$mol_speck();
             return obj;
         }
+        event_activate(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        event_key_press(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        disabled() {
+            return false;
+        }
+        tab_index() {
+            return 0;
+        }
+        hint() {
+            return "";
+        }
+        hint_or_error() {
+            return this.hint();
+        }
     }
     __decorate([
         $.$mol_mem
@@ -4374,13 +4374,13 @@ var $;
     ], $mol_button.prototype, "event_click", null);
     __decorate([
         $.$mol_mem
+    ], $mol_button.prototype, "Speck", null);
+    __decorate([
+        $.$mol_mem
     ], $mol_button.prototype, "event_activate", null);
     __decorate([
         $.$mol_mem
     ], $mol_button.prototype, "event_key_press", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_button.prototype, "Speck", null);
     $.$mol_button = $mol_button;
 })($ || ($ = {}));
 //button.view.tree.js.map
@@ -4573,16 +4573,10 @@ var $;
                 this.Foot()
             ];
         }
-        Head() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => this.head();
-            return obj;
-        }
-        head() {
-            return [
-                this.Title(),
-                this.Tools()
-            ];
+        event_top(val) {
+            if (val !== undefined)
+                return val;
+            return null;
         }
         Title() {
             const obj = new this.$.$mol_button();
@@ -4592,23 +4586,23 @@ var $;
             obj.event_click = (val) => this.event_top(val);
             return obj;
         }
-        event_top(val) {
-            if (val !== undefined)
-                return val;
-            return null;
+        tools() {
+            return [];
         }
         Tools() {
             const obj = new this.$.$mol_view();
             obj.sub = () => this.tools();
             return obj;
         }
-        tools() {
-            return [];
+        head() {
+            return [
+                this.Title(),
+                this.Tools()
+            ];
         }
-        Body() {
-            const obj = new this.$.$mol_scroll();
-            obj.scroll_top = (val) => this.body_scroll_top(val);
-            obj.sub = () => this.body();
+        Head() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.head();
             return obj;
         }
         body_scroll_top(val) {
@@ -4619,33 +4613,39 @@ var $;
         body() {
             return [];
         }
-        Foot() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => this.foot();
+        Body() {
+            const obj = new this.$.$mol_scroll();
+            obj.scroll_top = (val) => this.body_scroll_top(val);
+            obj.sub = () => this.body();
             return obj;
         }
         foot() {
             return [];
         }
+        Foot() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => this.foot();
+            return obj;
+        }
     }
-    __decorate([
-        $.$mol_mem
-    ], $mol_page.prototype, "Head", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_page.prototype, "Title", null);
     __decorate([
         $.$mol_mem
     ], $mol_page.prototype, "event_top", null);
     __decorate([
         $.$mol_mem
+    ], $mol_page.prototype, "Title", null);
+    __decorate([
+        $.$mol_mem
     ], $mol_page.prototype, "Tools", null);
     __decorate([
         $.$mol_mem
-    ], $mol_page.prototype, "Body", null);
+    ], $mol_page.prototype, "Head", null);
     __decorate([
         $.$mol_mem
     ], $mol_page.prototype, "body_scroll_top", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_page.prototype, "Body", null);
     __decorate([
         $.$mol_mem
     ], $mol_page.prototype, "Foot", null);
@@ -5173,12 +5173,147 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    $.$hyoo_realworld_comment_json = $.$mol_data_record({
+        author: $.$hyoo_realworld_person_json,
+        id: $.$mol_data_integer,
+        body: $.$mol_data_string,
+        createdAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+        updatedAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
+    });
+    const Response_one = $.$mol_data_record({
+        comment: $.$hyoo_realworld_comment_json,
+    });
+    const Response_list = $.$mol_data_record({
+        comments: $.$mol_data_array($.$hyoo_realworld_comment_json),
+    });
+    class $hyoo_realworld_comment extends $.$mol_object2 {
+        static item(id) {
+            const obj = new this;
+            obj.id = $.$mol_const(id);
+            return obj;
+        }
+        id() {
+            return 0;
+        }
+        body() {
+            return this.json().body;
+        }
+        updated_moment() {
+            return this.json().updatedAt;
+        }
+        author() {
+            var _a;
+            const id = (_a = this.json()) === null || _a === void 0 ? void 0 : _a.author.username;
+            return this.$.$hyoo_realworld_person.item(id);
+        }
+        json(next = {}) {
+            const author = this.$.$hyoo_realworld_person.item(next.author.username);
+            author.json(next.author);
+            return next;
+        }
+        static changes(next = 0) {
+            return next;
+        }
+        static save(article, next) {
+            const uri = `articles/${article}/comments`;
+            const res = this.$.$hyoo_realworld_transport.save(uri, 'post', next);
+            const json = Response_one(res).comment;
+            const comment = this.item(json.id);
+            comment.json(json);
+            this.changes(json.id);
+            return article;
+        }
+        static list(article) {
+            this.changes();
+            const url = `articles/${article.slug()}/comments`;
+            const json = Response_list(this.$.$hyoo_realworld_transport.load(url));
+            const next = json.comments.map(json => {
+                this.$.$hyoo_realworld_comment.item(json.id).json(json);
+                return this.$.$hyoo_realworld_comment.item(json.id);
+            });
+            return next;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment.prototype, "json", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_comment, "item", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment, "changes", null);
+    __decorate([
+        $.$mol_fiber.method
+    ], $hyoo_realworld_comment, "save", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_comment, "list", null);
+    $.$hyoo_realworld_comment = $hyoo_realworld_comment;
+})($ || ($ = {}));
+//comment.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_row extends $.$mol_view {
+    }
+    $.$mol_row = $mol_row;
+})($ || ($ = {}));
+//row.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .75rem;\n\tflex: 1 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .75rem;\n\tmax-width: 100%;\n}\n");
+})($ || ($ = {}));
+//row.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_image extends $.$mol_view {
+        dom_name() {
+            return "img";
+        }
+        field() {
+            return Object.assign(Object.assign({}, super.field()), { src: this.uri(), alt: this.title() });
+        }
+        uri() {
+            return "";
+        }
+    }
+    $.$mol_image = $mol_image;
+})($ || ($ = {}));
+//image.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_skin_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n}\n");
+})($ || ($ = {}));
+//image.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_link extends $.$mol_view {
         dom_name() {
             return "a";
         }
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { href: this.uri(), title: this.hint(), target: this.target(), download: this.file_name(), mol_link_current: this.current(), mol_theme: this.theme() });
+        }
+        sub() {
+            return [
+                this.title()
+            ];
+        }
+        arg() {
+            return {};
+        }
+        event() {
+            return Object.assign(Object.assign({}, super.event()), { click: (event) => this.click(event) });
         }
         uri() {
             return "";
@@ -5198,24 +5333,13 @@ var $;
         theme() {
             return null;
         }
-        sub() {
-            return [
-                this.title()
-            ];
-        }
-        arg() {
-            return {};
-        }
-        event() {
-            return Object.assign(Object.assign({}, super.event()), { click: (event) => this.click(event) });
-        }
-        click(event) {
-            return this.event_click(event);
-        }
         event_click(event) {
             if (event !== undefined)
                 return event;
             return null;
+        }
+        click(event) {
+            return this.event_click(event);
         }
     }
     __decorate([
@@ -5401,193 +5525,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_svg extends $.$mol_view {
-        dom_name() {
-            return "svg";
-        }
-        dom_name_space() {
-            return "http://www.w3.org/2000/svg";
-        }
-        font_size() {
-            return 16;
-        }
-        font_family() {
-            return "";
-        }
-    }
-    $.$mol_svg = $mol_svg;
-})($ || ($ = {}));
-//svg.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_state_time extends $.$mol_object {
-        static now(precision = 0, next) {
-            if (precision > 0) {
-                new $.$mol_after_timeout(precision, $.$mol_atom2.current.fresh);
-            }
-            else {
-                new $.$mol_after_frame($.$mol_atom2.current.fresh);
-            }
-            return Date.now();
-        }
-    }
-    __decorate([
-        $.$mol_mem_key
-    ], $mol_state_time, "now", null);
-    $.$mol_state_time = $mol_state_time;
-})($ || ($ = {}));
-//time.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_svg extends $.$mol_svg {
-            computed_style() {
-                const win = this.$.$mol_dom_context;
-                const style = win.getComputedStyle(this.dom_node());
-                if (!style['font-size'])
-                    $.$mol_state_time.now();
-                return style;
-            }
-            font_size() {
-                return parseInt(this.computed_style()['font-size']) || 16;
-            }
-            font_family() {
-                return this.computed_style()['font-family'];
-            }
-        }
-        __decorate([
-            $.$mol_mem
-        ], $mol_svg.prototype, "computed_style", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_svg.prototype, "font_size", null);
-        __decorate([
-            $.$mol_mem
-        ], $mol_svg.prototype, "font_family", null);
-        $$.$mol_svg = $mol_svg;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//svg.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_svg_root extends $.$mol_svg {
-        dom_name() {
-            return "svg";
-        }
-        attr() {
-            return Object.assign(Object.assign({}, super.attr()), { viewBox: this.view_box(), preserveAspectRatio: this.aspect() });
-        }
-        view_box() {
-            return "0 0 100 100";
-        }
-        aspect() {
-            return "xMidYMid";
-        }
-    }
-    $.$mol_svg_root = $mol_svg_root;
-})($ || ($ = {}));
-//root.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/svg/root/root.view.css", "[mol_svg_root] {\n\toverflow: hidden;\n}\n");
-})($ || ($ = {}));
-//root.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_svg_path extends $.$mol_svg {
-        dom_name() {
-            return "path";
-        }
-        attr() {
-            return Object.assign(Object.assign({}, super.attr()), { d: this.geometry() });
-        }
-        geometry() {
-            return "";
-        }
-    }
-    $.$mol_svg_path = $mol_svg_path;
-})($ || ($ = {}));
-//path.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon extends $.$mol_svg_root {
-        view_box() {
-            return "0 0 24 24";
-        }
-        minimal_width() {
-            return 16;
-        }
-        minimal_height() {
-            return 16;
-        }
-        sub() {
-            return [
-                this.Path()
-            ];
-        }
-        Path() {
-            const obj = new this.$.$mol_svg_path();
-            obj.geometry = () => this.path();
-            return obj;
-        }
-        path() {
-            return "";
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_icon.prototype, "Path", null);
-    $.$mol_icon = $mol_icon;
-})($ || ($ = {}));
-//icon.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/icon/icon.view.css", "[mol_icon] {\n\tfill: currentColor;\n\tstroke: none;\n\twidth: 1em;\n\theight: 1em;\n\tflex: 0 0 auto;\n\tvertical-align: top;\n\twill-change: transform;\n\tmargin: .25em 0;\n\tdisplay: inline-block;\n}\n");
-})($ || ($ = {}));
-//icon.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon_edit extends $.$mol_icon {
-        path() {
-            return "M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z";
-        }
-    }
-    $.$mol_icon_edit = $mol_icon_edit;
-})($ || ($ = {}));
-//edit.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_icon_cross extends $.$mol_icon {
-        path() {
-            return "M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z";
-        }
-    }
-    $.$mol_icon_cross = $mol_icon_cross;
-})($ || ($ = {}));
-//cross.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_list extends $.$mol_view {
         render_visible_only() {
             return true;
@@ -5597,9 +5534,6 @@ var $;
         }
         sub() {
             return this.rows();
-        }
-        rows() {
-            return [];
         }
         Empty() {
             const obj = new this.$.$mol_view();
@@ -5612,9 +5546,6 @@ var $;
             });
             return obj;
         }
-        gap_before() {
-            return 0;
-        }
         Gap_after() {
             const obj = new this.$.$mol_view();
             obj.style = () => ({
@@ -5622,14 +5553,20 @@ var $;
             });
             return obj;
         }
-        gap_after() {
-            return 0;
-        }
         view_window() {
             return [
                 0,
                 0
             ];
+        }
+        rows() {
+            return [];
+        }
+        gap_before() {
+            return 0;
+        }
+        gap_after() {
+            return 0;
         }
     }
     __decorate([
@@ -5893,24 +5830,22 @@ var $;
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { mol_check_checked: this.checked(), "aria-checked": this.checked(), role: "checkbox" });
         }
-        checked(val) {
-            if (val !== undefined)
-                return val;
-            return false;
-        }
         sub() {
             return [
                 this.Icon(),
                 this.label()
             ];
         }
+        checked(val) {
+            if (val !== undefined)
+                return val;
+            return false;
+        }
         Icon() {
             return null;
         }
-        label() {
-            return [
-                this.Title()
-            ];
+        title() {
+            return "";
         }
         Title() {
             const obj = new this.$.$mol_view();
@@ -5919,8 +5854,10 @@ var $;
             ];
             return obj;
         }
-        title() {
-            return "";
+        label() {
+            return [
+                this.Title()
+            ];
         }
     }
     __decorate([
@@ -5979,6 +5916,169 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_svg extends $.$mol_view {
+        dom_name() {
+            return "svg";
+        }
+        dom_name_space() {
+            return "http://www.w3.org/2000/svg";
+        }
+        font_size() {
+            return 16;
+        }
+        font_family() {
+            return "";
+        }
+    }
+    $.$mol_svg = $mol_svg;
+})($ || ($ = {}));
+//svg.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_state_time extends $.$mol_object {
+        static now(precision = 0, next) {
+            if (precision > 0) {
+                new $.$mol_after_timeout(precision, $.$mol_atom2.current.fresh);
+            }
+            else {
+                new $.$mol_after_frame($.$mol_atom2.current.fresh);
+            }
+            return Date.now();
+        }
+    }
+    __decorate([
+        $.$mol_mem_key
+    ], $mol_state_time, "now", null);
+    $.$mol_state_time = $mol_state_time;
+})($ || ($ = {}));
+//time.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_svg extends $.$mol_svg {
+            computed_style() {
+                const win = this.$.$mol_dom_context;
+                const style = win.getComputedStyle(this.dom_node());
+                if (!style['font-size'])
+                    $.$mol_state_time.now();
+                return style;
+            }
+            font_size() {
+                return parseInt(this.computed_style()['font-size']) || 16;
+            }
+            font_family() {
+                return this.computed_style()['font-family'];
+            }
+        }
+        __decorate([
+            $.$mol_mem
+        ], $mol_svg.prototype, "computed_style", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_svg.prototype, "font_size", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_svg.prototype, "font_family", null);
+        $$.$mol_svg = $mol_svg;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//svg.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_svg_root extends $.$mol_svg {
+        dom_name() {
+            return "svg";
+        }
+        attr() {
+            return Object.assign(Object.assign({}, super.attr()), { viewBox: this.view_box(), preserveAspectRatio: this.aspect() });
+        }
+        view_box() {
+            return "0 0 100 100";
+        }
+        aspect() {
+            return "xMidYMid";
+        }
+    }
+    $.$mol_svg_root = $mol_svg_root;
+})($ || ($ = {}));
+//root.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/svg/root/root.view.css", "[mol_svg_root] {\n\toverflow: hidden;\n}\n");
+})($ || ($ = {}));
+//root.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_svg_path extends $.$mol_svg {
+        dom_name() {
+            return "path";
+        }
+        attr() {
+            return Object.assign(Object.assign({}, super.attr()), { d: this.geometry() });
+        }
+        geometry() {
+            return "";
+        }
+    }
+    $.$mol_svg_path = $mol_svg_path;
+})($ || ($ = {}));
+//path.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon extends $.$mol_svg_root {
+        view_box() {
+            return "0 0 24 24";
+        }
+        minimal_width() {
+            return 16;
+        }
+        minimal_height() {
+            return 16;
+        }
+        sub() {
+            return [
+                this.Path()
+            ];
+        }
+        path() {
+            return "";
+        }
+        Path() {
+            const obj = new this.$.$mol_svg_path();
+            obj.geometry = () => this.path();
+            return obj;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $mol_icon.prototype, "Path", null);
+    $.$mol_icon = $mol_icon;
+})($ || ($ = {}));
+//icon.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/icon/icon.view.css", "[mol_icon] {\n\tfill: currentColor;\n\tstroke: none;\n\twidth: 1em;\n\theight: 1em;\n\tflex: 0 0 auto;\n\tvertical-align: top;\n\twill-change: transform;\n\tmargin: .25em 0;\n\tdisplay: inline-block;\n}\n");
+})($ || ($ = {}));
+//icon.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_icon_chevron extends $.$mol_icon {
         path() {
             return "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z";
@@ -6005,19 +6105,19 @@ var $;
         style() {
             return Object.assign(Object.assign({}, super.style()), { paddingLeft: this.level_style() });
         }
-        level_style() {
-            return "0px";
-        }
         checked(val) {
             return this.expanded(val);
+        }
+        enabled() {
+            return this.expandable();
+        }
+        level_style() {
+            return "0px";
         }
         expanded(val) {
             if (val !== undefined)
                 return val;
             return false;
-        }
-        enabled() {
-            return this.expandable();
         }
         expandable() {
             return false;
@@ -6128,9 +6228,6 @@ var $;
         sub() {
             return this.parts();
         }
-        parts() {
-            return [];
-        }
         Low(id) {
             const obj = new this.$.$mol_paragraph();
             obj.sub = () => [
@@ -6138,15 +6235,18 @@ var $;
             ];
             return obj;
         }
-        string(id) {
-            return "";
-        }
         High(id) {
             const obj = new this.$.$mol_paragraph();
             obj.sub = () => [
                 this.string(id)
             ];
             return obj;
+        }
+        parts() {
+            return [];
+        }
+        string(id) {
+            return "";
         }
     }
     __decorate([
@@ -6234,30 +6334,16 @@ var $;
                 this.Table()
             ];
         }
-        Table() {
-            const obj = new this.$.$mol_grid_table();
-            obj.sub = () => this.rows();
-            return obj;
-        }
-        rows() {
-            return [];
-        }
         Head() {
             const obj = new this.$.$mol_grid_row();
             obj.cells = () => this.head_cells();
             return obj;
-        }
-        head_cells() {
-            return [];
         }
         Row(id) {
             const obj = new this.$.$mol_grid_row();
             obj.minimal_height = () => this.row_height();
             obj.cells = () => this.cells(id);
             return obj;
-        }
-        cells(id) {
-            return [];
         }
         Cell(id) {
             const obj = new this.$.$mol_view();
@@ -6271,19 +6357,10 @@ var $;
             obj.sub = () => this.cell_content_text(id);
             return obj;
         }
-        cell_content_text(id) {
-            return this.cell_content(id);
-        }
-        cell_content(id) {
-            return [];
-        }
         Cell_number(id) {
             const obj = new this.$.$mol_grid_number();
             obj.sub = () => this.cell_content_number(id);
             return obj;
-        }
-        cell_content_number(id) {
-            return this.cell_content(id);
         }
         Col_head(id) {
             const obj = new this.$.$mol_float();
@@ -6291,15 +6368,43 @@ var $;
             obj.sub = () => this.col_head_content(id);
             return obj;
         }
-        col_head_content(id) {
-            return [];
-        }
         Cell_branch(id) {
             const obj = new this.$.$mol_check_expand();
             obj.level = () => this.cell_level(id);
             obj.label = () => this.cell_content(id);
             obj.expanded = (val) => this.cell_expanded(id, val);
             return obj;
+        }
+        Cell_content(id) {
+            return [
+                this.Cell_dimmer(id)
+            ];
+        }
+        rows() {
+            return [];
+        }
+        Table() {
+            const obj = new this.$.$mol_grid_table();
+            obj.sub = () => this.rows();
+            return obj;
+        }
+        head_cells() {
+            return [];
+        }
+        cells(id) {
+            return [];
+        }
+        cell_content(id) {
+            return [];
+        }
+        cell_content_text(id) {
+            return this.cell_content(id);
+        }
+        cell_content_number(id) {
+            return this.cell_content(id);
+        }
+        col_head_content(id) {
+            return [];
         }
         cell_level(id) {
             return 0;
@@ -6309,10 +6414,11 @@ var $;
                 return val;
             return false;
         }
-        Cell_content(id) {
-            return [
-                this.Cell_dimmer(id)
-            ];
+        needle() {
+            return "";
+        }
+        cell_value(id) {
+            return "";
         }
         Cell_dimmer(id) {
             const obj = new this.$.$mol_dimmer();
@@ -6320,16 +6426,7 @@ var $;
             obj.haystack = () => this.cell_value(id);
             return obj;
         }
-        needle() {
-            return "";
-        }
-        cell_value(id) {
-            return "";
-        }
     }
-    __decorate([
-        $.$mol_mem
-    ], $mol_grid.prototype, "Table", null);
     __decorate([
         $.$mol_mem
     ], $mol_grid.prototype, "Head", null);
@@ -6351,6 +6448,9 @@ var $;
     __decorate([
         $.$mol_mem_key
     ], $mol_grid.prototype, "Cell_branch", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_grid.prototype, "Table", null);
     __decorate([
         $.$mol_mem_key
     ], $mol_grid.prototype, "cell_expanded", null);
@@ -6532,36 +6632,22 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_image extends $.$mol_view {
-        dom_name() {
-            return "img";
-        }
-        field() {
-            return Object.assign(Object.assign({}, super.field()), { src: this.uri(), alt: this.title() });
-        }
-        uri() {
-            return "";
-        }
-    }
-    $.$mol_image = $mol_image;
-})($ || ($ = {}));
-//image.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/image/image.view.css", "[mol_image] {\n\tborder-radius: var(--mol_skin_round);\n\toverflow: hidden;\n\tflex: 0 1 auto;\n\tmax-width: 100%;\n}\n");
-})($ || ($ = {}));
-//image.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_link_iconed extends $.$mol_link {
         sub() {
             return [
                 this.Icon()
             ];
+        }
+        content() {
+            return [
+                this.title()
+            ];
+        }
+        host() {
+            return "";
+        }
+        icon() {
+            return "";
         }
         Icon() {
             const obj = new this.$.$mol_image();
@@ -6569,19 +6655,8 @@ var $;
             obj.title = () => "";
             return obj;
         }
-        icon() {
-            return "";
-        }
-        content() {
-            return [
-                this.title()
-            ];
-        }
         title() {
             return this.uri();
-        }
-        host() {
-            return "";
         }
     }
     __decorate([
@@ -6647,20 +6722,11 @@ var $;
             obj.text = () => this.quote_text(id);
             return obj;
         }
-        quote_text(id) {
-            return "";
-        }
         Row(id) {
             const obj = new this.$.$mol_text_row();
             obj.sub = () => this.block_content(id);
             obj.type = () => this.block_type(id);
             return obj;
-        }
-        block_content(id) {
-            return [];
-        }
-        block_type(id) {
-            return "";
         }
         Span(id) {
             const obj = new this.$.$mol_text_span();
@@ -6680,17 +6746,41 @@ var $;
             obj.content = () => this.header_content(id);
             return obj;
         }
-        header_level(id) {
-            return 0;
-        }
-        header_content(id) {
-            return [];
-        }
         Table(id) {
             const obj = new this.$.$mol_grid();
             obj.head_cells = () => this.table_head_cells(id);
             obj.rows = () => this.table_rows(id);
             return obj;
+        }
+        Table_row(id) {
+            const obj = new this.$.$mol_grid_row();
+            obj.cells = () => this.table_cells(id);
+            return obj;
+        }
+        Table_cell(id) {
+            const obj = new this.$.$mol_grid_cell();
+            obj.sub = () => this.table_cell_content(id);
+            return obj;
+        }
+        Table_cell_head(id) {
+            const obj = new this.$.$mol_float();
+            obj.sub = () => this.table_cell_content(id);
+            return obj;
+        }
+        quote_text(id) {
+            return "";
+        }
+        block_content(id) {
+            return [];
+        }
+        block_type(id) {
+            return "";
+        }
+        header_level(id) {
+            return 0;
+        }
+        header_content(id) {
+            return [];
         }
         table_head_cells(id) {
             return [];
@@ -6698,26 +6788,11 @@ var $;
         table_rows(id) {
             return [];
         }
-        Table_row(id) {
-            const obj = new this.$.$mol_grid_row();
-            obj.cells = () => this.table_cells(id);
-            return obj;
-        }
         table_cells(id) {
             return [];
         }
-        Table_cell(id) {
-            const obj = new this.$.$mol_grid_cell();
-            obj.sub = () => this.table_cell_content(id);
-            return obj;
-        }
         table_cell_content(id) {
             return [];
-        }
-        Table_cell_head(id) {
-            const obj = new this.$.$mol_float();
-            obj.sub = () => this.table_cell_content(id);
-            return obj;
         }
     }
     __decorate([
@@ -6767,13 +6842,13 @@ var $;
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { mol_text_header_level: this.level() });
         }
+        sub() {
+            return this.content();
+        }
         level(val) {
             if (val !== undefined)
                 return val;
             return 0;
-        }
-        sub() {
-            return this.content();
         }
         content() {
             return [];
@@ -6790,13 +6865,13 @@ var $;
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { mol_text_type: this.type() });
         }
+        sub() {
+            return this.content();
+        }
         type(val) {
             if (val !== undefined)
                 return val;
             return "";
-        }
-        sub() {
-            return this.content();
         }
         content(val) {
             if (val !== undefined)
@@ -6815,34 +6890,34 @@ var $;
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { mol_text_type: this.type() });
         }
-        type(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
         uri() {
             return this.link();
-        }
-        link(val) {
-            if (val !== undefined)
-                return val;
-            return "";
         }
         content(val) {
             if (val !== undefined)
                 return val;
             return [];
         }
+        type(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        link(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
     }
+    __decorate([
+        $.$mol_mem
+    ], $mol_text_link.prototype, "content", null);
     __decorate([
         $.$mol_mem
     ], $mol_text_link.prototype, "type", null);
     __decorate([
         $.$mol_mem
     ], $mol_text_link.prototype, "link", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_text_link.prototype, "content", null);
     $.$mol_text_link = $mol_text_link;
     class $mol_text_image extends $.$mol_view {
         dom_name() {
@@ -6851,6 +6926,11 @@ var $;
         attr() {
             return Object.assign(Object.assign({}, super.attr()), { allowfullscreen: true, mol_text_type: this.type(), data: this.link() });
         }
+        sub() {
+            return [
+                this.title()
+            ];
+        }
         type(val) {
             if (val !== undefined)
                 return val;
@@ -6860,11 +6940,6 @@ var $;
             if (val !== undefined)
                 return val;
             return "";
-        }
-        sub() {
-            return [
-                this.title()
-            ];
         }
         title(val) {
             if (val !== undefined)
@@ -7166,101 +7241,191 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_row extends $.$mol_view {
-    }
-    $.$mol_row = $mol_row;
-})($ || ($ = {}));
-//row.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .75rem;\n\tflex: 1 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .75rem;\n\tmax-width: 100%;\n}\n");
-})($ || ($ = {}));
-//row.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$hyoo_realworld_comment_json = $.$mol_data_record({
-        author: $.$hyoo_realworld_person_json,
-        id: $.$mol_data_integer,
-        body: $.$mol_data_string,
-        createdAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
-        updatedAt: $.$mol_data_pipe($.$mol_data_string, $.$mol_time_moment),
-    });
-    const Response_one = $.$mol_data_record({
-        comment: $.$hyoo_realworld_comment_json,
-    });
-    const Response_list = $.$mol_data_record({
-        comments: $.$mol_data_array($.$hyoo_realworld_comment_json),
-    });
-    class $hyoo_realworld_comment extends $.$mol_object2 {
-        static item(id) {
-            const obj = new this;
-            obj.id = $.$mol_const(id);
+    class $mol_message extends $.$mol_view {
+        moment() {
+            const obj = new this.$.$mol_time_moment();
             return obj;
         }
-        id() {
-            return 0;
+        sub() {
+            return [
+                this.Info(),
+                this.Avatar_link(),
+                this.Text()
+            ];
         }
-        body() {
-            return this.json().body;
+        name() {
+            return " ";
         }
-        updated_moment() {
-            return this.json().updatedAt;
+        Name() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.name()
+            ];
+            return obj;
         }
-        author() {
-            var _a;
-            const id = (_a = this.json()) === null || _a === void 0 ? void 0 : _a.author.username;
-            return this.$.$hyoo_realworld_person.item(id);
+        moment_string() {
+            return "";
         }
-        json(next = {}) {
-            const author = this.$.$hyoo_realworld_person.item(next.author.username);
-            author.json(next.author);
-            return next;
+        Moment() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.moment_string()
+            ];
+            return obj;
         }
-        static changes(next = 0) {
-            return next;
+        Info() {
+            const obj = new this.$.$mol_row();
+            obj.sub = () => [
+                this.Name(),
+                this.Moment()
+            ];
+            return obj;
         }
-        static save(article, next) {
-            const uri = `articles/${article}/comments`;
-            const res = this.$.$hyoo_realworld_transport.save(uri, 'post', next);
-            const json = Response_one(res).comment;
-            const comment = this.item(json.id);
-            comment.json(json);
-            this.changes(json.id);
-            return article;
+        avatar_link() {
+            return "";
         }
-        static list(article) {
-            this.changes();
-            const url = `articles/${article.slug()}/comments`;
-            const json = Response_list(this.$.$hyoo_realworld_transport.load(url));
-            const next = json.comments.map(json => {
-                this.$.$hyoo_realworld_comment.item(json.id).json(json);
-                return this.$.$hyoo_realworld_comment.item(json.id);
-            });
-            return next;
+        avatar() {
+            return "";
+        }
+        Avatar() {
+            const obj = new this.$.$mol_image();
+            obj.title = () => "";
+            obj.uri = () => this.avatar();
+            return obj;
+        }
+        Avatar_link() {
+            const obj = new this.$.$mol_link();
+            obj.uri = () => this.avatar_link();
+            obj.sub = () => [
+                this.Avatar()
+            ];
+            return obj;
+        }
+        text() {
+            return "";
+        }
+        Text() {
+            const obj = new this.$.$mol_text();
+            obj.text = () => this.text();
+            return obj;
         }
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_comment.prototype, "json", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_comment, "item", null);
+    ], $mol_message.prototype, "moment", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_comment, "changes", null);
+    ], $mol_message.prototype, "Name", null);
     __decorate([
-        $.$mol_fiber.method
-    ], $hyoo_realworld_comment, "save", null);
+        $.$mol_mem
+    ], $mol_message.prototype, "Moment", null);
     __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_comment, "list", null);
-    $.$hyoo_realworld_comment = $hyoo_realworld_comment;
+        $.$mol_mem
+    ], $mol_message.prototype, "Info", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_message.prototype, "Avatar", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_message.prototype, "Avatar_link", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_message.prototype, "Text", null);
+    $.$mol_message = $mol_message;
 })($ || ($ = {}));
-//comment.js.map
+//message.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/message/message.view.css", "[mol_message] {\n\tmax-width: 58rem;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n}\n\n[mol_message_avatar_link] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex: none;\n\tpadding: 0;\n}\n\n[mol_message_avatar] {\n\twidth: 3.5rem;\n\theight: 3.5rem;\n}\n\n[mol_message_text] {\n\tflex: 1000 1 10rem;\n}\n\n[mol_message_info] {\n\tflex: 1 1 100%;\n\tpadding: 0;\n\tbox-shadow: none;\n\tdisplay: flex;\n\talign-items: baseline;\n\tjustify-content: space-between;\n\tfont-size: .75rem;\n\tline-height: 1rem;\n}\n\n[mol_message_info] > * {\n\tmargin: 0;\n}\n\n[mol_message_name] {\n\tfont-weight: bolder;\n}\n");
+})($ || ($ = {}));
+//message.view.css.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_message extends $.$mol_message {
+            moment_string() {
+                return this.moment().toString('YYYY-MM-DD hh:mm:ss');
+            }
+        }
+        $$.$mol_message = $mol_message;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//message.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $hyoo_realworld_comment_card extends $.$mol_message {
+        comment() {
+            const obj = new this.$.$hyoo_realworld_comment();
+            return obj;
+        }
+    }
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment_card.prototype, "comment", null);
+    $.$hyoo_realworld_comment_card = $hyoo_realworld_comment_card;
+})($ || ($ = {}));
+//card.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $hyoo_realworld_comment_card extends $.$hyoo_realworld_comment_card {
+            name() {
+                return this.comment().author().name();
+            }
+            text() {
+                return this.comment().body();
+            }
+            avatar() {
+                return this.comment().author().avatar();
+            }
+            moment() {
+                return new $.$mol_time_moment(this.comment().updated_moment()).toOffset(new $.$mol_time_moment().offset);
+            }
+            avatar_link() {
+                return this.$.$mol_state_arg.make_link({ person: this.comment().author().name() });
+            }
+        }
+        __decorate([
+            $.$mol_mem
+        ], $hyoo_realworld_comment_card.prototype, "moment", null);
+        $$.$hyoo_realworld_comment_card = $hyoo_realworld_comment_card;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//card.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_edit extends $.$mol_icon {
+        path() {
+            return "M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z";
+        }
+    }
+    $.$mol_icon_edit = $mol_icon_edit;
+})($ || ($ = {}));
+//edit.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_icon_cross extends $.$mol_icon {
+        path() {
+            return "M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z";
+        }
+    }
+    $.$mol_icon_cross = $mol_icon_cross;
+})($ || ($ = {}));
+//cross.view.tree.js.map
 ;
 "use strict";
 var $;
@@ -7315,11 +7480,6 @@ var $;
         event() {
             return Object.assign(Object.assign({}, super.event()), { keydown: (event) => this.keydown(event) });
         }
-        keydown(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
         key() {
             return {};
         }
@@ -7331,6 +7491,11 @@ var $;
         }
         mod_shift() {
             return false;
+        }
+        keydown(event) {
+            if (event !== undefined)
+                return event;
+            return null;
         }
     }
     __decorate([
@@ -7390,16 +7555,27 @@ var $;
         field() {
             return Object.assign(Object.assign({}, super.field()), { disabled: this.disabled(), value: this.value_changed(), placeholder: this.hint(), type: this.type(), spellcheck: this.spellcheck(), autocomplete: this.autocomplete_native() });
         }
+        attr() {
+            return Object.assign(Object.assign({}, super.attr()), { maxlength: this.length_max() });
+        }
+        event() {
+            return Object.assign(Object.assign({}, super.event()), { input: (event) => this.event_change(event), keydown: (event) => this.event_key_press(event) });
+        }
+        plugins() {
+            return [
+                this.Submit()
+            ];
+        }
         disabled() {
             return false;
-        }
-        value_changed(val) {
-            return this.value(val);
         }
         value(val) {
             if (val !== undefined)
                 return val;
             return "";
+        }
+        value_changed(val) {
+            return this.value(val);
         }
         hint() {
             return "";
@@ -7415,14 +7591,8 @@ var $;
         autocomplete_native() {
             return "";
         }
-        attr() {
-            return Object.assign(Object.assign({}, super.attr()), { maxlength: this.length_max() });
-        }
         length_max() {
             return Infinity;
-        }
-        event() {
-            return Object.assign(Object.assign({}, super.event()), { input: (event) => this.event_change(event), keydown: (event) => this.event_key_press(event) });
         }
         event_change(event) {
             if (event !== undefined)
@@ -7434,10 +7604,10 @@ var $;
                 return event;
             return null;
         }
-        plugins() {
-            return [
-                this.Submit()
-            ];
+        submit(event) {
+            if (event !== undefined)
+                return event;
+            return null;
         }
         Submit() {
             const obj = new this.$.$mol_hotkey();
@@ -7445,11 +7615,6 @@ var $;
                 enter: (event) => this.submit(event)
             });
             return obj;
-        }
-        submit(event) {
-            if (event !== undefined)
-                return event;
-            return null;
         }
     }
     __decorate([
@@ -7466,10 +7631,10 @@ var $;
     ], $mol_string.prototype, "event_key_press", null);
     __decorate([
         $.$mol_mem
-    ], $mol_string.prototype, "Submit", null);
+    ], $mol_string.prototype, "submit", null);
     __decorate([
         $.$mol_mem
-    ], $mol_string.prototype, "submit", null);
+    ], $mol_string.prototype, "Submit", null);
     $.$mol_string = $mol_string;
 })($ || ($ = {}));
 //string.view.tree.js.map
@@ -7513,24 +7678,16 @@ var $;
                 keydown: (event) => this.press(event)
             };
         }
-        press(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
         sub() {
             return [
                 this.Edit(),
                 this.View()
             ];
         }
-        Edit() {
-            const obj = new this.$.$mol_string();
-            obj.dom_name = () => "textarea";
-            obj.value = (val) => this.value(val);
-            obj.hint = () => this.hint();
-            obj.enabled = () => this.enabled();
-            return obj;
+        press(event) {
+            if (event !== undefined)
+                return event;
+            return null;
         }
         value(val) {
             if (val !== undefined)
@@ -7543,13 +7700,21 @@ var $;
         enabled() {
             return true;
         }
-        View() {
-            const obj = new this.$.$mol_text();
-            obj.text = () => this.text();
+        Edit() {
+            const obj = new this.$.$mol_string();
+            obj.dom_name = () => "textarea";
+            obj.value = (val) => this.value(val);
+            obj.hint = () => this.hint();
+            obj.enabled = () => this.enabled();
             return obj;
         }
         text() {
             return "";
+        }
+        View() {
+            const obj = new this.$.$mol_text();
+            obj.text = () => this.text();
+            return obj;
         }
     }
     __decorate([
@@ -7557,10 +7722,10 @@ var $;
     ], $mol_textarea.prototype, "press", null);
     __decorate([
         $.$mol_mem
-    ], $mol_textarea.prototype, "Edit", null);
+    ], $mol_textarea.prototype, "value", null);
     __decorate([
         $.$mol_mem
-    ], $mol_textarea.prototype, "value", null);
+    ], $mol_textarea.prototype, "Edit", null);
     __decorate([
         $.$mol_mem
     ], $mol_textarea.prototype, "View", null);
@@ -7646,22 +7811,15 @@ var $;
                 this.Submit()
             ];
         }
-        Message() {
-            const obj = new this.$.$mol_textarea();
-            obj.hint = () => "Your comment";
-            obj.value = (val) => this.message(val);
-            return obj;
-        }
         message(val) {
             if (val !== undefined)
                 return val;
             return "";
         }
-        Submit() {
-            const obj = new this.$.$mol_button_major();
-            obj.title = () => "Post";
-            obj.click = (val) => this.post(val);
-            obj.enabled = () => this.postable();
+        Message() {
+            const obj = new this.$.$mol_textarea();
+            obj.hint = () => "Your comment";
+            obj.value = (val) => this.message(val);
             return obj;
         }
         post(val) {
@@ -7672,22 +7830,29 @@ var $;
         postable() {
             return false;
         }
+        Submit() {
+            const obj = new this.$.$mol_button_major();
+            obj.title = () => "Post";
+            obj.click = (val) => this.post(val);
+            obj.enabled = () => this.postable();
+            return obj;
+        }
     }
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_comment_add.prototype, "article", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_comment_add.prototype, "Message", null);
-    __decorate([
-        $.$mol_mem
     ], $hyoo_realworld_comment_add.prototype, "message", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_comment_add.prototype, "Submit", null);
+    ], $hyoo_realworld_comment_add.prototype, "Message", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_comment_add.prototype, "post", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_comment_add.prototype, "Submit", null);
     $.$hyoo_realworld_comment_add = $hyoo_realworld_comment_add;
 })($ || ($ = {}));
 //add.view.tree.js.map
@@ -7728,171 +7893,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_message extends $.$mol_view {
-        moment() {
-            const obj = new this.$.$mol_time_moment();
-            return obj;
-        }
-        sub() {
-            return [
-                this.Info(),
-                this.Avatar_link(),
-                this.Text()
-            ];
-        }
-        Info() {
-            const obj = new this.$.$mol_row();
-            obj.sub = () => [
-                this.Name(),
-                this.Moment()
-            ];
-            return obj;
-        }
-        Name() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => [
-                this.name()
-            ];
-            return obj;
-        }
-        name() {
-            return " ";
-        }
-        Moment() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => [
-                this.moment_string()
-            ];
-            return obj;
-        }
-        moment_string() {
-            return "";
-        }
-        Avatar_link() {
-            const obj = new this.$.$mol_link();
-            obj.uri = () => this.avatar_link();
-            obj.sub = () => [
-                this.Avatar()
-            ];
-            return obj;
-        }
-        avatar_link() {
-            return "";
-        }
-        Avatar() {
-            const obj = new this.$.$mol_image();
-            obj.title = () => "";
-            obj.uri = () => this.avatar();
-            return obj;
-        }
-        avatar() {
-            return "";
-        }
-        Text() {
-            const obj = new this.$.$mol_text();
-            obj.text = () => this.text();
-            return obj;
-        }
-        text() {
-            return "";
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "moment", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Info", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Name", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Moment", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Avatar_link", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Avatar", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Text", null);
-    $.$mol_message = $mol_message;
-})($ || ($ = {}));
-//message.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/message/message.view.css", "[mol_message] {\n\tmax-width: 58rem;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n}\n\n[mol_message_avatar_link] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex: none;\n\tpadding: 0;\n}\n\n[mol_message_avatar] {\n\twidth: 3.5rem;\n\theight: 3.5rem;\n}\n\n[mol_message_text] {\n\tflex: 1000 1 10rem;\n}\n\n[mol_message_info] {\n\tflex: 1 1 100%;\n\tpadding: 0;\n\tbox-shadow: none;\n\tdisplay: flex;\n\talign-items: baseline;\n\tjustify-content: space-between;\n\tfont-size: .75rem;\n\tline-height: 1rem;\n}\n\n[mol_message_info] > * {\n\tmargin: 0;\n}\n\n[mol_message_name] {\n\tfont-weight: bolder;\n}\n");
-})($ || ($ = {}));
-//message.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_message extends $.$mol_message {
-            moment_string() {
-                return this.moment().toString('YYYY-MM-DD hh:mm:ss');
-            }
-        }
-        $$.$mol_message = $mol_message;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//message.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_comment_card extends $.$mol_message {
-        comment() {
-            const obj = new this.$.$hyoo_realworld_comment();
-            return obj;
-        }
-    }
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_comment_card.prototype, "comment", null);
-    $.$hyoo_realworld_comment_card = $hyoo_realworld_comment_card;
-})($ || ($ = {}));
-//card.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $hyoo_realworld_comment_card extends $.$hyoo_realworld_comment_card {
-            name() {
-                return this.comment().author().name();
-            }
-            text() {
-                return this.comment().body();
-            }
-            avatar() {
-                return this.comment().author().avatar();
-            }
-            moment() {
-                return new $.$mol_time_moment(this.comment().updated_moment()).toOffset(new $.$mol_time_moment().offset);
-            }
-            avatar_link() {
-                return this.$.$mol_state_arg.make_link({ person: this.comment().author().name() });
-            }
-        }
-        __decorate([
-            $.$mol_mem
-        ], $hyoo_realworld_comment_card.prototype, "moment", null);
-        $$.$hyoo_realworld_comment_card = $hyoo_realworld_comment_card;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-//card.view.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $hyoo_realworld_article_page extends $.$mol_page {
         title() {
             return this.$.$mol_locale.text('$hyoo_realworld_article_page_title');
@@ -7903,34 +7903,6 @@ var $;
                 this.Close_link()
             ];
         }
-        Edit_link() {
-            const obj = new this.$.$mol_link();
-            obj.arg = () => ({
-                edit: ""
-            });
-            obj.sub = () => [
-                this.Edit_icon()
-            ];
-            return obj;
-        }
-        Edit_icon() {
-            const obj = new this.$.$mol_icon_edit();
-            return obj;
-        }
-        Close_link() {
-            const obj = new this.$.$mol_link();
-            obj.arg = () => ({
-                article: null
-            });
-            obj.sub = () => [
-                this.Close_icon()
-            ];
-            return obj;
-        }
-        Close_icon() {
-            const obj = new this.$.$mol_icon_cross();
-            return obj;
-        }
         body() {
             return [
                 this.Content(),
@@ -7939,46 +7911,9 @@ var $;
                 this.Comment_add()
             ];
         }
-        Content() {
-            const obj = new this.$.$mol_text();
-            obj.text = () => this.content();
-            return obj;
-        }
-        content() {
-            return "";
-        }
-        Tags() {
-            const obj = new this.$.$mol_row();
-            obj.sub = () => this.tags();
-            return obj;
-        }
-        tags() {
-            return [];
-        }
-        Comments() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => this.comment_cards();
-            return obj;
-        }
-        comment_cards() {
-            return [];
-        }
-        Comment_add() {
-            const obj = new this.$.$hyoo_realworld_comment_add();
-            obj.article = () => this.article();
-            return obj;
-        }
-        article() {
-            const obj = new this.$.$hyoo_realworld_article();
-            return obj;
-        }
         Comment_card(index) {
             const obj = new this.$.$hyoo_realworld_comment_card();
             obj.comment = () => this.comment(index);
-            return obj;
-        }
-        comment(index) {
-            const obj = new this.$.$hyoo_realworld_comment();
             return obj;
         }
         Tag_link(index) {
@@ -7992,22 +7927,93 @@ var $;
             ];
             return obj;
         }
+        Edit_icon() {
+            const obj = new this.$.$mol_icon_edit();
+            return obj;
+        }
+        Edit_link() {
+            const obj = new this.$.$mol_link();
+            obj.arg = () => ({
+                edit: ""
+            });
+            obj.sub = () => [
+                this.Edit_icon()
+            ];
+            return obj;
+        }
+        Close_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
+        Close_link() {
+            const obj = new this.$.$mol_link();
+            obj.arg = () => ({
+                article: null
+            });
+            obj.sub = () => [
+                this.Close_icon()
+            ];
+            return obj;
+        }
+        content() {
+            return "";
+        }
+        Content() {
+            const obj = new this.$.$mol_text();
+            obj.text = () => this.content();
+            return obj;
+        }
+        tags() {
+            return [];
+        }
+        Tags() {
+            const obj = new this.$.$mol_row();
+            obj.sub = () => this.tags();
+            return obj;
+        }
+        comment_cards() {
+            return [];
+        }
+        Comments() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.comment_cards();
+            return obj;
+        }
+        article() {
+            const obj = new this.$.$hyoo_realworld_article();
+            return obj;
+        }
+        Comment_add() {
+            const obj = new this.$.$hyoo_realworld_comment_add();
+            obj.article = () => this.article();
+            return obj;
+        }
+        comment(index) {
+            const obj = new this.$.$hyoo_realworld_comment();
+            return obj;
+        }
         tag_name(index) {
             return "";
         }
     }
     __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_article_page.prototype, "Edit_link", null);
+        $.$mol_mem_key
+    ], $hyoo_realworld_article_page.prototype, "Comment_card", null);
+    __decorate([
+        $.$mol_mem_key
+    ], $hyoo_realworld_article_page.prototype, "Tag_link", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_page.prototype, "Edit_icon", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_page.prototype, "Close_link", null);
+    ], $hyoo_realworld_article_page.prototype, "Edit_link", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_page.prototype, "Close_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article_page.prototype, "Close_link", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_page.prototype, "Content", null);
@@ -8019,19 +8025,13 @@ var $;
     ], $hyoo_realworld_article_page.prototype, "Comments", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_page.prototype, "Comment_add", null);
-    __decorate([
-        $.$mol_mem
     ], $hyoo_realworld_article_page.prototype, "article", null);
     __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_article_page.prototype, "Comment_card", null);
+        $.$mol_mem
+    ], $hyoo_realworld_article_page.prototype, "Comment_add", null);
     __decorate([
         $.$mol_mem_key
     ], $hyoo_realworld_article_page.prototype, "comment", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_article_page.prototype, "Tag_link", null);
     $.$hyoo_realworld_article_page = $hyoo_realworld_article_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
@@ -8134,20 +8134,15 @@ var $;
                 this.Descr()
             ];
         }
-        Author() {
-            const obj = new this.$.$mol_view();
-            obj.sub = () => [
-                this.Avatar(),
-                this.Author_name()
-            ];
-            return obj;
+        avatar() {
+            return "";
         }
         Avatar() {
             const obj = new this.$.$mol_image();
             obj.uri = () => this.avatar();
             return obj;
         }
-        avatar() {
+        author_name() {
             return "";
         }
         Author_name() {
@@ -8157,7 +8152,15 @@ var $;
             ];
             return obj;
         }
-        author_name() {
+        Author() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.Avatar(),
+                this.Author_name()
+            ];
+            return obj;
+        }
+        title() {
             return "";
         }
         Title() {
@@ -8167,7 +8170,7 @@ var $;
             ];
             return obj;
         }
-        title() {
+        descr() {
             return "";
         }
         Descr() {
@@ -8177,22 +8180,19 @@ var $;
             ];
             return obj;
         }
-        descr() {
-            return "";
-        }
     }
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_card.prototype, "article", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_card.prototype, "Author", null);
-    __decorate([
-        $.$mol_mem
     ], $hyoo_realworld_article_card.prototype, "Avatar", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_card.prototype, "Author_name", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article_card.prototype, "Author", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_card.prototype, "Title", null);
@@ -8249,32 +8249,10 @@ var $;
                 this.Add_link()
             ];
         }
-        Add_link() {
-            const obj = new this.$.$mol_link();
-            obj.arg = () => ({
-                edit: ""
-            });
-            obj.sub = () => [
-                this.Add_icon()
-            ];
-            return obj;
-        }
-        Add_icon() {
-            const obj = new this.$.$mol_icon_plus();
-            return obj;
-        }
         body() {
             return [
                 this.Article_links()
             ];
-        }
-        Article_links() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => this.article_links();
-            return obj;
-        }
-        article_links() {
-            return [];
         }
         Article_link(index) {
             const obj = new this.$.$mol_link();
@@ -8286,37 +8264,59 @@ var $;
             ];
             return obj;
         }
+        Add_icon() {
+            const obj = new this.$.$mol_icon_plus();
+            return obj;
+        }
+        Add_link() {
+            const obj = new this.$.$mol_link();
+            obj.arg = () => ({
+                edit: ""
+            });
+            obj.sub = () => [
+                this.Add_icon()
+            ];
+            return obj;
+        }
+        article_links() {
+            return [];
+        }
+        Article_links() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.article_links();
+            return obj;
+        }
         article_slug(index) {
             return "";
+        }
+        article(index) {
+            const obj = new this.$.$hyoo_realworld_article();
+            return obj;
         }
         Article_card(index) {
             const obj = new this.$.$hyoo_realworld_article_card();
             obj.article = () => this.article(index);
             return obj;
         }
-        article(index) {
-            const obj = new this.$.$hyoo_realworld_article();
-            return obj;
-        }
     }
     __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_feed_page.prototype, "Add_link", null);
+        $.$mol_mem_key
+    ], $hyoo_realworld_feed_page.prototype, "Article_link", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Add_icon", null);
     __decorate([
         $.$mol_mem
+    ], $hyoo_realworld_feed_page.prototype, "Add_link", null);
+    __decorate([
+        $.$mol_mem
     ], $hyoo_realworld_feed_page.prototype, "Article_links", null);
     __decorate([
         $.$mol_mem_key
-    ], $hyoo_realworld_feed_page.prototype, "Article_link", null);
+    ], $hyoo_realworld_feed_page.prototype, "article", null);
     __decorate([
         $.$mol_mem_key
     ], $hyoo_realworld_feed_page.prototype, "Article_card", null);
-    __decorate([
-        $.$mol_mem_key
-    ], $hyoo_realworld_feed_page.prototype, "article", null);
     $.$hyoo_realworld_feed_page = $hyoo_realworld_feed_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
@@ -8384,25 +8384,25 @@ var $;
                 this.Content()
             ];
         }
+        label() {
+            return [
+                this.title()
+            ];
+        }
         Title() {
             const obj = new this.$.$mol_view();
             obj.minimal_height = () => 21;
             obj.sub = () => this.label();
             return obj;
         }
-        label() {
-            return [
-                this.title()
-            ];
+        content() {
+            return [];
         }
         Content() {
             const obj = new this.$.$mol_view();
             obj.minimal_height = () => 24;
             obj.sub = () => this.content();
             return obj;
-        }
-        content() {
-            return [];
         }
     }
     __decorate([
@@ -8432,7 +8432,13 @@ var $;
                 this.Bid()
             ];
         }
+        Content() {
+            return this.control();
+        }
         name() {
+            return "";
+        }
+        bid() {
             return "";
         }
         Bid() {
@@ -8441,12 +8447,6 @@ var $;
                 this.bid()
             ];
             return obj;
-        }
-        bid() {
-            return "";
-        }
-        Content() {
-            return this.control();
         }
         control() {
             return null;
@@ -8476,11 +8476,6 @@ var $;
         event() {
             return Object.assign(Object.assign({}, super.event()), { keydown: (event) => this.keydown(event) });
         }
-        keydown(event) {
-            if (event !== undefined)
-                return event;
-            return null;
-        }
         submit(event) {
             if (event !== undefined)
                 return event;
@@ -8492,12 +8487,20 @@ var $;
                 this.Bar_buttons()
             ];
         }
+        keydown(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        form_fields() {
+            return [];
+        }
         Bar_fields() {
             const obj = new this.$.$mol_view();
             obj.sub = () => this.form_fields();
             return obj;
         }
-        form_fields() {
+        buttons() {
             return [];
         }
         Bar_buttons() {
@@ -8505,16 +8508,13 @@ var $;
             obj.sub = () => this.buttons();
             return obj;
         }
-        buttons() {
-            return [];
-        }
     }
     __decorate([
         $.$mol_mem
-    ], $mol_form.prototype, "keydown", null);
+    ], $mol_form.prototype, "submit", null);
     __decorate([
         $.$mol_mem
-    ], $mol_form.prototype, "submit", null);
+    ], $mol_form.prototype, "keydown", null);
     __decorate([
         $.$mol_mem
     ], $mol_form.prototype, "Bar_fields", null);
@@ -8566,6 +8566,15 @@ var $;
                 this.Close()
             ];
         }
+        body() {
+            return [
+                this.Form()
+            ];
+        }
+        Close_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
         Close() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -8576,14 +8585,102 @@ var $;
             ];
             return obj;
         }
-        Close_icon() {
-            const obj = new this.$.$mol_icon_cross();
+        article_title_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_title_name');
+        }
+        article_title(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Article_title() {
+            const obj = new this.$.$mol_string();
+            obj.value = (val) => this.article_title(val);
             return obj;
         }
-        body() {
-            return [
-                this.Form()
-            ];
+        Article_title_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.article_title_name();
+            obj.control = () => this.Article_title();
+            return obj;
+        }
+        article_descr_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_descr_name');
+        }
+        article_descr(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Article_descr() {
+            const obj = new this.$.$mol_textarea();
+            obj.value = (val) => this.article_descr(val);
+            obj.hint = () => "markdown";
+            return obj;
+        }
+        Article_descr_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.article_descr_name();
+            obj.control = () => this.Article_descr();
+            return obj;
+        }
+        article_content_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_content_name');
+        }
+        article_content(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Article_content() {
+            const obj = new this.$.$mol_textarea();
+            obj.value = (val) => this.article_content(val);
+            obj.hint = () => "markdown";
+            return obj;
+        }
+        Article_content_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.article_content_name();
+            obj.control = () => this.Article_content();
+            return obj;
+        }
+        article_tags_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_tags_name');
+        }
+        article_tags(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Article_tags() {
+            const obj = new this.$.$mol_string();
+            obj.value = (val) => this.article_tags(val);
+            obj.hint = () => "comma, separated, values";
+            return obj;
+        }
+        Article_tags_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.article_tags_name();
+            obj.control = () => this.Article_tags();
+            return obj;
+        }
+        Save_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_Save_label');
+        }
+        save(val) {
+            if (val !== undefined)
+                return val;
+            return null;
+        }
+        saveable() {
+            return false;
+        }
+        Save() {
+            const obj = new this.$.$mol_button_major();
+            obj.title = () => this.Save_label();
+            obj.click = (val) => this.save(val);
+            obj.enabled = () => this.saveable();
+            return obj;
         }
         Form() {
             const obj = new this.$.$mol_form();
@@ -8598,155 +8695,58 @@ var $;
             ];
             return obj;
         }
-        Article_title_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.article_title_name();
-            obj.control = () => this.Article_title();
-            return obj;
-        }
-        article_title_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_title_name');
-        }
-        Article_title() {
-            const obj = new this.$.$mol_string();
-            obj.value = (val) => this.article_title(val);
-            return obj;
-        }
-        article_title(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Article_descr_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.article_descr_name();
-            obj.control = () => this.Article_descr();
-            return obj;
-        }
-        article_descr_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_descr_name');
-        }
-        Article_descr() {
-            const obj = new this.$.$mol_textarea();
-            obj.value = (val) => this.article_descr(val);
-            obj.hint = () => "markdown";
-            return obj;
-        }
-        article_descr(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Article_content_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.article_content_name();
-            obj.control = () => this.Article_content();
-            return obj;
-        }
-        article_content_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_content_name');
-        }
-        Article_content() {
-            const obj = new this.$.$mol_textarea();
-            obj.value = (val) => this.article_content(val);
-            obj.hint = () => "markdown";
-            return obj;
-        }
-        article_content(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Article_tags_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.article_tags_name();
-            obj.control = () => this.Article_tags();
-            return obj;
-        }
-        article_tags_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_article_tags_name');
-        }
-        Article_tags() {
-            const obj = new this.$.$mol_string();
-            obj.value = (val) => this.article_tags(val);
-            obj.hint = () => "comma, separated, values";
-            return obj;
-        }
-        article_tags(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Save() {
-            const obj = new this.$.$mol_button_major();
-            obj.title = () => this.Save_label();
-            obj.click = (val) => this.save(val);
-            obj.enabled = () => this.saveable();
-            return obj;
-        }
-        Save_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_article_edit_Save_label');
-        }
-        save(val) {
-            if (val !== undefined)
-                return val;
-            return null;
-        }
-        saveable() {
-            return false;
-        }
     }
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Close", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "Close_icon", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Form", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_title_field", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_title", null);
+    ], $hyoo_realworld_article_edit.prototype, "Close", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "article_title", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_descr_field", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_title", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_descr", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_title_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "article_descr", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_content_field", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_descr", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_content", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_descr_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "article_content", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_tags_field", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_content", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Article_tags", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_content_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "article_tags", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_article_edit.prototype, "Save", null);
+    ], $hyoo_realworld_article_edit.prototype, "Article_tags", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article_edit.prototype, "Article_tags_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_article_edit.prototype, "save", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article_edit.prototype, "Save", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_article_edit.prototype, "Form", null);
     $.$hyoo_realworld_article_edit = $hyoo_realworld_article_edit;
 })($ || ($ = {}));
 //edit.view.tree.js.map
@@ -8876,38 +8876,6 @@ var $;
                 this.Close()
             ];
         }
-        Sign_out() {
-            const obj = new this.$.$mol_button_minor();
-            obj.title = () => "";
-            obj.click = (val) => this.sign_out(val);
-            obj.sub = () => [
-                this.Logout_icon()
-            ];
-            return obj;
-        }
-        sign_out(val) {
-            if (val !== undefined)
-                return val;
-            return null;
-        }
-        Logout_icon() {
-            const obj = new this.$.$mol_icon_logout();
-            return obj;
-        }
-        Close() {
-            const obj = new this.$.$mol_link();
-            obj.arg = () => ({
-                section: null
-            });
-            obj.sub = () => [
-                this.Close_icon()
-            ];
-            return obj;
-        }
-        Close_icon() {
-            const obj = new this.$.$mol_icon_cross();
-            return obj;
-        }
         email() {
             return "user@mail.com";
         }
@@ -8928,14 +8896,49 @@ var $;
                 this.Bio()
             ];
         }
+        sign_out(val) {
+            if (val !== undefined)
+                return val;
+            return null;
+        }
+        Logout_icon() {
+            const obj = new this.$.$mol_icon_logout();
+            return obj;
+        }
+        Sign_out() {
+            const obj = new this.$.$mol_button_minor();
+            obj.title = () => "";
+            obj.click = (val) => this.sign_out(val);
+            obj.sub = () => [
+                this.Logout_icon()
+            ];
+            return obj;
+        }
+        Close_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
+        Close() {
+            const obj = new this.$.$mol_link();
+            obj.arg = () => ({
+                section: null
+            });
+            obj.sub = () => [
+                this.Close_icon()
+            ];
+            return obj;
+        }
+        image_title() {
+            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_image_title');
+        }
         Image() {
             const obj = new this.$.$mol_image();
             obj.uri = () => this.avatar();
             obj.title = () => this.image_title();
             return obj;
         }
-        image_title() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_image_title');
+        email_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_email_label');
         }
         Email() {
             const obj = new this.$.$mol_labeler();
@@ -8945,8 +8948,8 @@ var $;
             ];
             return obj;
         }
-        email_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_email_label');
+        username_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_username_label');
         }
         Username() {
             const obj = new this.$.$mol_labeler();
@@ -8956,8 +8959,8 @@ var $;
             ];
             return obj;
         }
-        username_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_username_label');
+        bio_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_bio_label');
         }
         Bio() {
             const obj = new this.$.$mol_labeler();
@@ -8967,16 +8970,10 @@ var $;
             ];
             return obj;
         }
-        bio_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_bio_label');
-        }
     }
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_profile_page.prototype, "section", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Sign_out", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_profile_page.prototype, "sign_out", null);
@@ -8985,10 +8982,13 @@ var $;
     ], $hyoo_realworld_profile_page.prototype, "Logout_icon", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Close", null);
+    ], $hyoo_realworld_profile_page.prototype, "Sign_out", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_profile_page.prototype, "Close_icon", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_profile_page.prototype, "Close", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_profile_page.prototype, "Image", null);
@@ -9091,9 +9091,6 @@ var $;
             ];
             return obj;
         }
-        articles_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_articles_link');
-        }
         Tags() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9103,9 +9100,6 @@ var $;
                 this.tags_link()
             ];
             return obj;
-        }
-        tags_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_tags_link');
         }
         Favorites() {
             const obj = new this.$.$mol_link();
@@ -9118,9 +9112,6 @@ var $;
             ];
             return obj;
         }
-        favorites_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_favorites_link');
-        }
         Profile() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9131,9 +9122,6 @@ var $;
                 this.profile_link()
             ];
             return obj;
-        }
-        profile_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_profile_link');
         }
         Settings() {
             const obj = new this.$.$mol_link();
@@ -9146,9 +9134,6 @@ var $;
             ];
             return obj;
         }
-        settings_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_settings_link');
-        }
         Sign_in() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9159,9 +9144,6 @@ var $;
             ];
             return obj;
         }
-        sign_in_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_sign_in_link');
-        }
         Sign_up() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9171,9 +9153,6 @@ var $;
                 this.sign_up_link()
             ];
             return obj;
-        }
-        sign_up_link() {
-            return this.$.$mol_locale.text('$hyoo_realworld_home_page_sign_up_link');
         }
         signed_links() {
             return [
@@ -9191,6 +9170,27 @@ var $;
                 this.Sign_in(),
                 this.Sign_up()
             ];
+        }
+        articles_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_articles_link');
+        }
+        tags_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_tags_link');
+        }
+        favorites_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_favorites_link');
+        }
+        profile_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_profile_link');
+        }
+        settings_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_settings_link');
+        }
+        sign_in_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_sign_in_link');
+        }
+        sign_up_link() {
+            return this.$.$mol_locale.text('$hyoo_realworld_home_page_sign_up_link');
         }
     }
     __decorate([
@@ -9255,14 +9255,6 @@ var $;
                 this.Tag_links()
             ];
         }
-        Tag_links() {
-            const obj = new this.$.$mol_list();
-            obj.rows = () => this.tag_links();
-            return obj;
-        }
-        tag_links() {
-            return [];
-        }
         Tag_link(index) {
             const obj = new this.$.$mol_link();
             obj.minimal_height = () => 40;
@@ -9275,6 +9267,14 @@ var $;
             obj.title = () => this.tag_name(index);
             return obj;
         }
+        tag_links() {
+            return [];
+        }
+        Tag_links() {
+            const obj = new this.$.$mol_list();
+            obj.rows = () => this.tag_links();
+            return obj;
+        }
         tag_id(index) {
             return "";
         }
@@ -9283,11 +9283,11 @@ var $;
         }
     }
     __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_tags_page.prototype, "Tag_links", null);
-    __decorate([
         $.$mol_mem_key
     ], $hyoo_realworld_tags_page.prototype, "Tag_link", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_tags_page.prototype, "Tag_links", null);
     $.$hyoo_realworld_tags_page = $hyoo_realworld_tags_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
@@ -9347,6 +9347,16 @@ var $;
                 this.Close()
             ];
         }
+        body() {
+            return [
+                this.Need_account(),
+                this.Form()
+            ];
+        }
+        Close_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
         Close() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9358,15 +9368,8 @@ var $;
             ];
             return obj;
         }
-        Close_icon() {
-            const obj = new this.$.$mol_icon_cross();
-            return obj;
-        }
-        body() {
-            return [
-                this.Need_account(),
-                this.Form()
-            ];
+        need_account_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_need_account_label');
         }
         Need_account() {
             const obj = new this.$.$mol_link();
@@ -9378,8 +9381,60 @@ var $;
             ];
             return obj;
         }
-        need_account_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_need_account_label');
+        Mail_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Mail_name');
+        }
+        mail(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Mail() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "user@example.org";
+            obj.value = (val) => this.mail(val);
+            return obj;
+        }
+        Mail_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.Mail_name();
+            obj.control = () => this.Mail();
+            return obj;
+        }
+        Pass_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Pass_name');
+        }
+        pass(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Pass() {
+            const obj = new this.$.$mol_string();
+            obj.type = () => "password";
+            obj.hint = () => "########";
+            obj.value = (val) => this.pass(val);
+            return obj;
+        }
+        Pass_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.Pass_name();
+            obj.control = () => this.Pass();
+            return obj;
+        }
+        Auth_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Auth_label');
+        }
+        auth(val) {
+            if (val !== undefined)
+                return val;
+            return null;
+        }
+        Submit() {
+            const obj = new this.$.$mol_button_major();
+            obj.title = () => this.Auth_label();
+            obj.click = (val) => this.auth(val);
+            return obj;
         }
         Form() {
             const obj = new this.$.$mol_form();
@@ -9392,98 +9447,43 @@ var $;
             ];
             return obj;
         }
-        Mail_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.Mail_name();
-            obj.control = () => this.Mail();
-            return obj;
-        }
-        Mail_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Mail_name');
-        }
-        Mail() {
-            const obj = new this.$.$mol_string();
-            obj.hint = () => "user@example.org";
-            obj.value = (val) => this.mail(val);
-            return obj;
-        }
-        mail(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Pass_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.Pass_name();
-            obj.control = () => this.Pass();
-            return obj;
-        }
-        Pass_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Pass_name');
-        }
-        Pass() {
-            const obj = new this.$.$mol_string();
-            obj.type = () => "password";
-            obj.hint = () => "########";
-            obj.value = (val) => this.pass(val);
-            return obj;
-        }
-        pass(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Submit() {
-            const obj = new this.$.$mol_button_major();
-            obj.title = () => this.Auth_label();
-            obj.click = (val) => this.auth(val);
-            return obj;
-        }
-        Auth_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_in_Auth_label');
-        }
-        auth(val) {
-            if (val !== undefined)
-                return val;
-            return null;
-        }
     }
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Close", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "Close_icon", null);
     __decorate([
         $.$mol_mem
+    ], $hyoo_realworld_sign_in.prototype, "Close", null);
+    __decorate([
+        $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "Need_account", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Form", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Mail_field", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Mail", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "mail", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Pass_field", null);
+    ], $hyoo_realworld_sign_in.prototype, "Mail", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Pass", null);
+    ], $hyoo_realworld_sign_in.prototype, "Mail_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "pass", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_in.prototype, "Submit", null);
+    ], $hyoo_realworld_sign_in.prototype, "Pass", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_in.prototype, "Pass_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_in.prototype, "auth", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_in.prototype, "Submit", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_in.prototype, "Form", null);
     $.$hyoo_realworld_sign_in = $hyoo_realworld_sign_in;
 })($ || ($ = {}));
 //in.view.tree.js.map
@@ -9527,6 +9527,16 @@ var $;
                 this.Close()
             ];
         }
+        body() {
+            return [
+                this.Have_account(),
+                this.Form()
+            ];
+        }
+        Close_icon() {
+            const obj = new this.$.$mol_icon_cross();
+            return obj;
+        }
         Close() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
@@ -9537,15 +9547,8 @@ var $;
             ];
             return obj;
         }
-        Close_icon() {
-            const obj = new this.$.$mol_icon_cross();
-            return obj;
-        }
-        body() {
-            return [
-                this.Have_account(),
-                this.Form()
-            ];
+        have_account_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_have_account_label');
         }
         Have_account() {
             const obj = new this.$.$mol_link();
@@ -9557,8 +9560,80 @@ var $;
             ];
             return obj;
         }
-        have_account_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_have_account_label');
+        Username_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Username_name');
+        }
+        username(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Username() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "user666";
+            obj.value = (val) => this.username(val);
+            return obj;
+        }
+        Username_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.Username_name();
+            obj.control = () => this.Username();
+            return obj;
+        }
+        Mail_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Mail_name');
+        }
+        mail(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Mail() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "user@example.org";
+            obj.value = (val) => this.mail(val);
+            return obj;
+        }
+        Mail_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.Mail_name();
+            obj.control = () => this.Mail();
+            return obj;
+        }
+        Pass_name() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Pass_name');
+        }
+        pass(val) {
+            if (val !== undefined)
+                return val;
+            return "";
+        }
+        Pass() {
+            const obj = new this.$.$mol_string();
+            obj.type = () => "password";
+            obj.hint = () => "########";
+            obj.value = (val) => this.pass(val);
+            return obj;
+        }
+        Pass_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => this.Pass_name();
+            obj.control = () => this.Pass();
+            return obj;
+        }
+        Reg_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Reg_label');
+        }
+        reg(val) {
+            if (val !== undefined)
+                return val;
+            return null;
+        }
+        Submit() {
+            const obj = new this.$.$mol_button_major();
+            obj.title = () => this.Reg_label();
+            obj.click = (val) => this.reg(val);
+            return obj;
         }
         Form() {
             const obj = new this.$.$mol_form();
@@ -9572,127 +9647,52 @@ var $;
             ];
             return obj;
         }
-        Username_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.Username_name();
-            obj.control = () => this.Username();
-            return obj;
-        }
-        Username_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Username_name');
-        }
-        Username() {
-            const obj = new this.$.$mol_string();
-            obj.hint = () => "user666";
-            obj.value = (val) => this.username(val);
-            return obj;
-        }
-        username(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Mail_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.Mail_name();
-            obj.control = () => this.Mail();
-            return obj;
-        }
-        Mail_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Mail_name');
-        }
-        Mail() {
-            const obj = new this.$.$mol_string();
-            obj.hint = () => "user@example.org";
-            obj.value = (val) => this.mail(val);
-            return obj;
-        }
-        mail(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Pass_field() {
-            const obj = new this.$.$mol_form_field();
-            obj.name = () => this.Pass_name();
-            obj.control = () => this.Pass();
-            return obj;
-        }
-        Pass_name() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Pass_name');
-        }
-        Pass() {
-            const obj = new this.$.$mol_string();
-            obj.type = () => "password";
-            obj.hint = () => "########";
-            obj.value = (val) => this.pass(val);
-            return obj;
-        }
-        pass(val) {
-            if (val !== undefined)
-                return val;
-            return "";
-        }
-        Submit() {
-            const obj = new this.$.$mol_button_major();
-            obj.title = () => this.Reg_label();
-            obj.click = (val) => this.reg(val);
-            return obj;
-        }
-        Reg_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_sign_up_Reg_label');
-        }
-        reg(val) {
-            if (val !== undefined)
-                return val;
-            return null;
-        }
     }
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Close", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "Close_icon", null);
     __decorate([
         $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Close", null);
+    __decorate([
+        $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "Have_account", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Form", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Username_field", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Username", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "username", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Mail_field", null);
+    ], $hyoo_realworld_sign_up.prototype, "Username", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Mail", null);
+    ], $hyoo_realworld_sign_up.prototype, "Username_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "mail", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Pass_field", null);
+    ], $hyoo_realworld_sign_up.prototype, "Mail", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Pass", null);
+    ], $hyoo_realworld_sign_up.prototype, "Mail_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "pass", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_sign_up.prototype, "Submit", null);
+    ], $hyoo_realworld_sign_up.prototype, "Pass", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Pass_field", null);
     __decorate([
         $.$mol_mem
     ], $hyoo_realworld_sign_up.prototype, "reg", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Submit", null);
+    __decorate([
+        $.$mol_mem
+    ], $hyoo_realworld_sign_up.prototype, "Form", null);
     $.$hyoo_realworld_sign_up = $hyoo_realworld_sign_up;
 })($ || ($ = {}));
 //up.view.tree.js.map
@@ -9746,11 +9746,6 @@ var $;
             obj.section = (name) => this.section(name);
             return obj;
         }
-        section(name) {
-            if (name !== undefined)
-                return name;
-            return "";
-        }
         sections() {
             return {
                 articles: this.feed_current(),
@@ -9762,6 +9757,11 @@ var $;
                 sign_in: this.Sign_in(),
                 sign_up: this.Sign_up()
             };
+        }
+        section(name) {
+            if (name !== undefined)
+                return name;
+            return "";
         }
         feed_current() {
             const obj = new this.$.$hyoo_realworld_feed_page();
@@ -9958,13 +9958,13 @@ var $;
         value(val) {
             return this.task_title_new(val);
         }
+        enabled() {
+            return this.head_complete_enabled();
+        }
         task_title_new(val) {
             if (val !== undefined)
                 return val;
             return "123";
-        }
-        enabled() {
-            return this.head_complete_enabled();
         }
         head_complete_enabled() {
             return false;

@@ -60,6 +60,15 @@ $mol_page $mol_view
 		<= Foot $mol_view
 			sub <= foot /$mol_view
 
+$mol_row $mol_view
+
+$mol_image $mol_view
+	dom_name \img
+	field *
+		^
+		src <= uri \
+		alt <= title
+
 $mol_link $mol_view
 	dom_name \a
 	attr *
@@ -76,38 +85,6 @@ $mol_link $mol_view
 	event *
 		^
 		click?event <=> click?event <=> event_click?event null
-
-$mol_svg $mol_view
-	dom_name \svg
-	dom_name_space \http://www.w3.org/2000/svg
-	font_size 16
-	font_family \
-
-$mol_svg_root $mol_svg
-	dom_name \svg
-	attr *
-		^
-		viewBox <= view_box \0 0 100 100
-		preserveAspectRatio <= aspect \xMidYMid
-
-$mol_svg_path $mol_svg
-	dom_name \path
-	attr *
-		^
-		d <= geometry \
-
-
-$mol_icon $mol_svg_root
-	view_box \0 0 24 24
-	minimal_width 16
-	minimal_height 16
-	sub /
-		<= Path $mol_svg_path
-			geometry <= path \
-
-$mol_icon_edit $mol_icon path \M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
-
-$mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
 
 $mol_list $mol_view
 	render_visible_only true
@@ -141,6 +118,34 @@ $mol_check $mol_button_minor
 			<= Title $mol_view
 				sub /
 					<= title \
+
+$mol_svg $mol_view
+	dom_name \svg
+	dom_name_space \http://www.w3.org/2000/svg
+	font_size 16
+	font_family \
+
+$mol_svg_root $mol_svg
+	dom_name \svg
+	attr *
+		^
+		viewBox <= view_box \0 0 100 100
+		preserveAspectRatio <= aspect \xMidYMid
+
+$mol_svg_path $mol_svg
+	dom_name \path
+	attr *
+		^
+		d <= geometry \
+
+
+$mol_icon $mol_svg_root
+	view_box \0 0 24 24
+	minimal_width 16
+	minimal_height 16
+	sub /
+		<= Path $mol_svg_path
+			geometry <= path \
 
 $mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
 
@@ -220,13 +225,6 @@ $mol_grid_cell $mol_view
 
 $mol_grid_number $mol_grid_cell
 
-$mol_image $mol_view
-	dom_name \img
-	field *
-		^
-		src <= uri \
-		alt <= title
-
 $mol_link_iconed $mol_link
 	sub /
 		<= Icon $mol_image
@@ -297,7 +295,32 @@ $mol_text_image $mol_view
 	sub /
 		<= title?val \
 
-$mol_row $mol_view
+$mol_message $mol_view
+	moment $mol_time_moment
+	sub /
+		<= Info $mol_row
+			sub /
+				<= Name $mol_view
+					sub /
+						<= name \ 
+				<= Moment $mol_view
+					sub /
+						<= moment_string \
+		<= Avatar_link $mol_link
+			uri <= avatar_link \
+			sub /
+				<= Avatar $mol_image
+					title \
+					uri <= avatar \
+		<= Text $mol_text
+			text <= text \
+
+$hyoo_realworld_comment_card $mol_message
+	comment $hyoo_realworld_comment
+
+$mol_icon_edit $mol_icon path \M5,3C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19H5V5H12V3H5M17.78,4C17.61,4 17.43,4.07 17.3,4.2L16.08,5.41L18.58,7.91L19.8,6.7C20.06,6.44 20.06,6 19.8,5.75L18.25,4.2C18.12,4.07 17.95,4 17.78,4M15.37,6.12L8,13.5V16H10.5L17.87,8.62L15.37,6.12Z
+
+$mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
 
 $mol_bar $mol_view
 
@@ -361,29 +384,6 @@ $hyoo_realworld_comment_add $mol_bar
 			title \Post
 			click?val <=> post?val null
 			enabled <= postable false
-
-$mol_message $mol_view
-	moment $mol_time_moment
-	sub /
-		<= Info $mol_row
-			sub /
-				<= Name $mol_view
-					sub /
-						<= name \ 
-				<= Moment $mol_view
-					sub /
-						<= moment_string \
-		<= Avatar_link $mol_link
-			uri <= avatar_link \
-			sub /
-				<= Avatar $mol_image
-					title \
-					uri <= avatar \
-		<= Text $mol_text
-			text <= text \
-
-$hyoo_realworld_comment_card $mol_message
-	comment $hyoo_realworld_comment
 
 $hyoo_realworld_article_page $mol_page
 	title @ \Article
