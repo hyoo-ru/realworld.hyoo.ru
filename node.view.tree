@@ -443,7 +443,7 @@ $hyoo_realworld_feed_page $mol_page
 $mol_labeler $mol_list
 	rows /
 		<= Title $mol_view
-			minimal_height 21
+			minimal_height 24
 			sub <= label /$mol_view_content
 				<= title
 		<= Content $mol_view
