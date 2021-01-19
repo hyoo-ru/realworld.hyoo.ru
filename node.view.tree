@@ -15,43 +15,15 @@ $mol_book2 $mol_scroll
 	minimal_width 0
 	Placeholder $mol_view
 
-$mol_speck $mol_view
-	attr *
-		^
-		mol_theme \$mol_theme_accent
-	style *
-		^
-		minHeight \1em
-	sub /
-		<= value null
-
-$mol_button $mol_view
-	enabled true
-	minimal_height 40
-	click?event null
-	event_click?event null
-	event *
-		^
-		click?event <=> event_activate?event null
-		keypress?event <=> event_key_press?event null 
-	attr *
-		^
-		disabled <= disabled false
-		role \button
-		tabindex <= tab_index 0
-		title <= hint_or_error <= hint \
-	sub /$mol_view_content
-		<= title
-	Speck $mol_speck
-
 $mol_page $mol_view
 	sub /
 		<= Head $mol_view
+			minimal_height 64
 			sub <= head /
-				<= Title $mol_button
+				<= Title $mol_view
+					dom_name \h1
 					sub /
 						<= title
-					event_click?val <=> event_top?val null
 				<= Tools $mol_view
 					sub <= tools /$mol_view_content
 		<= Body $mol_scroll
@@ -78,7 +50,6 @@ $mol_link $mol_view
 		target <= target \_self
 		download <= file_name \
 		mol_link_current <= current false
-		mol_theme <= theme null
 	sub /$mol_view_content
 		<= title
 	arg *
@@ -101,6 +72,35 @@ $mol_float $mol_view
 	style *
 		^
 		minHeight \auto
+
+$mol_speck $mol_view
+	attr *
+		^
+		mol_theme \$mol_theme_accent
+	style *
+		^
+		minHeight \1em
+	sub /
+		<= value null
+
+$mol_button $mol_view
+	enabled true
+	minimal_height 40
+	click?event null
+	event_click?event null
+	event *
+		^
+		click?event <=> event_activate?event null
+		keydown?event <=> event_key_press?event null 
+	attr *
+		^
+		disabled <= disabled false
+		role \button
+		tabindex <= tab_index 0
+		title <= hint_or_error <= hint \
+	sub /$mol_view_content
+		<= title
+	Speck $mol_speck
 
 $mol_button_typed $mol_button
 
@@ -162,6 +162,7 @@ $mol_check_expand $mol_check
 $mol_paragraph $mol_view
 	line_height 24
 	letter_width 8
+	width_limit Infinity
 
 $mol_dimmer $mol_paragraph
 	haystack \
@@ -175,7 +176,7 @@ $mol_dimmer $mol_paragraph
 			<= string!id \
 
 $mol_grid $mol_scroll
-	row_height 40
+	row_height 32
 	row_ids /string[]
 	row_id!index null
 	col_ids /
@@ -357,6 +358,26 @@ $mol_string $mol_view
 		<= Submit $mol_hotkey
 			key * enter?event <=> submit?event null
 
+$mol_text_code_token $mol_dimmer
+	attr *
+		^
+		mol_text_code_token_type <= type \
+
+$mol_text_code_row $mol_paragraph
+	text \
+	minimal_height 24
+	Token!id $mol_text_code_token
+		type <= token_type!id \
+		haystack <= token_text!id \
+		needle <= highlight \
+
+$mol_text_code $mol_list
+	text \
+	text_lines /string
+	Row!id $mol_text_code_row
+		text <= row_text!id \
+		highlight <= highlight \
+
 $mol_textarea $mol_view
 	event *
 		keydown?event <=> press?event null
@@ -366,8 +387,10 @@ $mol_textarea $mol_view
 			value?val <=> value?val \
 			hint <= hint \
 			enabled <= enabled true
-		<= View $mol_text
-			text <= text \
+			length_max <= length_max Infinity
+		<= View $mol_text_code
+			text <= value
+			render_visible_only false
 
 $mol_button_major $mol_button_typed
 	attr *
@@ -442,7 +465,7 @@ $hyoo_realworld_feed_page $mol_page
 
 $mol_labeler $mol_list
 	rows /
-		<= Title $mol_view
+		<= Label $mol_view
 			minimal_height 24
 			sub <= label /$mol_view_content
 				<= title
