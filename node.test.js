@@ -3373,6 +3373,17 @@ var $;
 //tail.js.map
 ;
 "use strict";
+var $;
+(function ($) {
+    function $mol_func_is_class(func) {
+        var _a;
+        return ((_a = Object.getOwnPropertyDescriptor(func, 'prototype')) === null || _a === void 0 ? void 0 : _a.writable) === false;
+    }
+    $.$mol_func_is_class = $mol_func_is_class;
+})($ || ($ = {}));
+//class.js.map
+;
+"use strict";
 //foot.js.map
 ;
 "use strict";
@@ -3382,7 +3393,7 @@ var $;
         return $.$mol_data_setup((input) => {
             let value = input;
             for (const func of funcs)
-                value = func.prototype ? new func(value) : func(value);
+                value = $.$mol_func_is_class(func) ? new func(value) : func(value);
             return value;
         }, { funcs });
     }
@@ -13167,6 +13178,34 @@ var $;
 ;
 "use strict";
 //tail.test.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_test({
+        'function'() {
+            $.$mol_assert_not($.$mol_func_is_class(function () { }));
+        },
+        'generator'() {
+            $.$mol_assert_not($.$mol_func_is_class(function* () { }));
+        },
+        'async'() {
+            $.$mol_assert_not($.$mol_func_is_class(async function () { }));
+        },
+        'arrow'() {
+            $.$mol_assert_not($.$mol_func_is_class(() => null));
+        },
+        'named class'() {
+            $.$mol_assert_ok($.$mol_func_is_class(class Foo {
+            }));
+        },
+        'unnamed class'() {
+            $.$mol_assert_ok($.$mol_func_is_class(class {
+            }));
+        },
+    });
+})($ || ($ = {}));
+//class.test.js.map
 ;
 "use strict";
 //foot.test.js.map
