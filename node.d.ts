@@ -1104,7 +1104,7 @@ declare namespace $ {
     type Guard<Funcs extends $mol_type_unary[]> = {
         [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
     };
-    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
+    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((this: any, input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
         config: {
             funcs: Funcs & Guard<Funcs>;
         };
@@ -1659,7 +1659,7 @@ declare namespace $ {
             title: (val: string) => string;
             slug: (val: string) => string;
             body: (val: string) => string;
-            createdAt: ((input: string) => $mol_time_moment) & {
+            createdAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
                         year?: number | undefined;
@@ -1695,7 +1695,7 @@ declare namespace $ {
                 };
                 Value: $mol_time_moment;
             };
-            updatedAt: ((input: string) => $mol_time_moment) & {
+            updatedAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
                         year?: number | undefined;
@@ -3126,7 +3126,7 @@ declare namespace $ {
             };
             id: typeof $mol_data_integer;
             body: (val: string) => string;
-            createdAt: ((input: string) => $mol_time_moment) & {
+            createdAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
                         year?: number | undefined;
@@ -3162,7 +3162,7 @@ declare namespace $ {
                 };
                 Value: $mol_time_moment;
             };
-            updatedAt: ((input: string) => $mol_time_moment) & {
+            updatedAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => string | number | Date | {
                         year?: number | undefined;

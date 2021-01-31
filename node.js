@@ -3397,10 +3397,10 @@ var $;
 var $;
 (function ($) {
     function $mol_data_pipe(...funcs) {
-        return $.$mol_data_setup((input) => {
+        return $.$mol_data_setup(function (input) {
             let value = input;
             for (const func of funcs)
-                value = $.$mol_func_is_class(func) ? new func(value) : func(value);
+                value = $.$mol_func_is_class(func) ? new func(value) : func.call(this, value);
             return value;
         }, { funcs });
     }
@@ -7371,7 +7371,7 @@ var $;
     $.$mol_syntax2_md_code = new $.$mol_syntax2({
         'code-docs': /\/\/\/.*?$/,
         'code-comment-block': /(?:\/\*[^]*?\*\/|\/\+[^]*?\+\/|<![^]*?>)/,
-        'code-link': /\w+:\/\/\S*/,
+        'code-link': /\w+:\S+/,
         'code-comment-inline': /\/\/.*?$/,
         'code-string': /(?:".*?"|'.*?'|`.*?`|\/.+?\/[gmi]*\b|(?:^|[ \t])\\[^\n]*\n)/,
         'code-number': /[+-]?(?:\d*\.)?\d+\w*/,
