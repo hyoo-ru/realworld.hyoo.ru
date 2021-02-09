@@ -4206,14 +4206,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_row extends $mol_view {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     class $mol_image extends $mol_view {
         dom_name(): string;
         field(): {
@@ -4287,11 +4279,21 @@ declare namespace $ {
 declare namespace $.$$ {
     class $mol_link extends $.$mol_link {
         uri(): string;
+        uri_native(): URL;
         current(): boolean;
         event_click(event?: Event): void;
         file_name(): string;
         minimal_height(): number;
+        target(): "_self" | "_blank";
     }
+}
+
+declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -5034,15 +5036,15 @@ declare namespace $ {
     class $mol_message extends $mol_view {
         moment(): $mol_time_moment;
         sub(): readonly any[];
-        name(): string;
-        Name(): $mol_view;
-        moment_string(): string;
-        Moment(): $mol_view;
-        Info(): $mol_row;
         avatar_link(): string;
         avatar(): string;
         Avatar(): $mol_image;
-        Avatar_link(): $$.$mol_link;
+        name(): string;
+        Name(): $mol_view;
+        Author(): $$.$mol_link;
+        moment_string(): string;
+        Moment(): $mol_view;
+        Info(): $mol_row;
         text(): string;
         Text(): $$.$mol_text;
     }

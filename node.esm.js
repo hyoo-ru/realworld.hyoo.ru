@@ -5200,22 +5200,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_row extends $.$mol_view {
-    }
-    $.$mol_row = $mol_row;
-})($ || ($ = {}));
-//row.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .5rem;\n\tflex: 1 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .5rem;\n\tmax-width: 100%;\n}\n");
-})($ || ($ = {}));
-//row.view.css.js.map
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_image extends $.$mol_view {
         dom_name() {
             return "img";
@@ -5423,9 +5407,13 @@ var $;
             uri() {
                 return new this.$.$mol_state_arg(this.state_key()).link(this.arg());
             }
+            uri_native() {
+                const base = this.$.$mol_state_arg.href();
+                return new URL(this.uri(), base);
+            }
             current() {
                 const base = this.$.$mol_state_arg.href();
-                const target = new URL(this.uri(), base).toString();
+                const target = this.uri_native().toString();
                 if (base === target)
                     return true;
                 const args = this.arg();
@@ -5449,10 +5437,16 @@ var $;
             minimal_height() {
                 return Math.max(super.minimal_height() || 32);
             }
+            target() {
+                return (this.uri_native().origin === $.$mol_dom_context.location.origin) ? '_self' : '_blank';
+            }
         }
         __decorate([
             $.$mol_mem
         ], $mol_link.prototype, "uri", null);
+        __decorate([
+            $.$mol_mem
+        ], $mol_link.prototype, "uri_native", null);
         __decorate([
             $.$mol_mem
         ], $mol_link.prototype, "current", null);
@@ -5460,6 +5454,22 @@ var $;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //link.view.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_row extends $.$mol_view {
+    }
+    $.$mol_row = $mol_row;
+})($ || ($ = {}));
+//row.view.tree.js.map
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: .5rem;\n\tflex: 1 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmargin: .5rem;\n\tmax-width: 100%;\n}\n");
+})($ || ($ = {}));
+//row.view.css.js.map
 ;
 "use strict";
 var $;
@@ -7595,9 +7605,20 @@ var $;
         sub() {
             return [
                 this.Info(),
-                this.Avatar_link(),
                 this.Text()
             ];
+        }
+        avatar_link() {
+            return "";
+        }
+        avatar() {
+            return "";
+        }
+        Avatar() {
+            const obj = new this.$.$mol_image();
+            obj.title = () => "";
+            obj.uri = () => this.avatar();
+            return obj;
         }
         name() {
             return " ";
@@ -7606,6 +7627,15 @@ var $;
             const obj = new this.$.$mol_view();
             obj.sub = () => [
                 this.name()
+            ];
+            return obj;
+        }
+        Author() {
+            const obj = new this.$.$mol_link();
+            obj.uri = () => this.avatar_link();
+            obj.sub = () => [
+                this.Avatar(),
+                this.Name()
             ];
             return obj;
         }
@@ -7622,28 +7652,8 @@ var $;
         Info() {
             const obj = new this.$.$mol_row();
             obj.sub = () => [
-                this.Name(),
+                this.Author(),
                 this.Moment()
-            ];
-            return obj;
-        }
-        avatar_link() {
-            return "";
-        }
-        avatar() {
-            return "";
-        }
-        Avatar() {
-            const obj = new this.$.$mol_image();
-            obj.title = () => "";
-            obj.uri = () => this.avatar();
-            return obj;
-        }
-        Avatar_link() {
-            const obj = new this.$.$mol_link();
-            obj.uri = () => this.avatar_link();
-            obj.sub = () => [
-                this.Avatar()
             ];
             return obj;
         }
@@ -7661,19 +7671,19 @@ var $;
     ], $mol_message.prototype, "moment", null);
     __decorate([
         $.$mol_mem
+    ], $mol_message.prototype, "Avatar", null);
+    __decorate([
+        $.$mol_mem
     ], $mol_message.prototype, "Name", null);
+    __decorate([
+        $.$mol_mem
+    ], $mol_message.prototype, "Author", null);
     __decorate([
         $.$mol_mem
     ], $mol_message.prototype, "Moment", null);
     __decorate([
         $.$mol_mem
     ], $mol_message.prototype, "Info", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Avatar", null);
-    __decorate([
-        $.$mol_mem
-    ], $mol_message.prototype, "Avatar_link", null);
     __decorate([
         $.$mol_mem
     ], $mol_message.prototype, "Text", null);
@@ -7684,7 +7694,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("mol/message/message.view.css", "[mol_message] {\n\tmax-width: 58rem;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n}\n\n[mol_message_avatar_link] {\n\tdisplay: flex;\n\tflex-direction: column;\n\tflex: none;\n\tpadding: 0;\n}\n\n[mol_message_avatar] {\n\twidth: 3.5rem;\n\theight: 3.5rem;\n}\n\n[mol_message_text] {\n\tflex: 1000 1 10rem;\n}\n\n[mol_message_info] {\n\tflex: 1 1 100%;\n\tpadding: 0;\n\tbox-shadow: none;\n\tdisplay: flex;\n\talign-items: baseline;\n\tjustify-content: space-between;\n\tfont-size: .75rem;\n\tline-height: 1rem;\n}\n\n[mol_message_info] > * {\n\tmargin: 0;\n}\n\n[mol_message_name] {\n\tfont-weight: bolder;\n}\n");
+    $.$mol_style_attach("mol/message/message.view.css", "[mol_message] {\n\tmax-width: 58rem;\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n}\n\n[mol_message_avatar] {\n\twidth: 1.5rem;\n\theight: 1.5rem;\n}\n\n[mol_message_text] {\n\tflex: 1000 1 10rem;\n\tpadding: 0;\n}\n\n[mol_message_info] {\n\tpadding: .5rem;\n\tflex: 1 1 100%;\n\tbox-shadow: none;\n\tdisplay: flex;\n\tjustify-content: space-between;\n}\n\n[mol_message_info] > * {\n\tmargin: .25rem;\n}\n\n[mol_message_author] {\n\tmargin: 0;\n\tpadding: 0;\n}\n\n[mol_message_author] > * {\n\tmargin: .25rem;\n}\n\n[mol_message_name] {\n\tfont-weight: bolder;\n}\n\n[mol_message_moment] {\n\tcolor: var(--mol_theme_shade);\n}\n");
 })($ || ($ = {}));
 //message.view.css.js.map
 ;

@@ -32,8 +32,6 @@ $mol_page $mol_view
 		<= Foot $mol_view
 			sub <= foot /$mol_view
 
-$mol_row $mol_view
-
 $mol_image $mol_view
 	dom_name \img
 	field *
@@ -56,6 +54,8 @@ $mol_link $mol_view
 	event *
 		^
 		click?event <=> click?event <=> event_click?event null
+
+$mol_row $mol_view
 
 $mol_list $mol_view
 	render_visible_only true
@@ -302,18 +302,18 @@ $mol_message $mol_view
 	sub /
 		<= Info $mol_row
 			sub /
-				<= Name $mol_view
+				<= Author $mol_link
+					uri <= avatar_link \
 					sub /
-						<= name \ 
+						<= Avatar $mol_image
+							title \
+							uri <= avatar \
+						<= Name $mol_view
+							sub /
+								<= name \ 
 				<= Moment $mol_view
 					sub /
 						<= moment_string \
-		<= Avatar_link $mol_link
-			uri <= avatar_link \
-			sub /
-				<= Avatar $mol_image
-					title \
-					uri <= avatar \
 		<= Text $mol_text
 			text <= text \
 
