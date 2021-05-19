@@ -31,6 +31,10 @@ namespace $ {
 		avatar() {
 			return this.json().image
 		}
+		
+		following() {
+			return this.json().following
+		}
 
 		@ $mol_mem
 		json( next? : typeof $hyoo_realworld_person_json.Value ) {
