@@ -1332,6 +1332,7 @@ declare namespace $ {
         name(): string;
         biography(): string | null;
         avatar(): string;
+        following(): boolean;
         json(next?: typeof $hyoo_realworld_person_json.Value): Readonly<{
             username: string;
             bio: string | null;
@@ -3016,11 +3017,11 @@ declare namespace $ {
         minimal_height(): number;
         article(): $hyoo_realworld_article;
         sub(): readonly any[];
+        author_name(): string;
         avatar(): string;
         Avatar(): $mol_image;
-        author_name(): string;
         Author_name(): $mol_view;
-        Author(): $mol_view;
+        Author(): $$.$mol_link;
         title(): string;
         Title(): $mol_view;
         descr(): string;
@@ -3171,33 +3172,21 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_icon_logout extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_realworld_profile_page extends $mol_page {
+    class $hyoo_realworld_person_page extends $mol_page {
         title(): string;
         section(name?: any): any;
         tools(): readonly any[];
-        email(): string;
-        username(): string;
-        bio(): string;
         avatar(): string;
+        name(): string;
+        biography(): string;
         body(): readonly any[];
-        sign_out(val?: any): any;
-        Logout_icon(): $mol_icon_logout;
-        Sign_out(): $mol_button_minor;
         Close_icon(): $mol_icon_cross;
         Close(): $$.$mol_link;
         image_title(): string;
         Image(): $mol_image;
-        email_label(): string;
-        Email(): $mol_labeler;
         username_label(): string;
         Username(): $mol_labeler;
-        bio_label(): string;
+        biography_label(): string;
         Bio(): $mol_labeler;
     }
 }
@@ -3228,8 +3217,12 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
+    class $hyoo_realworld_person_page extends $.$hyoo_realworld_person_page {
         sign_out(): void;
+        person_current(): $hyoo_realworld_person;
+        biography(): string;
+        avatar(): string;
+        name(): string;
     }
 }
 
@@ -3364,12 +3357,13 @@ declare namespace $ {
         Article(id: any): $$.$hyoo_realworld_article_page;
         Feed(id: any): $$.$hyoo_realworld_feed_page;
         Article_edit(id: any): $$.$hyoo_realworld_article_edit;
-        Profile(): $$.$hyoo_realworld_profile_page;
+        Profile(): $$.$hyoo_realworld_person_page;
+        Person(): $$.$hyoo_realworld_person_page;
         sections(): {
             articles: $$.$hyoo_realworld_feed_page;
             article: $$.$hyoo_realworld_article_page;
             edit: $$.$hyoo_realworld_article_edit;
-            profile: $$.$hyoo_realworld_profile_page;
+            profile: $$.$hyoo_realworld_person_page;
             home: $$.$hyoo_realworld_home_page;
             tags: $$.$hyoo_realworld_tags_page;
             sign_in: $$.$hyoo_realworld_sign_in;
@@ -3399,6 +3393,7 @@ declare namespace $.$$ {
         tag(): string;
         signed(): boolean;
         section(next?: string | undefined): string | null;
+        person(next?: string | undefined): string | null;
         pages(): any[];
     }
 }

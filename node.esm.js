@@ -4340,6 +4340,9 @@ var $;
         avatar() {
             return this.json().image;
         }
+        following() {
+            return this.json().following;
+        }
         json(next) {
             if (next)
                 return next;
@@ -7862,7 +7865,8 @@ var $;
                 return new $.$mol_time_moment(this.comment().updated_moment()).toOffset(new $.$mol_time_moment().offset);
             }
             avatar_link() {
-                return this.$.$mol_state_arg.make_link({ person: this.comment().author().name() });
+                const args = this.$.$mol_state_arg.dict();
+                return this.$.$mol_state_arg.make_link({ ...args, person: this.comment().author().name() });
             }
         }
         __decorate([
@@ -9052,6 +9056,9 @@ var $;
                 this.Descr()
             ];
         }
+        author_name() {
+            return "";
+        }
         avatar() {
             return "";
         }
@@ -9059,9 +9066,6 @@ var $;
             const obj = new this.$.$mol_image();
             obj.uri = () => this.avatar();
             return obj;
-        }
-        author_name() {
-            return "";
         }
         Author_name() {
             const obj = new this.$.$mol_view();
@@ -9071,7 +9075,10 @@ var $;
             return obj;
         }
         Author() {
-            const obj = new this.$.$mol_view();
+            const obj = new this.$.$mol_link();
+            obj.arg = () => ({
+                person: this.author_name()
+            });
             obj.sub = () => [
                 this.Avatar(),
                 this.Author_name()
@@ -9770,21 +9777,9 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_icon_logout extends $.$mol_icon {
-        path() {
-            return "M16,17V14H9V10H16V7L21,12L16,17M14,2C15.1,2 16,2.9 16,4V6H14V4H5V20H14V18H16V20C16,21.1 15.1,22 14,22H5C3.9,22 3,21.1 3,20V4C3,2.9 3.9,2 5,2H14Z";
-        }
-    }
-    $.$mol_icon_logout = $mol_icon_logout;
-})($ || ($ = {}));
-//logout.view.tree.js.map
-;
-"use strict";
-var $;
-(function ($) {
-    class $hyoo_realworld_profile_page extends $.$mol_page {
+    class $hyoo_realworld_person_page extends $.$mol_page {
         title() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_title');
+            return this.$.$mol_locale.text('$hyoo_realworld_person_page_title');
         }
         section(name) {
             if (name !== undefined)
@@ -9793,47 +9788,24 @@ var $;
         }
         tools() {
             return [
-                this.Sign_out(),
                 this.Close()
             ];
         }
-        email() {
-            return "user@mail.com";
-        }
-        username() {
-            return "jake";
-        }
-        bio() {
-            return "I work a statefarm";
-        }
         avatar() {
-            return "https://static.productionready.io/images/smiley-cyrus.jpg";
+            return "";
+        }
+        name() {
+            return "";
+        }
+        biography() {
+            return "";
         }
         body() {
             return [
                 this.Image(),
-                this.Email(),
                 this.Username(),
                 this.Bio()
             ];
-        }
-        sign_out(val) {
-            if (val !== undefined)
-                return val;
-            return null;
-        }
-        Logout_icon() {
-            const obj = new this.$.$mol_icon_logout();
-            return obj;
-        }
-        Sign_out() {
-            const obj = new this.$.$mol_button_minor();
-            obj.title = () => "";
-            obj.click = (val) => this.sign_out(val);
-            obj.sub = () => [
-                this.Logout_icon()
-            ];
-            return obj;
         }
         Close_icon() {
             const obj = new this.$.$mol_icon_cross();
@@ -9842,7 +9814,7 @@ var $;
         Close() {
             const obj = new this.$.$mol_link();
             obj.arg = () => ({
-                section: null
+                person: null
             });
             obj.sub = () => [
                 this.Close_icon()
@@ -9850,7 +9822,7 @@ var $;
             return obj;
         }
         image_title() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_image_title');
+            return this.$.$mol_locale.text('$hyoo_realworld_person_page_image_title');
         }
         Image() {
             const obj = new this.$.$mol_image();
@@ -9858,71 +9830,48 @@ var $;
             obj.title = () => this.image_title();
             return obj;
         }
-        email_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_email_label');
-        }
-        Email() {
-            const obj = new this.$.$mol_labeler();
-            obj.title = () => this.email_label();
-            obj.content = () => [
-                this.email()
-            ];
-            return obj;
-        }
         username_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_username_label');
+            return this.$.$mol_locale.text('$hyoo_realworld_person_page_username_label');
         }
         Username() {
             const obj = new this.$.$mol_labeler();
             obj.title = () => this.username_label();
             obj.content = () => [
-                this.username()
+                this.name()
             ];
             return obj;
         }
-        bio_label() {
-            return this.$.$mol_locale.text('$hyoo_realworld_profile_page_bio_label');
+        biography_label() {
+            return this.$.$mol_locale.text('$hyoo_realworld_person_page_biography_label');
         }
         Bio() {
             const obj = new this.$.$mol_labeler();
-            obj.title = () => this.bio_label();
+            obj.title = () => this.biography_label();
             obj.content = () => [
-                this.bio()
+                this.biography()
             ];
             return obj;
         }
     }
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "section", null);
+    ], $hyoo_realworld_person_page.prototype, "section", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "sign_out", null);
+    ], $hyoo_realworld_person_page.prototype, "Close_icon", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Logout_icon", null);
+    ], $hyoo_realworld_person_page.prototype, "Close", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Sign_out", null);
+    ], $hyoo_realworld_person_page.prototype, "Image", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Close_icon", null);
+    ], $hyoo_realworld_person_page.prototype, "Username", null);
     __decorate([
         $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Close", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Image", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Email", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Username", null);
-    __decorate([
-        $.$mol_mem
-    ], $hyoo_realworld_profile_page.prototype, "Bio", null);
-    $.$hyoo_realworld_profile_page = $hyoo_realworld_profile_page;
+    ], $hyoo_realworld_person_page.prototype, "Bio", null);
+    $.$hyoo_realworld_person_page = $hyoo_realworld_person_page;
 })($ || ($ = {}));
 //page.view.tree.js.map
 ;
@@ -9968,7 +9917,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/profile/page/page.view.css", "[hyoo_realworld_profile_page_image] {\n\tflex: 0 1 auto;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/person/page/page.view.css", "[hyoo_realworld_person_page_image] {\n\tflex: 0 1 auto;\n}\n");
 })($ || ($ = {}));
 //page.view.css.js.map
 ;
@@ -9977,14 +9926,28 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $hyoo_realworld_profile_page extends $.$hyoo_realworld_profile_page {
+        class $hyoo_realworld_person_page extends $.$hyoo_realworld_person_page {
             sign_out() {
                 this.$.$hyoo_realworld_sign.drop();
                 this.$.$mol_state_arg.value('person', null);
                 this.section(null);
             }
+            person_current() {
+                const name = this.$.$mol_state_arg.value('person');
+                return this.$.$hyoo_realworld_person.item(name);
+            }
+            biography() {
+                var _a;
+                return (_a = this.person_current().biography()) !== null && _a !== void 0 ? _a : '';
+            }
+            avatar() {
+                return this.person_current().avatar();
+            }
+            name() {
+                return this.person_current().name();
+            }
         }
-        $$.$hyoo_realworld_profile_page = $hyoo_realworld_profile_page;
+        $$.$hyoo_realworld_person_page = $hyoo_realworld_person_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 //page.view.js.map
@@ -10663,8 +10626,12 @@ var $;
             return obj;
         }
         Profile() {
-            const obj = new this.$.$hyoo_realworld_profile_page();
+            const obj = new this.$.$hyoo_realworld_person_page();
             obj.section = (name) => this.section(name);
+            return obj;
+        }
+        Person() {
+            const obj = new this.$.$hyoo_realworld_person_page();
             return obj;
         }
         sections() {
@@ -10727,6 +10694,9 @@ var $;
     ], $hyoo_realworld.prototype, "Profile", null);
     __decorate([
         $.$mol_mem
+    ], $hyoo_realworld.prototype, "Person", null);
+    __decorate([
+        $.$mol_mem
     ], $hyoo_realworld.prototype, "section", null);
     __decorate([
         $.$mol_mem
@@ -10759,7 +10729,7 @@ var $node = $node || {} ; $node[ "/hyoo/realworld/logo.png" ] = "data:image/png;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/realworld/realworld.view.css", "[hyoo_realworld] {\n\t--mol_theme_control: #367c36;\n}\n\n[hyoo_realworld] [mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: #5cb85c;\n\ttext-shadow: 0 1px 3px rgba(0,0,0,.3);\n}\n\n[hyoo_realworld_tags] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_realworld_sign_in] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_sign_up] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_profile_page] {\n\tflex: 0 0 20rem;\n}\n\n\n[hyoo_realworld_home_page] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_feed] {\n\tflex: 0 0 30rem;\n}\n\n[hyoo_realworld_article] ,\n[hyoo_realworld_article_edit] {\n\tflex: 0 0 50rem;\n}\n");
+    $.$mol_style_attach("hyoo/realworld/realworld.view.css", "[hyoo_realworld] {\n\t--mol_theme_control: #367c36;\n}\n\n[hyoo_realworld] [mol_theme=\"$mol_theme_base\"] {\n\t--mol_theme_back: #5cb85c;\n\ttext-shadow: 0 1px 3px rgba(0,0,0,.3);\n}\n\n[hyoo_realworld_tags] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_realworld_sign_in] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_sign_up] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_person_page] {\n\tflex: 0 0 20rem;\n}\n\n\n[hyoo_realworld_home_page] {\n\tflex: 0 0 20rem;\n}\n\n[hyoo_realworld_feed] {\n\tflex: 0 0 30rem;\n}\n\n[hyoo_realworld_article] ,\n[hyoo_realworld_article_edit] {\n\tflex: 0 0 50rem;\n}\n");
 })($ || ($ = {}));
 //realworld.view.css.js.map
 ;
@@ -10798,13 +10768,17 @@ var $;
             section(next) {
                 return this.$.$mol_state_arg.value('section', next);
             }
+            person(next) {
+                return this.$.$mol_state_arg.value('person', next);
+            }
             pages() {
                 return [
                     this.Home(),
                     this.section() ? this.sections()[this.section()] : this.sections().articles,
                     this.tag() && this.feed_current(),
                     this.article() && this.article_current(),
-                    this.edit() && (this.signed() ? this.edit_current() : this.sections().sign_in)
+                    this.edit() && (this.signed() ? this.edit_current() : this.sections().sign_in),
+                    this.person() ? this.Person() : null,
                 ].filter(Boolean);
             }
         }
