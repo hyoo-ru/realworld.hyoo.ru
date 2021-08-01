@@ -20,7 +20,8 @@ namespace $.$$ {
 		}
 
 		avatar_link() {
-			return this.$.$mol_state_arg.make_link({ person : this.comment().author().name() })
+			const args = this.$.$mol_state_arg.dict()
+			return this.$.$mol_state_arg.make_link({ ...args, person : this.comment().author().name() })
 		}
 
 	}

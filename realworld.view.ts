@@ -18,7 +18,7 @@ namespace $.$$ {
 		article() {
 			const slug = this.$.$mol_state_arg.value( 'article' )
 			if( !slug ) return null
-                          
+
 			return this.$.$hyoo_realworld_article.item( slug )
 		}
 
@@ -40,6 +40,10 @@ namespace $.$$ {
 		section( next? : string | undefined ) {
 			return this.$.$mol_state_arg.value( 'section' , next ) 
 		}
+		
+		person( next? : string | undefined ) {
+			return this.$.$mol_state_arg.value( 'person' , next )
+		}
 
 		pages() {
 			return [
@@ -49,9 +53,9 @@ namespace $.$$ {
 				this.article() && this.article_current() ,
 				this.edit() && (
 					this.signed() ? this.edit_current() : this.sections().sign_in
-				)
+				),
+				this.person() ? this.Person() : null , 
 			].filter( Boolean )
-      
 		}
 
 	}
