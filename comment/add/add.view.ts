@@ -2,7 +2,7 @@ namespace $.$$ {
 
 	export class $hyoo_realworld_comment_add extends $.$hyoo_realworld_comment_add {
 
-		@ $mol_fiber.method
+		@ $mol_action
 		post() {
 			
 			this.$.$hyoo_realworld_comment.save(

@@ -56,7 +56,7 @@ namespace $ {
 			return next
 		}
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static save( article : string , next : Partial< typeof $hyoo_realworld_comment_json.Value > ) {
 
 			const uri = `articles/${ article }/comments`

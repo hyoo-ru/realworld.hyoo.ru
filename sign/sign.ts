@@ -9,7 +9,7 @@ namespace $ {
 
 	export class $hyoo_realworld_sign extends $mol_object2 {
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static auth( creds : { email : string , password : string } ) {
 
 			const res = this.$.$hyoo_realworld_transport.save(
@@ -24,7 +24,7 @@ namespace $ {
 			return person
 		}
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static register( creds : { username : string , email : string , password : string } ) {
 
 			const res = this.$.$hyoo_realworld_transport.save(

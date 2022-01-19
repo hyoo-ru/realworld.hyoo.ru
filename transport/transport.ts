@@ -28,14 +28,14 @@ namespace $ {
 
 		}
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static load( path : string ) : any {
 			return this.$.$mol_fetch.json( this.api_base() + path , {
 				headers : this.headers()
 			} )
 		}
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static save(
 			path : string ,
 			method : 'post' | 'put' ,

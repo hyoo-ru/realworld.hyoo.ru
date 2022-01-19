@@ -79,7 +79,7 @@ namespace $ {
 			return next
 		}
 
-		@ $mol_fiber.method
+		@ $mol_action
 		static save( next : Partial< typeof $hyoo_realworld_article_json.Value > ) {
 
 			const uri = `articles/${ next.slug }`
