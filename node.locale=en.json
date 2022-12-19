@@ -30,5 +30,7 @@
 	"$hyoo_realworld_sign_up_Username_name": "Username",
 	"$hyoo_realworld_sign_up_have_account_label": "Have an account?",
 	"$hyoo_realworld_sign_up_title": "Sign Up",
-	"$hyoo_realworld_tags_page_title": "Tags"
+	"$hyoo_realworld_tags_page_title": "Tags",
+	"$mol_text_code_Copy_hint": "Copy whole code",
+	"$mol_text_header_Link_hint": "Permalink to this section"
 }
