@@ -3463,6 +3463,9 @@ declare namespace $ {
     }
 }
 
+declare namespace $ {
+}
+
 declare namespace $.$$ {
     class $mol_form extends $.$mol_form {
         form_fields(): readonly $mol_form_field[];
