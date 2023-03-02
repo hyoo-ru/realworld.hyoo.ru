@@ -3125,6 +3125,7 @@ declare namespace $ {
             selectionEnd: number;
             selectionStart: number;
             inputMode: string;
+            enterkeyhint: string;
         };
         attr(): {
             maxlength: number;
@@ -3145,6 +3146,7 @@ declare namespace $ {
         selection_end(): number;
         selection_start(): number;
         keyboard(): string;
+        enter(): string;
         length_max(): number;
         type(val?: any): string;
         event_change(event?: any): any;
@@ -3240,6 +3242,7 @@ declare namespace $ {
     }
     class $mol_textarea_edit extends $mol_string {
         dom_name(): string;
+        enter(): string;
         field(): {
             scrollTop: number;
             disabled: boolean;
@@ -3250,6 +3253,7 @@ declare namespace $ {
             selectionEnd: number;
             selectionStart: number;
             inputMode: string;
+            enterkeyhint: string;
         };
     }
 }
