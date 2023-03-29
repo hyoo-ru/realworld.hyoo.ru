@@ -163,6 +163,7 @@ var $;
 (function ($) {
     class $mol_object2 {
         static $ = $;
+        [Symbol.toStringTag];
         [$mol_ambient_ref] = null;
         get $() {
             if (this[$mol_ambient_ref])
@@ -316,7 +317,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $['devtoolsFormatters'] = $['devtoolsFormatters'] || [];
+    $['devtoolsFormatters'] ||= [];
     function $mol_dev_format_register(config) {
         $['devtoolsFormatters'].push(config);
     }
@@ -634,6 +635,7 @@ var $;
                 }
             }
         }
+        [Symbol.toStringTag];
         cache = undefined;
         get args() {
             return this.data.slice(0, this.pub_from);
@@ -902,9 +904,9 @@ var $;
         if (left instanceof Date)
             return Object.is(left.valueOf(), right['valueOf']());
         if (left instanceof RegExp)
-            return left.source === right['source'] && left.flags === right['flags'];
+            return left.source === right.source && left.flags === right.flags;
         if (left instanceof Error)
-            return left.message === right['message'] && left.stack === right['stack'];
+            return left.message === right.message && left.stack === right.stack;
         let left_cache = $.$mol_compare_deep_cache.get(left);
         if (left_cache) {
             const right_cache = left_cache.get(right);
@@ -1565,7 +1567,7 @@ var $;
 var $;
 (function ($) {
     function $mol_const(value) {
-        var getter = (() => value);
+        const getter = (() => value);
         getter['()'] = value;
         getter[Symbol.toStringTag] = value;
         return getter;
@@ -4502,6 +4504,75 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    const Response = $mol_data_record({
+        data: $mol_data_array($mol_data_string)
+    });
+    function $mol_huggingface_run(space, method, ...data) {
+        if (typeof method === 'number') {
+            return $mol_wire_sync(this).$mol_huggingface_async(space, method, ...data);
+        }
+        const response = $mol_fetch.json(`https://${space}.hf.space/run/${method}`, {
+            method: 'post',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ data }),
+        });
+        return Response(response).data;
+    }
+    $.$mol_huggingface_run = $mol_huggingface_run;
+    function $mol_huggingface_async(space, method, ...data) {
+        const session_hash = $mol_guid();
+        const fn_index = method;
+        const socket = new WebSocket(`wss://${space}.hf.space/queue/join`);
+        const promise = new Promise((done, fail) => {
+            socket.onclose = event => {
+                if (event.reason)
+                    fail(new Error(event.reason));
+            };
+            socket.onerror = event => {
+                fail(new Error('Scoket error'));
+            };
+            socket.onmessage = event => {
+                const message = JSON.parse(event.data);
+                switch (message.msg) {
+                    case 'send_hash':
+                        return socket.send(JSON.stringify({ session_hash, fn_index }));
+                    case 'estimation': return;
+                    case 'send_data':
+                        return socket.send(JSON.stringify({ session_hash, fn_index, data }));
+                    case 'process_starts': return;
+                    case 'process_completed':
+                        if (message.success) {
+                            return done(message.output.data);
+                        }
+                        else {
+                            return fail(new Error(message.output.error ?? 'Unknown api error'));
+                        }
+                    default:
+                        fail(new Error(`Unknown message type ${message.msg}`));
+                }
+            };
+        });
+        return Object.assign(promise, {
+            destructor: () => socket.close()
+        });
+    }
+    $.$mol_huggingface_async = $mol_huggingface_async;
+})($ || ($ = {}));
+//mol/huggingface/huggingface.ts
+;
+"use strict";
+var $;
+(function ($) {
+    function $hyoo_lingua_translate(lang, text) {
+        return this.$mol_huggingface_run('hyoo-translate', 0, lang, text)[0];
+    }
+    $.$hyoo_lingua_translate = $hyoo_lingua_translate;
+})($ || ($ = {}));
+//hyoo/lingua/translate/translate.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_locale extends $mol_object {
         static lang_default() {
             return 'en';
@@ -4519,22 +4590,35 @@ var $;
                 return this.source(lang).valueOf();
             }
             catch (error) {
-                if (error instanceof Promise)
-                    $mol_fail_hidden(error);
-                const def = this.lang_default();
-                if (lang === def)
-                    throw error;
-                return this.source(def);
+                if ($mol_fail_catch(error)) {
+                    const def = this.lang_default();
+                    if (lang === def)
+                        throw error;
+                    return {};
+                }
             }
         }
         static text(key) {
-            for (let lang of [this.lang(), 'en']) {
-                const text = this.texts(lang)[key];
-                if (text)
-                    return text;
-                this.warn(key);
+            const lang = this.lang();
+            const target = this.texts(lang)[key];
+            if (target)
+                return target;
+            this.warn(key);
+            const en = this.texts('en')[key];
+            if (!en)
+                return key;
+            const cache_key = `$mol_locale.text(${JSON.stringify(key)})`;
+            const cached = this.$.$mol_state_local.value(cache_key);
+            if (cached)
+                return cached;
+            try {
+                const translated = $mol_wire_sync($hyoo_lingua_translate).call(this.$, lang, en);
+                return this.$.$mol_state_local.value(cache_key, translated);
             }
-            return `<${key}>`;
+            catch (error) {
+                $mol_fail_log(error);
+            }
+            return en;
         }
         static warn(key) {
             console.warn(`Not translated to "${this.lang()}": ${key}`);
