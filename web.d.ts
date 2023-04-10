@@ -1475,8 +1475,8 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_huggingface_run(this: $, space: string, method: string | number, ...data: readonly any[]): readonly string[];
-    function $mol_huggingface_async(space: string, method: number, ...data: readonly any[]): Promise<[string]> & {
+    function $mol_huggingface_run(this: $, space: string, method: string | number, ...data: readonly any[]): any[] | readonly string[];
+    function $mol_huggingface_async(space: string, method: number, ...data: readonly any[]): Promise<any[]> & {
         destructor: () => void;
     };
 }
@@ -1494,7 +1494,7 @@ declare namespace $ {
         static lang(next?: string): string;
         static source(lang: string): any;
         static texts(lang: string, next?: $mol_locale_dict): $mol_locale_dict;
-        static text(key: string): {} | null;
+        static text(key: string): string;
         static warn(key: string): null;
     }
 }
@@ -3360,7 +3360,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_article_page extends $mol_page {
-        title(): {} | null;
+        title(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Comment_card(id: any): $$.$hyoo_realworld_comment_card;
@@ -3442,7 +3442,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_feed_page extends $mol_page {
-        title(): {} | null;
+        title(): string;
         minimal_width(): number;
         tools(): readonly any[];
         body(): readonly any[];
@@ -3538,28 +3538,28 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_article_edit extends $mol_page {
-        title(): {} | null;
+        title(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Close_icon(): $mol_icon_cross;
         Close(): $$.$mol_link;
-        article_title_name(): {} | null;
+        article_title_name(): string;
         article_title(val?: any): string;
         Article_title(): $$.$mol_string;
         Article_title_field(): $$.$mol_form_field;
-        article_descr_name(): {} | null;
+        article_descr_name(): string;
         article_descr(val?: any): string;
         Article_descr(): $$.$mol_textarea;
         Article_descr_field(): $$.$mol_form_field;
-        article_content_name(): {} | null;
+        article_content_name(): string;
         article_content(val?: any): string;
         Article_content(): $$.$mol_textarea;
         Article_content_field(): $$.$mol_form_field;
-        article_tags_name(): {} | null;
+        article_tags_name(): string;
         article_tags(val?: any): string;
         Article_tags(): $$.$mol_string;
         Article_tags_field(): $$.$mol_form_field;
-        Save_label(): {} | null;
+        Save_label(): string;
         save(val?: any): any;
         saveable(): boolean;
         Save(): $mol_button_major;
@@ -3584,7 +3584,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_person_page extends $mol_page {
-        title(): {} | null;
+        title(): string;
         section(name?: any): string;
         tools(): readonly any[];
         avatar(): string;
@@ -3593,11 +3593,11 @@ declare namespace $ {
         body(): readonly any[];
         Close_icon(): $mol_icon_cross;
         Close(): $$.$mol_link;
-        image_title(): {} | null;
+        image_title(): string;
         Image(): $$.$mol_image;
-        username_label(): {} | null;
+        username_label(): string;
         Username(): $mol_labeler;
-        biography_label(): {} | null;
+        biography_label(): string;
         Bio(): $mol_labeler;
     }
 }
@@ -3640,7 +3640,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_realworld_home_page extends $mol_page {
         Page_link(): $$.$mol_link;
-        title(): {} | null;
+        title(): string;
         Articles(): $$.$mol_link;
         Tags(): $$.$mol_link;
         Favorites(): $$.$mol_link;
@@ -3650,13 +3650,13 @@ declare namespace $ {
         Sign_up(): $$.$mol_link;
         signed_links(): readonly any[];
         unsigned_links(): readonly any[];
-        articles_link(): {} | null;
-        tags_link(): {} | null;
-        favorites_link(): {} | null;
-        profile_link(): {} | null;
-        settings_link(): {} | null;
-        sign_in_link(): {} | null;
-        sign_up_link(): {} | null;
+        articles_link(): string;
+        tags_link(): string;
+        favorites_link(): string;
+        profile_link(): string;
+        settings_link(): string;
+        sign_in_link(): string;
+        sign_up_link(): string;
     }
 }
 
@@ -3671,7 +3671,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_tags_page extends $mol_page {
-        title(): {} | null;
+        title(): string;
         body(): readonly any[];
         Tag_link(id: any): $$.$mol_link;
         tag_links(): readonly any[];
@@ -3695,22 +3695,22 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_sign_in extends $mol_page {
-        title(): {} | null;
+        title(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Close_icon(): $mol_icon_cross;
         Close(): $$.$mol_link;
-        need_account_label(): {} | null;
+        need_account_label(): string;
         Need_account(): $$.$mol_link;
-        Mail_name(): {} | null;
+        Mail_name(): string;
         mail(val?: any): string;
         Mail(): $$.$mol_string;
         Mail_field(): $$.$mol_form_field;
-        Pass_name(): {} | null;
+        Pass_name(): string;
         pass(val?: any): string;
         Pass(): $$.$mol_string;
         Pass_field(): $$.$mol_form_field;
-        Auth_label(): {} | null;
+        Auth_label(): string;
         auth(val?: any): any;
         Submit(): $mol_button_major;
         Form(): $$.$mol_form;
@@ -3728,26 +3728,26 @@ declare namespace $ {
 
 declare namespace $ {
     class $hyoo_realworld_sign_up extends $mol_page {
-        title(): {} | null;
+        title(): string;
         tools(): readonly any[];
         body(): readonly any[];
         Close_icon(): $mol_icon_cross;
         Close(): $$.$mol_link;
-        have_account_label(): {} | null;
+        have_account_label(): string;
         Have_account(): $$.$mol_link;
-        Username_name(): {} | null;
+        Username_name(): string;
         username(val?: any): string;
         Username(): $$.$mol_string;
         Username_field(): $$.$mol_form_field;
-        Mail_name(): {} | null;
+        Mail_name(): string;
         mail(val?: any): string;
         Mail(): $$.$mol_string;
         Mail_field(): $$.$mol_form_field;
-        Pass_name(): {} | null;
+        Pass_name(): string;
         pass(val?: any): string;
         Pass(): $$.$mol_string;
         Pass_field(): $$.$mol_form_field;
-        Reg_label(): {} | null;
+        Reg_label(): string;
         reg(val?: any): any;
         Submit(): $mol_button_major;
         Form(): $$.$mol_form;
