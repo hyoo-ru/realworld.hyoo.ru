@@ -12672,4 +12672,5 @@ var $;
 })($ || ($ = {}));
 //hyoo/realworld/-css/realworld.view.css.ts
 
+export default $
 //# sourceMappingURL=node.js.map
