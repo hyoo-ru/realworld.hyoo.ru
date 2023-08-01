@@ -428,8 +428,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_type_keys_extract<Input, Upper> = {
-        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? Field : never;
+    type $mol_type_keys_extract<Input, Upper, Lower = never> = {
+        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? [
+            Lower
+        ] extends [Input[Field]] ? Field : never : never;
     }[keyof Input];
 }
 
@@ -930,9 +932,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_type_partial_undefined<Val> = $mol_type_merge<Partial<Val> & Pick<Val, {
+    type $mol_type_partial_undefined<Val> = $mol_type_merge<$mol_type_override<Partial<Val>, Pick<Val, {
         [Field in keyof Val]: undefined extends Val[Field] ? never : Field;
-    }[keyof Val]>>;
+    }[keyof Val]>>>;
 }
 
 declare namespace $ {
@@ -943,9 +945,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }> & Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, { [Field in keyof { [key in keyof Sub]: Parameters<Sub[key]>[0]; }]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; }[keyof Sub]>>) => Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>) & {
+    function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<$mol_type_override<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }>, Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, { [Field in keyof { [key in keyof Sub]: Parameters<Sub[key]>[0]; }]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; }[keyof Sub]>>>) => Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }>, Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>>) & {
         config: Sub;
-        Value: Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>;
+        Value: Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }>, Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>>;
     };
 }
 
@@ -1233,14 +1235,14 @@ declare namespace $ {
 
 declare namespace $ {
     const $hyoo_realworld_person_json: ((val: {
+        image: string;
         username: string;
         bio: string | null;
-        image: string;
         following: boolean;
     }) => Readonly<{
+        image: string;
         username: string;
         bio: string | null;
-        image: string;
         following: boolean;
     }>) & {
         config: {
@@ -1253,9 +1255,9 @@ declare namespace $ {
             following: (val: boolean) => boolean;
         };
         Value: Readonly<{
+            image: string;
             username: string;
             bio: string | null;
-            image: string;
             following: boolean;
         }>;
     };
@@ -1266,9 +1268,9 @@ declare namespace $ {
         avatar(): string;
         following(): boolean;
         json(next?: typeof $hyoo_realworld_person_json.Value): Readonly<{
+            image: string;
             username: string;
             bio: string | null;
-            image: string;
             following: boolean;
         }>;
     }
@@ -1285,34 +1287,34 @@ declare namespace $ {
 declare namespace $ {
     const $hyoo_realworld_article_json: ((val: {
         title: string;
-        slug: string;
+        author: {
+            image: string;
+            username: string;
+            bio: string | null;
+            following: boolean;
+        };
         body: string;
         createdAt: string;
         updatedAt: string;
+        slug: string;
         tagList: readonly string[];
         description: string;
-        author: {
-            username: string;
-            bio: string | null;
-            image: string;
-            following: boolean;
-        };
         favorited: boolean;
         favoritesCount: number;
     }) => Readonly<{
         title: string;
-        slug: string;
+        author: Readonly<{
+            image: string;
+            username: string;
+            bio: string | null;
+            following: boolean;
+        }>;
         body: string;
         createdAt: $mol_time_moment;
         updatedAt: $mol_time_moment;
+        slug: string;
         tagList: readonly string[];
         description: string;
-        author: Readonly<{
-            username: string;
-            bio: string | null;
-            image: string;
-            following: boolean;
-        }>;
         favorited: boolean;
         favoritesCount: number;
     }>) & {
@@ -1338,14 +1340,14 @@ declare namespace $ {
             };
             description: (val: string) => string;
             author: ((val: {
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }) => Readonly<{
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }>) & {
                 config: {
@@ -1358,9 +1360,9 @@ declare namespace $ {
                     following: (val: boolean) => boolean;
                 };
                 Value: Readonly<{
+                    image: string;
                     username: string;
                     bio: string | null;
-                    image: string;
                     following: boolean;
                 }>;
             };
@@ -1369,18 +1371,18 @@ declare namespace $ {
         };
         Value: Readonly<{
             title: string;
-            slug: string;
+            author: Readonly<{
+                image: string;
+                username: string;
+                bio: string | null;
+                following: boolean;
+            }>;
             body: string;
             createdAt: $mol_time_moment;
             updatedAt: $mol_time_moment;
+            slug: string;
             tagList: readonly string[];
             description: string;
-            author: Readonly<{
-                username: string;
-                bio: string | null;
-                image: string;
-                following: boolean;
-            }>;
             favorited: boolean;
             favoritesCount: number;
         }>;
@@ -1396,18 +1398,18 @@ declare namespace $ {
         comments(): $hyoo_realworld_comment[];
         json(next?: typeof $hyoo_realworld_article_json.Value): Readonly<{
             title: string;
-            slug: string;
+            author: Readonly<{
+                image: string;
+                username: string;
+                bio: string | null;
+                following: boolean;
+            }>;
             body: string;
             createdAt: $mol_time_moment;
             updatedAt: $mol_time_moment;
+            slug: string;
             tagList: readonly string[];
             description: string;
-            author: Readonly<{
-                username: string;
-                bio: string | null;
-                image: string;
-                following: boolean;
-            }>;
             favorited: boolean;
             favoritesCount: number;
         }>;
@@ -1426,18 +1428,18 @@ declare namespace $ {
         }): Readonly<{
             articles: readonly Readonly<{
                 title: string;
-                slug: string;
+                author: Readonly<{
+                    image: string;
+                    username: string;
+                    bio: string | null;
+                    following: boolean;
+                }>;
                 body: string;
                 createdAt: $mol_time_moment;
                 updatedAt: $mol_time_moment;
+                slug: string;
                 tagList: readonly string[];
                 description: string;
-                author: Readonly<{
-                    username: string;
-                    bio: string | null;
-                    image: string;
-                    following: boolean;
-                }>;
                 favorited: boolean;
                 favoritesCount: number;
             }>[];
@@ -1565,9 +1567,9 @@ declare namespace $ {
 declare namespace $ {
     const $hyoo_realworld_comment_json: ((val: {
         author: {
+            image: string;
             username: string;
             bio: string | null;
-            image: string;
             following: boolean;
         };
         id: number;
@@ -1576,9 +1578,9 @@ declare namespace $ {
         updatedAt: string;
     }) => Readonly<{
         author: Readonly<{
+            image: string;
             username: string;
             bio: string | null;
-            image: string;
             following: boolean;
         }>;
         id: number;
@@ -1588,14 +1590,14 @@ declare namespace $ {
     }>) & {
         config: {
             author: ((val: {
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }) => Readonly<{
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }>) & {
                 config: {
@@ -1608,9 +1610,9 @@ declare namespace $ {
                     following: (val: boolean) => boolean;
                 };
                 Value: Readonly<{
+                    image: string;
                     username: string;
                     bio: string | null;
-                    image: string;
                     following: boolean;
                 }>;
             };
@@ -1631,9 +1633,9 @@ declare namespace $ {
         };
         Value: Readonly<{
             author: Readonly<{
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }>;
             id: number;
@@ -1650,9 +1652,9 @@ declare namespace $ {
         author(): $hyoo_realworld_person;
         json(next?: Readonly<{
             author: Readonly<{
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }>;
             id: number;
@@ -1661,9 +1663,9 @@ declare namespace $ {
             updatedAt: $mol_time_moment;
         }>): Readonly<{
             author: Readonly<{
+                image: string;
                 username: string;
                 bio: string | null;
-                image: string;
                 following: boolean;
             }>;
             id: number;
@@ -3521,16 +3523,16 @@ declare namespace $ {
             email: string;
             password: string;
         }): Readonly<{
-            token: string;
             username: string;
+            token: string;
         }>;
         static register(creds: {
             username: string;
             email: string;
             password: string;
         }): Readonly<{
-            token: string;
             username: string;
+            token: string;
         }>;
         static signed(): boolean;
         static drop(): void;
