@@ -3287,6 +3287,7 @@ declare namespace $ {
         event(): Record<string, any>;
         plugins(): readonly any[];
         selection_watcher(): any;
+        error_report(): any;
         disabled(): boolean;
         value(next?: any): string;
         value_changed(next?: any): string;
@@ -3310,6 +3311,7 @@ declare namespace $ {
 declare namespace $.$$ {
     class $mol_string extends $.$mol_string {
         event_change(next?: Event): void;
+        error_report(): void;
         hint_visible(): string;
         disabled(): boolean;
         autocomplete_native(): "on" | "off";
