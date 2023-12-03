@@ -49,13 +49,13 @@ namespace $.$$ {
 			return [
 				this.Home() ,
 				this.section() ? this.sections()[ this.section()! ] : this.sections().articles , 
-				this.tag() && this.feed_current() ,
+				this.tag() ? this.feed_current() : null,
 				this.article() && this.article_current() ,
-				this.edit() && (
+				this.edit() ? (
 					this.signed() ? this.edit_current() : this.sections().sign_in
-				),
+				) : null,
 				this.person() ? this.Person() : null , 
-			].filter( Boolean )
+			].filter( $mol_guard_defined )
 		}
 
 	}

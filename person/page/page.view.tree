@@ -1,6 +1,6 @@
 $hyoo_realworld_person_page $mol_page
 	title @ \Profile
-	section?name \
+	section? null
 	tools /
 		- <= Sign_out $mol_button_minor
 			title \

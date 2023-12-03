@@ -5,7 +5,7 @@ $hyoo_realworld $mol_book2
 	Profile $hyoo_realworld_person_page
 		section?name <=> section?name \
 	Person $hyoo_realworld_person_page
-	sections *
+	sections *$mol_page
 		articles <= feed_current $hyoo_realworld_feed_page
 		article <= article_current $hyoo_realworld_article_page
 		edit <= edit_current $hyoo_realworld_article_edit
