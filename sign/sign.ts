@@ -13,7 +13,7 @@ namespace $ {
 		static auth( creds : { email : string , password : string } ) {
 
 			const res = this.$.$hyoo_realworld_transport.save(
-				`users/login`,
+				`user`,
 				'post',
 				{ user : creds },
 			)
@@ -28,7 +28,7 @@ namespace $ {
 		static register( creds : { username : string , email : string , password : string } ) {
 
 			const res = this.$.$hyoo_realworld_transport.save(
-				`users`,
+				`user`,
 				'post',
 				{ user : creds },
 			)

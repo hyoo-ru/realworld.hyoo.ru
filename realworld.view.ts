@@ -38,11 +38,11 @@ namespace $.$$ {
 
 		@ $mol_mem
 		section( next? : string | undefined ) {
-			return this.$.$mol_state_arg.value( 'section' , next ) 
+			return this.$.$mol_state_arg.value( 'section' , next ) ?? ''
 		}
 		
 		person( next? : string | undefined ) {
-			return this.$.$mol_state_arg.value( 'person' , next )
+			return this.$.$mol_state_arg.value( 'person' , next ) ?? ''
 		}
 
 		pages() {
