@@ -4,7 +4,7 @@ $hyoo_realworld_sign_up $mol_page
 		<= Close $mol_link
 			arg *
 				section null
-			sub / <= Close_icon $mol_icon_cross
+			sub / <= Close_icon $mol_icon_close
 	body /
 		<= Have_account $mol_link
 			arg *

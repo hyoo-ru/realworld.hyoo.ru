@@ -9,7 +9,7 @@ $hyoo_realworld_person_page $mol_page
 		<= Close $mol_link
 			arg *
 				person null
-			sub / <= Close_icon $mol_icon_cross
+			sub / <= Close_icon $mol_icon_close
 	avatar \
 	name \
 	biography \

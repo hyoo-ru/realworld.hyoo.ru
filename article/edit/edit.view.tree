@@ -3,7 +3,7 @@ $hyoo_realworld_article_edit $mol_page
 	tools /
 		<= Close $mol_link
 			arg * edit null
-			sub / <= Close_icon $mol_icon_cross
+			sub / <= Close_icon $mol_icon_close
 	body /
 		<= Form $mol_form
 			form_fields /

@@ -6,7 +6,7 @@ $hyoo_realworld_article_page $mol_page
 			sub / <= Edit_icon $mol_icon_edit
 		<= Close_link $mol_link
 			arg * article null
-			sub / <= Close_icon $mol_icon_cross
+			sub / <= Close_icon $mol_icon_close
 	body /
 		<= Content $mol_text
 			text <= content \
