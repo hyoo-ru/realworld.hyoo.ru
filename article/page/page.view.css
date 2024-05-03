@@ -3,7 +3,6 @@
 }
 
 [hyoo_realworld_article_page_comments] {
-	padding: .75rem;
 	display: flex;
 	flex-direction: column;
 	flex: none;

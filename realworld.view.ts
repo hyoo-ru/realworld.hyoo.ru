@@ -3,7 +3,7 @@ namespace $.$$ {
 	export class $hyoo_realworld extends $.$hyoo_realworld {
 
 		article_current() {
-			return this.Article( this.article()?.slug )
+			return this.Article( this.article()?.slug ?? '' )
 		}
 
 		feed_current() {
@@ -11,7 +11,7 @@ namespace $.$$ {
 		}
 
 		edit_current() {
-			return this.Article_edit( this.article()?.slug )
+			return this.Article_edit( this.article()?.slug ?? '' )
 		}
 
 		@ $mol_mem
@@ -45,17 +45,18 @@ namespace $.$$ {
 			return this.$.$mol_state_arg.value( 'person' , next ) ?? ''
 		}
 
+		@ $mol_mem
 		pages() {
 			return [
 				this.Home() ,
-				this.section() ? this.sections()[ this.section()! ] : this.sections().articles , 
-				this.tag() && this.feed_current() ,
-				this.article() && this.article_current() ,
-				this.edit() && (
+				this.section() ? this.sections()[ this.section()! as never ] : this.sections().articles , 
+				this.tag() ? this.feed_current() : null,
+				this.article() ? this.article_current() : null,
+				this.edit() ? (
 					this.signed() ? this.edit_current() : this.sections().sign_in
-				),
+				) : null,
 				this.person() ? this.Person() : null , 
-			].filter( Boolean )
+			].filter( $mol_guard_defined )
 		}
 
 	}

@@ -13,6 +13,7 @@
 
 [hyoo_realworld_article_card_author] {
 	margin: 0;
+	padding: 0;
 	display: flex;
 	flex: 1 1 100%;
 }

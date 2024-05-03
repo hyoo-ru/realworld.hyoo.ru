@@ -14,3 +14,5 @@ $hyoo_realworld $mol_book2
 		tags <= Tags $hyoo_realworld_tags_page
 		sign_in <= Sign_in $hyoo_realworld_sign_in
 		sign_up <= Sign_up $hyoo_realworld_sign_up
+	plugins /
+		<= Theme $mol_theme_auto

@@ -1,7 +1,6 @@
 [hyoo_realworld_feed_page_article_links] {
 	display: flex;
 	flex-direction: column;
-	padding: .75rem;
 }
 
 [hyoo_realworld_feed_page_article_link] {

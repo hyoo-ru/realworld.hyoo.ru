@@ -1,10 +1,5 @@
 [hyoo_realworld] {
-	--mol_theme_control: #367c36;
-}
-
-[hyoo_realworld] [mol_theme="$mol_theme_base"] {
-	--mol_theme_back: #5cb85c;
-	text-shadow: 0 1px 3px rgba(0,0,0,.3);
+	--mol_theme_hue: 150deg;
 }
 
 [hyoo_realworld_tags] {
