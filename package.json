@@ -228,6 +228,7 @@
     "$mol_embed_youtube",
     "$mol_icon_youtube",
     "$mol_frame",
+    "$mol_expander",
     "$hyoo_realworld_comment_add",
     "$mol_bar",
     "$mol_textarea",
