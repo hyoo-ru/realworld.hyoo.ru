@@ -168,6 +168,7 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_wire_pub_sub extends $mol_wire_pub implements $mol_wire_sub {
+        [x: symbol]: () => any[];
         protected pub_from: number;
         protected cursor: $mol_wire_cursor;
         get temp(): boolean;
@@ -202,6 +203,7 @@ declare namespace $ {
 
 declare namespace $ {
     abstract class $mol_wire_fiber<Host, Args extends readonly unknown[], Result> extends $mol_wire_pub_sub {
+        [x: symbol]: string | (() => any[]);
         readonly task: (this: Host, ...args: Args) => Result;
         readonly host?: Host | undefined;
         static warm: boolean;
@@ -536,14 +538,14 @@ declare namespace $ {
         timeout?: number;
         env?: Record<string, string | undefined>;
     };
-    function $mol_run_async(this: $, { dir, timeout, command, env }: $mol_run_options): import("child_process").SpawnSyncReturns<Buffer> | (Promise<$mol_run_error_context> & {
+    function $mol_run_async(this: $, { dir, timeout, command, env }: $mol_run_options): import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>> | (Promise<$mol_run_error_context> & {
         destructor: () => void;
     });
-    function $mol_run(this: $, options: $mol_run_options): $mol_run_error_context | import("child_process").SpawnSyncReturns<Buffer>;
+    function $mol_run(this: $, options: $mol_run_options): $mol_run_error_context | import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>>;
 }
 
 declare namespace $ {
-    function $mol_exec(this: $, dir: string, command: string, ...args: readonly string[]): $mol_run_error_context | import("child_process").SpawnSyncReturns<Buffer>;
+    function $mol_exec(this: $, dir: string, command: string, ...args: readonly string[]): $mol_run_error_context | import("child_process").SpawnSyncReturns<Buffer<ArrayBufferLike>>;
 }
 
 declare namespace $ {
@@ -916,6 +918,7 @@ declare namespace $ {
     function $mol_view_visible_height(): number;
     function $mol_view_state_key(suffix: string): string;
     class $mol_view extends $mol_object {
+        [x: symbol]: () => any[];
         static Root<This extends typeof $mol_view>(this: This, id: number): InstanceType<This>;
         autorun(): void;
         static autobind(): void;
@@ -1170,7 +1173,7 @@ declare namespace $ {
 declare namespace $ {
     function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<$mol_type_override<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }>, Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, { [Field in keyof { [key in keyof Sub]: Parameters<Sub[key]>[0]; }]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; }[keyof Sub]>>>) => Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }>, Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>>) & {
         config: Sub;
-        Value: Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key in keyof Sub]: ReturnType<Sub[key]>; }>, Pick<{ [key in keyof Sub]: ReturnType<Sub[key]>; }, { [Field in keyof { [key in keyof Sub]: ReturnType<Sub[key]>; }]: undefined extends { [key in keyof Sub]: ReturnType<Sub[key]>; }[Field] ? never : Field; }[keyof Sub]>>>>;
+        Value: ReturnType<Value>;
     };
 }
 
@@ -1210,7 +1213,7 @@ declare namespace $ {
         config: {
             funcs: Funcs & Guard<Funcs>;
         };
-        Value: $mol_type_result<$mol_type_foot<Funcs>>;
+        Value: ReturnType<Value>;
     };
     export {};
 }
@@ -1289,6 +1292,7 @@ declare namespace $ {
         offset?: $mol_time_duration_config;
     };
     class $mol_time_moment extends $mol_time_base {
+        [x: symbol]: (() => any[]) | ((mode: "default" | "number" | "string") => string | number);
         constructor(config?: $mol_time_moment_config);
         readonly year: number | undefined;
         readonly month: number | undefined;
@@ -1347,7 +1351,7 @@ declare namespace $ {
 declare namespace $ {
     function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][]) => readonly ReturnType<Sub>[]) & {
         config: Sub;
-        Value: readonly ReturnType<Sub>[];
+        Value: ReturnType<Value>;
     };
 }
 
@@ -1388,7 +1392,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_charset_encode(value: string): Uint8Array;
+    function $mol_charset_encode(value: string): Uint8Array<ArrayBufferLike>;
 }
 
 declare namespace $ {
@@ -1460,7 +1464,7 @@ declare namespace $ {
         stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
         ensure(): void;
         drop(): void;
-        buffer(next?: Uint8Array): Uint8Array;
+        buffer(next?: Uint8Array): Uint8Array<ArrayBufferLike>;
         sub(): $mol_file[];
         resolve(path: string): $mol_file;
         relate(base?: $mol_file): string;
@@ -1489,7 +1493,7 @@ declare namespace $ {
         message(): string;
         headers(): Headers;
         mime(): string | null;
-        stream(): ReadableStream<Uint8Array> | null;
+        stream(): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
         text(): string;
         json(): unknown;
         blob(): Blob;
@@ -1504,7 +1508,7 @@ declare namespace $ {
         };
         static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
         static success(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
-        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array> | null;
+        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array<ArrayBufferLike>> | null;
         static text(input: RequestInfo, init?: RequestInit): string;
         static json(input: RequestInfo, init?: RequestInit): unknown;
         static blob(input: RequestInfo, init?: RequestInit): Blob;
@@ -1533,7 +1537,7 @@ declare namespace $ {
 declare namespace $ {
     const $hyoo_realworld_tags_json: ((val: readonly string[]) => readonly string[]) & {
         config: (val: string) => string;
-        Value: readonly string[];
+        Value: ReturnType<Value>;
     };
     class $hyoo_realworld_tags extends $mol_object2 {
         static list(): readonly string[];
@@ -1543,7 +1547,7 @@ declare namespace $ {
 declare namespace $ {
     function $mol_data_nullable<Sub extends $mol_data_value>(sub: Sub): ((val: Parameters<Sub>[0] | null) => ReturnType<Sub> | null) & {
         config: Sub;
-        Value: ReturnType<Sub> | null;
+        Value: ReturnType<Value>;
     };
 }
 
@@ -1567,17 +1571,12 @@ declare namespace $ {
             username: (val: string) => string;
             bio: ((val: string | null) => string | null) & {
                 config: (val: string) => string;
-                Value: string | null;
+                Value: ReturnType<Value>;
             };
             image: (val: string) => string;
             following: (val: boolean) => boolean;
         };
-        Value: Readonly<{
-            image: string;
-            username: string;
-            bio: string | null;
-            following: boolean;
-        }>;
+        Value: ReturnType<Value>;
     };
     class $hyoo_realworld_person extends $mol_object2 {
         static item(username: string): $hyoo_realworld_person;
@@ -1644,17 +1643,17 @@ declare namespace $ {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => $mol_time_moment_config | undefined, new (input: $mol_time_moment_config | undefined) => unknown];
                 };
-                Value: $mol_time_moment;
+                Value: ReturnType<Value>;
             };
             updatedAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => $mol_time_moment_config | undefined, new (input: $mol_time_moment_config | undefined) => unknown];
                 };
-                Value: $mol_time_moment;
+                Value: ReturnType<Value>;
             };
             tagList: ((val: readonly string[]) => readonly string[]) & {
                 config: (val: string) => string;
-                Value: readonly string[];
+                Value: ReturnType<Value>;
             };
             description: (val: string) => string;
             author: ((val: {
@@ -1672,38 +1671,17 @@ declare namespace $ {
                     username: (val: string) => string;
                     bio: ((val: string | null) => string | null) & {
                         config: (val: string) => string;
-                        Value: string | null;
+                        Value: ReturnType<Value>;
                     };
                     image: (val: string) => string;
                     following: (val: boolean) => boolean;
                 };
-                Value: Readonly<{
-                    image: string;
-                    username: string;
-                    bio: string | null;
-                    following: boolean;
-                }>;
+                Value: ReturnType<Value>;
             };
             favorited: (val: boolean) => boolean;
             favoritesCount: typeof $mol_data_integer;
         };
-        Value: Readonly<{
-            title: string;
-            slug: string;
-            body: string;
-            createdAt: $mol_time_moment;
-            updatedAt: $mol_time_moment;
-            tagList: readonly string[];
-            description: string;
-            author: Readonly<{
-                image: string;
-                username: string;
-                bio: string | null;
-                following: boolean;
-            }>;
-            favorited: boolean;
-            favoritesCount: number;
-        }>;
+        Value: ReturnType<Value>;
     };
     class $hyoo_realworld_article extends $mol_object2 {
         static item(slug: string): $hyoo_realworld_article;
@@ -1806,17 +1784,12 @@ declare namespace $ {
                     username: (val: string) => string;
                     bio: ((val: string | null) => string | null) & {
                         config: (val: string) => string;
-                        Value: string | null;
+                        Value: ReturnType<Value>;
                     };
                     image: (val: string) => string;
                     following: (val: boolean) => boolean;
                 };
-                Value: Readonly<{
-                    image: string;
-                    username: string;
-                    bio: string | null;
-                    following: boolean;
-                }>;
+                Value: ReturnType<Value>;
             };
             id: typeof $mol_data_integer;
             body: (val: string) => string;
@@ -1824,27 +1797,16 @@ declare namespace $ {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => $mol_time_moment_config | undefined, new (input: $mol_time_moment_config | undefined) => unknown];
                 };
-                Value: $mol_time_moment;
+                Value: ReturnType<Value>;
             };
             updatedAt: ((this: any, input: string) => $mol_time_moment) & {
                 config: {
                     funcs: [(val: string) => string, typeof $mol_time_moment] & [(input: string) => $mol_time_moment_config | undefined, new (input: $mol_time_moment_config | undefined) => unknown];
                 };
-                Value: $mol_time_moment;
+                Value: ReturnType<Value>;
             };
         };
-        Value: Readonly<{
-            body: string;
-            createdAt: $mol_time_moment;
-            updatedAt: $mol_time_moment;
-            author: Readonly<{
-                image: string;
-                username: string;
-                bio: string | null;
-                following: boolean;
-            }>;
-            id: number;
-        }>;
+        Value: ReturnType<Value>;
     };
     class $hyoo_realworld_comment extends $mol_object2 {
         static item(id: number): $hyoo_realworld_comment;
@@ -1951,9 +1913,9 @@ declare namespace $ {
 		foot( ): readonly($mol_view)[]
 		Foot( ): $mol_view
 		dom_name( ): string
-		field( ): ({ 
+		attr( ): ({ 
 			'tabIndex': ReturnType< $mol_page['tabindex'] >,
-		})  & ReturnType< $mol_view['field'] >
+		})  & ReturnType< $mol_view['attr'] >
 		sub( ): readonly(any)[]
 	}
 	

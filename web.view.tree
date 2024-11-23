@@ -17,7 +17,7 @@ $mol_book2 $mol_scroll
 
 $mol_page $mol_view
 	dom_name \article
-	field *
+	attr *
 		^
 		tabIndex <= tabindex -1
 	sub /
