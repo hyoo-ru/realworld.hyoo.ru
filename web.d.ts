@@ -1260,8 +1260,6 @@ declare namespace $ {
     function $mol_dom_parse(text: string, type?: DOMParserSupportedType): Document;
 }
 
-declare var $node: any;
-
 declare namespace $ {
     class $mol_fetch_response extends $mol_object2 {
         readonly native: Response;
@@ -2045,6 +2043,8 @@ declare namespace $ {
     function $mol_charset_decode(buffer: BufferSource, encoding?: $mol_charset_encoding): string;
 }
 
+declare var $node: any;
+
 declare namespace $ {
     function $mol_charset_encode(value: string): Uint8Array<ArrayBufferLike>;
 }
@@ -2395,7 +2395,7 @@ declare namespace $.$$ {
 declare namespace $ {
     class $mol_syntax2<Lexems extends {
         [name: string]: RegExp;
-    }> {
+    } = {}> {
         lexems: Lexems;
         constructor(lexems: Lexems);
         rules: Array<{

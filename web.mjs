@@ -777,13 +777,12 @@ var $;
                         break;
                 }
                 if ($mol_promise_like(result) && !handled.has(result)) {
-                    handled.add(result);
                     const put = (res) => {
                         if (this.cache === result)
                             this.put(res);
                         return res;
                     };
-                    result = Object.assign(result.then(put, put), { destructor: result.destructor });
+                    result = result.then(put, put);
                 }
             }
             catch (error) {
@@ -794,11 +793,10 @@ var $;
                     result = new Error(String(error), { cause: error });
                 }
                 if ($mol_promise_like(result) && !handled.has(result)) {
-                    handled.add(result);
-                    result = Object.assign(result.finally(() => {
+                    result = result.finally(() => {
                         if (this.cache === result)
                             this.absorb();
-                    }), { destructor: result.destructor });
+                    });
                 }
             }
             if ($mol_promise_like(result) && !handled.has(result)) {
@@ -4027,13 +4025,6 @@ var $;
 
 ;
 "use strict";
-
-;
-"use strict";
-var $node = $node || {};
-
-;
-"use strict";
 var $;
 (function ($) {
     class $mol_fetch_response extends $mol_object2 {
@@ -4106,10 +4097,9 @@ var $;
     $.$mol_fetch_response = $mol_fetch_response;
     class $mol_fetch extends $mol_object2 {
         static request(input, init = {}) {
-            const native = globalThis.fetch ?? $node['undici'].fetch;
             const controller = new AbortController();
             let done = false;
-            const promise = native(input, {
+            const promise = globalThis.fetch(input, {
                 ...init,
                 signal: controller.signal,
             }).finally(() => {
@@ -5712,6 +5702,13 @@ var $;
     }
     $.$mol_charset_decode = $mol_charset_decode;
 })($ || ($ = {}));
+
+;
+"use strict";
+
+;
+"use strict";
+var $node = $node || {};
 
 ;
 "use strict";
