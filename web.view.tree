@@ -949,7 +949,8 @@ $hyoo_realworld_sign_up $mol_page
 					click?val <=> reg?val null
 
 $mol_theme_auto $mol_plugin
-	attr * mol_theme <= theme \
+	light \$mol_theme_light
+	attr * mol_theme <= theme <= dark \$mol_theme_dark
 
 $hyoo_realworld_person_page $mol_page
 	title @ \Profile
