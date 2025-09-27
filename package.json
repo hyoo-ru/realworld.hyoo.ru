@@ -253,6 +253,7 @@
     "$hyoo_realworld_article_edit",
     "$mol_form_field",
     "$mol_form",
+    "$mol_status",
     "$mol_labeler",
     "$hyoo_realworld_home_page",
     "$hyoo_realworld_home",
