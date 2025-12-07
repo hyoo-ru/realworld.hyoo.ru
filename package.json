@@ -270,7 +270,6 @@
     "$hyoo_realworld_person_page"
   ],
   "dependencies": {
-    "internal": "*",
     "jsdom": "*"
   }
 }
