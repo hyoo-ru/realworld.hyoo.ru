@@ -1,0 +1,10 @@
+{
+	"name": "hyoo_realworld",
+	"short_name": "hyoo_realworld",
+	"description": "",
+	"id": "hyoo_realworld",
+	"start_url": ".",
+	"display": "standalone",
+	"background_color": "#000000",
+	"theme_color": "#000000"
+}
