@@ -257,6 +257,7 @@
     "$mol_textarea",
     "$mol_string",
     "$mol_hotkey",
+    "$mol_hotkey2",
     "$mol_button_major",
     "$hyoo_realworld_comment_card",
     "$mol_message",
